@@ -1,0 +1,40 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="breadcrumbDiv col-lg-12">
+            <ul class="breadcrumb">
+                <li><a href="/">ГЛАВНАЯ</a></li>
+                <li class="active"> {{ cat.name.upper }}</li>
+            </ul>
+        </div>
+    </div>
+    <section class="section-hero white-bg" id="section-category">
+    <div class="container">
+
+
+{#        <div class="hero-section-header ">#}
+{#            <h3 class="hero-section-title">OUR FAVORITE CATEGORY</h3>#}
+{#        </div>#}
+
+        <div class="row row-centered">
+            {% for subcat in subcats %}
+                <div class="block-explore col-centered col-sm-3 col-xs-3 col-xs-min-12">
+                <div class="inner">
+                    <a class="overly hw100" href="{% url 'subcategory' subcat.name_slug %}">
+                        <span class="explore-title"> {{ subcat.name }}</span>
+                    </a>
+                    <a href="{% url 'subcategory' subcat.name_slug %}" class="img-block"> <img alt="img" src="{{ subcat.image.url }}" class="img-responsive"></a>
+                </div>
+            </div>
+            {% endfor %}
+
+
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,220 @@
+from django.db import models
+from django.utils import timezone
+from pytils.translit import slugify
+from PIL import Image
+from django.db.models.signals import post_save
+import uuid
+
+import os
+
+
+class Category(models.Model):
+    name = models.CharField('Название категории', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField('Изображение категории', upload_to='category_img/', blank=False)
+    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
+    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
+    page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
+    short_description = models.TextField('Краткое описание для главной', max_length=255, blank=True, default='')
+    description = models.TextField('Описание категории', max_length=255, blank=False, null=True)
+    views = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return 'id :%s , %s ' % (self.id, self.name)
+
+    class Meta:
+        verbose_name = "Категория"
+        verbose_name_plural = "Категории"
+
+
+class SubCategory(models.Model):
+    category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL)
+    name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=False)
+    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
+    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
+    page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
+    description = models.TextField('Описание подкатегории', max_length=255, blank=False, null=True)
+    discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
+    views = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(SubCategory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return 'id :%s , %s ' % (self.id, self.name)
+
+    class Meta:
+        verbose_name = "Подкатегория"
+        verbose_name_plural = "Подкатегории"
+
+
+class Filter(models.Model):
+    subcategory = models.ForeignKey(SubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
+    name = models.CharField('Название фильтра', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(Filter, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '%s | %s ' % (self.subcategory.name, self.name)
+
+    class Meta:
+        verbose_name = "Фильтр"
+        verbose_name_plural = "Фильтры"
+
+class Collection(models.Model):
+    category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL, verbose_name='Категория')
+    name = models.CharField('Название коллекции', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField('Изображение коллекции', upload_to='collection_img/', blank=False)
+    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
+    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
+    page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
+    description = models.TextField('Описание коллекции', max_length=255, blank=False, null=True)
+    discount = models.IntegerField('Скидка на все товары в коллекции %', blank=True, default=0)
+    views = models.IntegerField(default=0)
+    show_at_homepage = models.BooleanField('Отображать на главной', default=True)
+    show_at_category = models.BooleanField('Отображать в категории', default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(Collection, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return '%s ' % self.name
+
+    class Meta:
+        verbose_name = "Коллекция"
+        verbose_name_plural = "Коллекции"
+
+class Item(models.Model):
+    collection = models.ManyToManyField(Collection, blank=True, verbose_name='Коллекция')
+    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL)
+    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, verbose_name='Подкатегория', on_delete=models.SET_NULL)
+    name = models.CharField('Название товара', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+    price = models.IntegerField('Цена', blank=False, default=0)
+    discount = models.IntegerField('Скидка %', blank=True, default=0)
+    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
+    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
+    description = models.TextField('Описание товара', max_length=255, blank=False, null=True)
+    comment = models.TextField('Комментарий', max_length=255, blank=True, null=True)
+    length = models.CharField('Длина', max_length=15, default='Не указано')
+    width = models.CharField('Ширина', max_length=15, default='Не указано')
+    height = models.CharField('Высота',  max_length=15, default='Не указано')
+    article = models.CharField('Артикул', max_length=50, blank=False, null=True, default='')
+    weight = models.CharField('Вес',  max_length=15, default='Не указано')
+    material = models.CharField('Материал', max_length=50, blank=True, null=True, default='')
+    is_active = models.BooleanField('Отображать товар ?', default=True)
+    is_present = models.BooleanField('Товар в наличии ?', default=True)
+    is_new = models.BooleanField('Товар новинка ?', default=False)
+    is_reserved = models.BooleanField('Товар в резерве ?', default=False)
+    buys = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        super(Item, self).save(*args, **kwargs)
+
+    def __str__(self):
+        if self.filter:
+            return 'id:%s %s | Фильтр %s' % (self.id, self.name, self.filter.name)
+        else:
+            return 'id:%s %s | Фильтра нет' % (self.id, self.name)
+
+
+
+    class Meta:
+        verbose_name = "Товар"
+        verbose_name_plural = "Товары"
+
+
+class ItemImage(models.Model):
+    upload_to = 'items/%d/%s'
+
+
+    def _get_upload_to(self, filename):
+        ext = filename.split('.')[-1]
+
+        filename = '{}.{}'.format(self.item.pk, ext)
+
+        return self.upload_to % (self.item.id, filename)
+
+    item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.SET_NULL, verbose_name='Товар')
+    image = models.ImageField('Изображение товара', upload_to=_get_upload_to, blank=False)
+    image_small = models.CharField(max_length=255, blank=True, default='')
+    f_id = models.CharField(max_length=5, blank=True, default='')
+    is_main = models.BooleanField('Основная картинка ?', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return 'Изображение для товара : %s ' % self.item.name
+
+    class Meta:
+        verbose_name = "Изображение для товара"
+        verbose_name_plural = "Изображения для товаров"
+
+    def save(self, *args, **kwargs):
+        image = Image.open(self.image)
+        fill_color = '#fff'
+        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
+        if image.mode in ('RGBA', 'LA'):
+            background = Image.new(image.mode[:-1], image.size, fill_color)
+            background.paste(image, image.split()[-1])
+            image = background
+        image.thumbnail((400, 400), Image.ANTIALIAS)
+
+        small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
+
+        image.save(small_name, 'JPEG', quality=75)
+        self.image_small = '/' + small_name
+
+        super(ItemImage, self).save(*args, **kwargs)
+
+
+
+class PromoCode(models.Model):
+    promo_code = models.CharField('Промокод', max_length=255, blank=False, null=True)
+    promo_discount = models.IntegerField('Скидка на заказ', blank=True, default=0)
+    use_counts = models.IntegerField('Кол-во использований', blank=True, default=1) # удалять при 0
+    is_unlimited = models.BooleanField('Неограниченное кол-во использований', default=False)
+    expiry = models.DateTimeField('Срок действия безлимитного кода', default=timezone.now())
+
+    def __str__(self):
+        if self.is_unlimited:
+            return 'Неограниченный промокод со скидкой : %s . Срок действия до : %s' % (self.promo_discount, self.expiry)
+        else:
+            return 'Ограниченный промокод со скидкой : %s . Оставшееся кол-во использований : %s' % (self.promo_discount, self.use_counts)
+
+    class Meta:
+        verbose_name = "Промокод"
+        verbose_name_plural = "Промокоды"
+
+
+def ItemImage_post_save(sender,instance,**kwargs):
+    image = Image.open(instance.image)
+
+    image.thumbnail((500, 500), Image.ANTIALIAS)
+
+    image.save('media/items/{}/{}_small.jpg'.format(instance.item.id, str(uuid.uuid4())), 'JPEG', quality=75)
+    instance.image_small = image.path
+
+# post_save.connect(ItemImage_post_save, sender=ItemImage)

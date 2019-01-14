@@ -1,0 +1,50 @@
+{% load static %}
+
+  <div class="item col-sm-3 col-lg-3 col-md-3 col-xs-6">
+                    <div class="product">
+                        <a data-placement="left" data-original-title="Add to Wishlist" data-toggle="tooltip" class="add-fav tooltipHere">
+                            <i class="glyphicon glyphicon-heart"></i>
+                        </a>
+
+                        <div class="image">
+                            <div class="quickview">
+                                <a data-toggle="modal" class="btn btn-xs btn-quickview" href="#" onclick="quick_view({{ item.id }});return false">БЫСТРЫЙ ПРОСМОТР </a>
+                            </div>
+                            <a href="product-details.html"><img class="img-responsive" alt="img"
+                              {% for image in item.itemimage_set.all %}
+                                                                {% if image.is_main %}
+                                                                src="{{ image.image_small }}">
+                                                                {% endif %}
+                               {% endfor %}
+                            </a>
+                            <div class="promotion">
+                                {% if item.is_new %}
+                                <span class="new-product"> NEW</span>
+                                {% endif %}
+
+                                <span class="discount">15% СКИДКА</span>
+
+                            </div>
+                        </div>
+                        <div class="description" style="padding-top: 5px;">
+                            <div style="height: 60px; padding-bottom: 10px;">
+                <a style="text-decoration: none; font-size: 16px; font-weight: bold;" href="#"> {{ item.name }}</a>
+              </div>
+
+
+                            <div class="grid-description" style="height: 20px;">
+                                <p style="padding-top: 5px;" > АРТИКУЛ : {{ item.article }}</p>
+                            </div>
+
+{#                            <span class="size">XL / XXL / S </span>#}
+                            </div>
+                        <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
+
+                        <div class="action-control">
+                            <input class="quanitySniper" type="text" value="2" name="quanitySniper">
+                            <a class="btn btn-primary">
+                            <span class="add2cart">
+                            <i class="glyphicon glyphicon-shopping-cart"> </i> В КОРЗИНУ </span> </a>
+                        </div>
+                    </div>
+                </div>

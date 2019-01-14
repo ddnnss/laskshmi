@@ -49,6 +49,11 @@ class SubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)
+        all_items = self.item_set.all()
+        for item in all_items:
+            item.discount = self.discount
+            item.save()
+
         super(SubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -93,6 +98,10 @@ class Collection(models.Model):
 
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)
+        all_items = Item.objects.filter(collection=self)
+        for item in all_items:
+            item.discount = self.discount
+            item.save()
         super(Collection, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -132,6 +141,14 @@ class Item(models.Model):
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)
         super(Item, self).save(*args, **kwargs)
+
+    @property
+    def discount_value(self):
+        if self.discount > 0:
+            dis_val = self.price - (self.price * self.discount / 100)
+        else:
+            dis_val = 0
+        return (dis_val)
 
     def __str__(self):
         if self.filter:
@@ -173,19 +190,20 @@ class ItemImage(models.Model):
         verbose_name_plural = "Изображения для товаров"
 
     def save(self, *args, **kwargs):
-        image = Image.open(self.image)
-        fill_color = '#fff'
-        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
-        if image.mode in ('RGBA', 'LA'):
-            background = Image.new(image.mode[:-1], image.size, fill_color)
-            background.paste(image, image.split()[-1])
-            image = background
-        image.thumbnail((400, 400), Image.ANTIALIAS)
+        if not self.image_small:
+            image = Image.open(self.image)
+            fill_color = '#fff'
+            os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
+            if image.mode in ('RGBA', 'LA'):
+                background = Image.new(image.mode[:-1], image.size, fill_color)
+                background.paste(image, image.split()[-1])
+                image = background
+            image.thumbnail((400, 400), Image.ANTIALIAS)
 
-        small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
+            small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
 
-        image.save(small_name, 'JPEG', quality=75)
-        self.image_small = '/' + small_name
+            image.save(small_name, 'JPEG', quality=75)
+            self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)
 

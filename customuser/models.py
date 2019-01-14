@@ -60,4 +60,15 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+class Guest(models.Model):
+    email = models.EmailField('Эл. почта', unique=True)
+    name = models.CharField('Имя', max_length=50, blank=True, null=True)
+    family = models.CharField('Фамилия', max_length=50, blank=True, null=True)
+    otchestvo = models.CharField('Отчество', max_length=50, blank=True, null=True)
+    country = models.CharField('Страна', max_length=50, blank=True, null=True)
+    city = models.CharField('Город', max_length=50, blank=True, null=True)
+    post_code = models.CharField('Индекс', max_length=50, blank=True, null=True)
+    phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
+    passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
+    address = models.CharField('Адрес', max_length=255, blank=True, null=True)
 

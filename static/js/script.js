@@ -657,37 +657,37 @@ $(document).ready(function () {
         // Modal Event
 
 
-        $('#productSetailsModalAjax').on('shown.bs.modal', function () {
-            $(this).removeData('bs.modal');
-        });
-
-        $('#productSetailsModalAjax').on('loaded.bs.modal', function (e) {
-            // Do ajax modal is loaded
-
-            // Product Details Modal Change large image when click thumb image
-            $(".modal-product-thumb a").click(function () {
-                // alert();
-
-                $(".modal-product-thumb a.selected").removeClass("selected");
-                $(this).addClass('selected');
-                var largeImage = $(this).find("img").attr('data-large');
-                $(".product-largeimg").attr('src', largeImage);
-                $(".zoomImg").attr('src', largeImage);
-            });
-
-            // product details color switch
-            $(".swatches li").click(function () {
-                $(".swatches li.selected").removeClass("selected");
-                $(this).addClass('selected');
-            });
-
-            $('.swatches-rounded a').click(function () {
-                var colorName = $(this).attr('title');
-                $('.color-value').html(colorName)
-
-            });
-
-        })
+        // $('#productSetailsModalAjax').on('shown.bs.modal', function () {
+        //     $(this).removeData('bs.modal');
+        // });
+        //
+        // $('#productSetailsModalAjax').on('loaded.bs.modal', function (e) {
+        //     // Do ajax modal is loaded
+        //
+        //     // Product Details Modal Change large image when click thumb image
+        //     $(".modal-product-thumb a").click(function () {
+        //         // alert();
+        //
+        //         $(".modal-product-thumb a.selected").removeClass("selected");
+        //         $(this).addClass('selected');
+        //         var largeImage = $(this).find("img").attr('data-large');
+        //         $(".product-largeimg").attr('src', largeImage);
+        //         $(".zoomImg").attr('src', largeImage);
+        //     });
+        //
+        //     // product details color switch
+        //     $(".swatches li").click(function () {
+        //         $(".swatches li.selected").removeClass("selected");
+        //         $(this).addClass('selected');
+        //     });
+        //
+        //     $('.swatches-rounded a').click(function () {
+        //         var colorName = $(this).attr('title');
+        //         $('.color-value').html(colorName)
+        //
+        //     });
+        //
+        // })
 
 
     });

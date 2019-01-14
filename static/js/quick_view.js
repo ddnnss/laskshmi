@@ -29,7 +29,7 @@ function quick_view(item_id)
                 $('.modal-product-thumb').html('');
 
                  $.each(data.item_images,function (i,v) {
-                     $('.modal-product-thumb').append(' <a onclick="show_thumb("+data.item_images[i]  +");return false" class="thumbLink">\n' +
+                     $('.modal-product-thumb').append(' <a  class="thumbLink">\n' +
                          '            <img  data-large='+data.item_images[i]+' alt="img" class="img-responsive" src='+ data.item_images[i] +'>\n' +
                          '        </a>');
 

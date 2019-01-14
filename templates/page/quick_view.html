@@ -4,128 +4,56 @@
      aria-labelledby="productSetailsModalAjaxLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-
-<button aria-hidden="true" data-dismiss="modal" class="close" type="button"> ×</button>
-<div class="col-lg-5 col-md-5 col-sm-5  col-xs-12">
-
-    <!-- product Image -->
-
-    <div class="main-image  col-lg-12 no-padding style3">
-        <a class="product-largeimg-link" href="#"><img
-                src=""
-                class="img-responsive product-largeimg"
-                alt="img">
-        </a>
-    </div>
-    <!--/.main-image-->
-
-    <div class="modal-product-thumb">
-
-
-    </div>
-    <!--/.modal-product-thumb-->
-</div>
-<!--/ product Image-->
-
-
-<div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 modal-details no-padding">
-    <div class="modal-details-inner">
-        <h1 class="product-title"> Lorem ipsum dolor sit amet</h1>
-
-            <h3 class="product-code"></h3>
-
-            <div class="product-price"><span class="price-sales"></span> <span
-                    class="price-standard"></span></div>
-            <div class="details-description">
-                <p></p>
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button"> ×</button>
+            <div class="col-lg-5 col-md-5 col-sm-5  col-xs-12">
+                <div class="main-image  col-lg-12 no-padding style3">
+                    <a class="product-largeimg-link" href="#"><img
+                            src=""
+                            class="img-responsive product-largeimg"
+                            alt="img">
+                    </a>
+                </div>
+                <div class="modal-product-thumb">
+                </div>
             </div>
-            <div class="color-details"><span class="selected-color"><strong>COLOR</strong></span>
-                <ul class="swatches Color">
-                    <li class="selected">
-                        <a style="background-color:#f1f40e"> </a>
-                    </li>
-                    <li>
-                        <a style="background-color:#adadad"> </a>
-                    </li>
-                    <li>
-                        <a style="background-color:#4EC67F"> </a>
-                    </li>
-                </ul>
-            </div>
-            <!--/.color-details-->
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 modal-details no-padding">
+                <div class="modal-details-inner">
+                    <h1 class="product-title"></h1>
 
-            <div class="productFilter productFilterLook2">
-                <div class="row">
-                    <div class="col-lg-6 col-sm-6 col-xs-6">
-                        <div class="filterBox">
-                            <select class="form-control">
-                                <option value="strawberries" selected>Quantity</option>
-                                <option value="mango">1</option>
-                                <option value="bananas">2</option>
-                                <option value="watermelon">3</option>
-                                <option value="grapes">4</option>
-                                <option value="oranges">5</option>
-                                <option value="pineapple">6</option>
-                                <option value="peaches">7</option>
-                                <option value="cherries">8</option>
-                            </select>
-                        </div>
+                    <h3 class="product-code"></h3>
+
+                    <div class="product-price"><span class="price-sales"></span> <span
+                            class="price-standard"></span></div>
+                    <div class="details-description">
+                        <p></p>
                     </div>
-                    <div class="col-lg-6 col-sm-6 col-xs-6">
-                        <div class="filterBox">
-                            <select class="form-control">
-                                <option value="strawberries" selected>Size</option>
-                                <option value="mango">XL</option>
-                                <option value="bananas">XXL</option>
-                                <option value="watermelon">M</option>
-                                <option value="apples">L</option>
-                                <option value="apples">S</option>
-                            </select>
+                    <div class="cart-actions" style="border: none;">
+
+                        <div class="addto row">
+                            <form action="{% url 'add_to_cart' %}" id="add_to_cart_quick_view"  method="post"
+                                  onsubmit="add_to_cart(this);return false;">{% csrf_token %}
+                            <div class="col-lg-4" style="padding-top: 5px; left: 20px;">
+                                 <input id="items_number" class="quanitySniper" type="text" value="1" name="quanitySniper">
+                                <input type="hidden" id="item_id" value="">
+                                <input type="hidden" id="item_name" value="">
+                                <input type="hidden" id="item_price" value="">
+                                <input type="hidden" id="item_image" value="">
+                            </div>
+                            <div class="col-lg-4">
+                                <button class="button btn-block btn-cart cart first" title="Add to Cart"
+                                        type="submit">
+                                    В КОРЗИНУ
+                                </button>
+                            </div>
+                            </form>
+                            <div class="col-lg-4"><a class="link-wishlist wishlist btn-block ">В ЗАКЛАДКИ</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- productFilter -->
-
-            <div class="cart-actions">
-                <div class="addto row">
-                    <div class="col-lg-6">
-                        <button onclick="productAddToCartForm.submit(this);"
-                                class="button btn-block btn-cart cart first" title="Add to Cart"
-                                type="button">
-                            Add to Cart
-                        </button>
-                    </div>
-                    <div class="col-lg-6"><a class="link-wishlist wishlist btn-block ">Add to Wishlist</a>
-                    </div>
-                </div>
-            </div>
-            <!--/.cart-actions-->
-
-            <div class="product-share clearfix">
-                <p> SHARE </p>
-
-                <div class="socialIcon">
-                    <a href="#"> <i class="fa fa-facebook"></i>
-                    </a>
-                    <a href="#"> <i class="fa fa-twitter"></i>
-                    </a>
-                    <a href="#"> <i class="fa fa-google-plus"></i>
-                    </a>
-                    <a href="#"> <i class="fa fa-pinterest"></i>
-                    </a>
-                </div>
-            </div>
-            <!--/.product-share-->
-    </div>
-    <!--/.modal-details-inner-->
-</div>
-<!--/.modal-details-->
-<div class="clear"></div>
-
+            <div class="clear"></div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 

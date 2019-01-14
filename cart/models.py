@@ -29,4 +29,4 @@ class Cart(models.Model):
             self.current_price = self.item.price
         self.total_price = self.number * self.current_price
 
-        super(Baskets, self).save(*args, **kwargs)
+        super(Cart, self).save(*args, **kwargs)

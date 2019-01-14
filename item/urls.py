@@ -19,7 +19,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('/quick_view/', views.quick_view, name='quick_view'),
+    path('quick_view/', views.quick_view, name='quick_view'),
+    path('add_to_cart/', views.add_to_cart, name='add_to_cart'),
 
 
     # path('login/', views.login, name='login'),

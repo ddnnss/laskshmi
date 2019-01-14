@@ -13,6 +13,11 @@ function quick_view(item_id)
             cache:true,
             success: function (data) {
                 console.log('OK');
+                $('#item_id').val(data.item_id);
+                $('#item_image').val(data.item_images[0]);
+                $('#item_name').val(data.item_name);
+                $('#item_price').val(data.item_price);
+
                 $('.product-title').html(data.item_name);
                 $('.product-code').html('АРТИКУЛ : ' + data.item_article);
 
@@ -29,13 +34,13 @@ function quick_view(item_id)
                 $('.modal-product-thumb').html('');
 
                  $.each(data.item_images,function (i,v) {
-                     $('.modal-product-thumb').append(' <a  class="thumbLink">\n' +
-                         '            <img  data-large='+data.item_images[i]+' alt="img" class="img-responsive" src='+ data.item_images[i] +'>\n' +
+                     $('.modal-product-thumb').append(' <a id=thumb_'+ i +'   class="thumbLink">\n' +
+                         '            <img onClick="a_onClick(this)" data-large='+data.item_images[i]+' alt="img" class="img-responsive" src='+ data.item_images[i] +'>\n' +
                          '        </a>');
 
 
                  })
-
+                $('#thumb_0').addClass('selected');
 
                 $('#productSetailsModalAjax').modal('show');
 
@@ -52,7 +57,13 @@ function quick_view(item_id)
 
 }
 
-function show_thumb(i,img) {
-    console.log(img);
+function a_onClick (obj) {
 
-}
+                console.log($(obj).attr('data-large'));
+                $(".modal-product-thumb a.selected").removeClass("selected");
+               $(obj).closest('a').addClass('selected');
+                var largeImage = $(obj).attr('data-large');
+                $(".product-largeimg").attr('src', largeImage);
+
+            }
+

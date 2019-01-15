@@ -62,7 +62,7 @@ class User(AbstractUser):
 
 class Guest(models.Model):
     session = models.CharField('Ключ сессии', max_length=255, blank=True, null=True)
-    email = models.EmailField('Эл. почта', unique=True)
+    email = models.EmailField('Эл. почта', blank=True, null=True)
     name = models.CharField('Имя', max_length=50, blank=True, null=True)
     family = models.CharField('Фамилия', max_length=50, blank=True, null=True)
     otchestvo = models.CharField('Отчество', max_length=50, blank=True, null=True)

@@ -19,11 +19,11 @@
                             </a>
                             <div class="promotion">
                                 {% if item.is_new %}
-                                <span class="new-product"> NEW</span>
+                                   <span class="new-product"> NEW</span>
                                 {% endif %}
-
-                                <span class="discount">15% СКИДКА</span>
-
+                                {% if item.discount > 0 %}
+                                    <span class="discount">{{ item.discount }}% СКИДКА</span>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="description" style="padding-top: 5px;">
@@ -37,14 +37,40 @@
                             </div>
 
 {#                            <span class="size">XL / XXL / S </span>#}
-                            </div>
-                        <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
+                             </div>
+                                {% if item.discount > 0 %}
+
+                                     <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;"><span>{{ item.discount_value }} &#8381;</span> <span class="old-price">{{ item.price }} &#8381;</span></div>
+                                {% else %}
+                                     <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
+                                {% endif %}
+
+
+
+
 
                         <div class="action-control">
-                            <input class="quanitySniper" type="text" value="1" name="quanitySniper">
-                            <a class="btn btn-primary">
-                            <span class="add2cart">
-                            <i class="glyphicon glyphicon-shopping-cart"> </i> В КОРЗИНУ </span> </a>
+                            <form action="{% url 'add_to_cart' %}"   method="post"
+                                  onsubmit="add_to_cart(this,{{ item.id }});return false;">{% csrf_token %}
+                                <div style="display: inline-flex;" class="row">
+                                    <div class="col-lg-offset-1 col-lg-4 col-sm-6">
+                                     <input class="form-control"  id="{{ item.id }}_items_number"  type="number" min="1" value="1" >
+
+                                    </div>
+                                     <div class=" col-lg-2 col-sm-6">
+                                      <button type="submit" class="btn btn-primary" id="{{ item.id }}_submit"
+                                              data-item_id="{{ item.id }}"
+                                              data-item_name="{{ item.name }}"
+                                              data-item_price="{{ item.price }}"
+                                              data-item_image="{{ item.itemimage_set.first.image_small }}">
+                                  <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> В КОРЗИНУ </span>
+                                </button>
+                                    </div>
+                                </div>
+
+
+                            </form>
+
                         </div>
                     </div>
                 </div>

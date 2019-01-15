@@ -4092,7 +4092,8 @@ button.first {
     height: 30px;
     padding: 0;
     text-align: center;
-    width: 40px;
+    width: 100%;
+
 }
 
 tr.CartProduct td, tr.CartProduct th {

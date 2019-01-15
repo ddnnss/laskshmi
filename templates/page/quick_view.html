@@ -30,10 +30,10 @@
                     <div class="cart-actions" style="border: none;">
 
                         <div class="addto row">
-                            <form action="{% url 'add_to_cart' %}" id="add_to_cart_quick_view"  method="post"
+                            <form action="{% url 'add_to_cart' %}" id="add_to_cart"  method="post"
                                   onsubmit="add_to_cart(this);return false;">{% csrf_token %}
                             <div class="col-lg-4" style="padding-top: 5px; left: 20px;">
-                                 <input id="items_number" class="quanitySniper" type="text" value="1" name="quanitySniper">
+                                 <input class="form-control"  id="items_number"  type="number" min="1" value="1" >
                                 <input type="hidden" id="item_id" value="">
                                 <input type="hidden" id="item_name" value="">
                                 <input type="hidden" id="item_price" value="">

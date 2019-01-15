@@ -13,6 +13,7 @@ function quick_view(item_id)
             cache:true,
             success: function (data) {
                 console.log('OK');
+                console.log(data);
                 $('#item_id').val(data.item_id);
                 $('#item_image').val(data.item_images[0]);
                 $('#item_name').val(data.item_name);

@@ -7,6 +7,7 @@ from customuser.models import User, Guest
 def quick_view(request):
     return_dict = {}
     data = request.POST
+    print(data)
     item_id = int(data.get('item_id'))
     item = Item.objects.get(id=item_id)
     images = ItemImage.objects.filter(item_id=item_id)
@@ -28,26 +29,22 @@ def quick_view(request):
 
 def add_to_cart(request):
     return_dict = {}
-    try:
-        request.session['user']
-        print('user')
-    except KeyError:
-        s_key = request.session.session_key
-        request.session['user'] = 'guest'
-        print('guest')
-        if not s_key:
-            request.session.cycle_key()
 
-    print(s_key)
-    user = request.user
-    print(user)
 
     data = request.POST
+    print(data)
+    s_key = request.session.session_key
     item_id = int(data.get('item_id'))
     item_number = int(data.get('item_number'))
     if request.user.is_authenticated:
         print('User is_authenticated')
+        addtocart, created = Cart.objects.get_or_create(client=request.user,
+                                                        item_id=item_id, defaults={'number': item_number})
+        if not created:
+            addtocart.number += int(item_number)
+            addtocart.save(force_update=True)
         all_items_in_cart = Cart.objects.filter(client=request.user)
+
     else:
         print('User is_not authenticated')
         try:
@@ -57,7 +54,7 @@ def add_to_cart(request):
             guest = None
 
         if not guest:
-            guest = Guest.objects.create(session=s_key, email='null@null.null')
+            guest = Guest.objects.create(session=s_key)
             guest.save()
             print('Guest created')
 
@@ -78,14 +75,50 @@ def add_to_cart(request):
         item_dict = dict()
         item_dict['id'] = item.item.id
         item_dict['name'] = item.item.name
-        item_dict['subcategory'] = item.item.subcategory.name
+        item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
         item_dict['number'] = item.number
-        item_dict['image'] = str(item.item.image)
+        item_dict['image'] = item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
 
     return_dict['total_cart_price'] = total_cart_price
 
     return JsonResponse(return_dict)
 
+def delete_from_cart(request):
+    return_dict = {}
+    data = request.POST
+    s_key = request.session.session_key
+    item_id = int(data.get('item_id'))
+
+    if request.user.is_authenticated:
+        print('User is_authenticated')
+        Cart.objects.filter(client=request.user, item_id=item_id).delete()
+        all_items_in_cart = Cart.objects.filter(client=request.user)
+
+    else:
+        print('User is_not authenticated')
+
+        guest = Guest.objects.get(session=s_key)
+        Cart.objects.filter(guest=guest, item_id=item_id).delete()
+        all_items_in_cart = Cart.objects.filter(guest=guest)
+    count_items_in_cart = all_items_in_cart.count()
+    total_cart_price = 0
+
+    return_dict['total_items_in_cart'] = count_items_in_cart
+    return_dict['all_items'] = list()
+    for item in all_items_in_cart:
+        total_cart_price += item.total_price
+        item_dict = dict()
+        item_dict['id'] = item.item.id
+        item_dict['name'] = item.item.name
+        item_dict['name_slug'] = item.item.name_slug
+        item_dict['price'] = item.current_price
+        item_dict['total_price'] = item.total_price
+        item_dict['number'] = item.number
+        item_dict['image'] = item.item.itemimage_set.first().image_small
+        return_dict['all_items'].append(item_dict)
+
+    return_dict['total_cart_price'] = total_cart_price
+    return JsonResponse(return_dict)

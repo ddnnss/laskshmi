@@ -8,6 +8,12 @@ import uuid
 import os
 
 
+def format_number(num):
+    if num % 1 == 0:
+        return int(num)
+    else:
+        return num
+
 class Category(models.Model):
     name = models.CharField('Название категории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
@@ -142,13 +148,15 @@ class Item(models.Model):
         self.name_slug = slugify(self.name)
         super(Item, self).save(*args, **kwargs)
 
+
+
     @property
     def discount_value(self):
         if self.discount > 0:
             dis_val = self.price - (self.price * self.discount / 100)
         else:
             dis_val = 0
-        return (dis_val)
+        return (format_number(dis_val))
 
     def __str__(self):
         if self.filter:

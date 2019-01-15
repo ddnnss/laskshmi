@@ -458,42 +458,52 @@
             <!--- this part will be hidden for mobile version -->
             <div class="nav navbar-nav navbar-right hidden-xs">
                 <div class="dropdown  cartMenu "><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
-                        class="fa fa-shopping-cart"> </i> <span class="cartRespons"> Cart ($210.00) </span> <b
-                        class="caret"> </b> </a>
+                        class="fa fa-shopping-cart"> </i> <span class="cartRespons">
+                    КОРЗИНА (<span id="cart_total_lg">{{ total_cart_price  }}</span> &#8381;) </span>
+                    <b class="caret"> </b> </a>
+
+
 
                     <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
                         <div class="w100 miniCartTable scroll-pane">
                             <table id="cart_table_lg">
                                 <tbody >
-                                <tr class="miniCartProduct">
-                                    <td style="width:20%" class="miniCartProductThumb">
-                                        <div><a href="product-details.html"> <img src="" alt="img">
-                                        </a></div>
-                                    </td>
-                                    <td style="width:40%">
-                                        <div class="miniCartDescription">
-                                            <h4><a href="product-details.html"> TSHOP Tshirt DO9 </a></h4>
-                                            <span class="size"> 12 x 1.5 L </span>
-
-                                            <div class="price"><span> $22 </span></div>
-                                        </div>
-                                    </td>
-                                    <td style="width:10%" class="miniCartQuantity"><a> X 1 </a></td>
-                                    <td style="width:15%" class="miniCartSubtotal"><span> $33 </span></td>
-                                    <td style="width:5%" class="delete"><a> x </a></td>
-                                </tr>
+                                {% for cart_item in all_items_in_cart %}
+                                    <tr class="miniCartProduct">
+                                        <td style="width:20%" class="miniCartProductThumb">
+                                            <div>
+                                                <a href="#"> <img src="{{ cart_item.item.itemimage_set.first.image_small }}" alt="img"> </a>
+                                            </div>
+                                        </td>
+                                        <td style="width:40%">
+                                            <div class="miniCartDescription">
+                                                <h4><a href=""> {{ cart_item.item.name }}</a></h4>
+                                                <div class="price"><span> {{ cart_item.current_price}} &#8381;</span></div>
+                                            </div>
+                                        </td>
+                                        <td style="width:10%" class="miniCartQuantity"><a> X {{ cart_item.number }} </a></td>
+                                        <td style="width:15%" class="miniCartSubtotal"><span> {{ cart_item.total_price }} &#8381;</span></td>
+                                        <td style="width:5%" class="delete"><a data-item_id="{{  cart_item.item.id }}" onclick="delete_from_cart(this);return false;"> x </a></td>
+                                    </tr>
+                                {% endfor %}
 
                                 </tbody>
                             </table>
                         </div>
                         <!--/.miniCartTable-->
+                        {% if count_items_in_cart > 0 %}
 
-                        <div class="miniCartFooter text-right">
-                            <h3 class="text-right subtotal"> Subtotal: $210 </h3>
-                            <a class="btn btn-sm btn-danger" href="cart.html"> <i class="fa fa-shopping-cart"> </i> VIEW
-                                CART </a><a
-                                class="btn btn-sm btn-primary"> CHECKOUT </a></div>
+                        <div id="cart_footer_lg" class="miniCartFooter text-right">
+                            <h3 class="text-right subtotal"> ИТОГО: {{ total_cart_price }} &#8381; </h3>
+                            <a class="btn btn-sm btn-danger" href="cart.html"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
+                                class="btn btn-sm btn-primary"> ОПЛАТА</a>
+                        </div>
+                            {% else %}
+                          <div id="cart_footer_lg" class="miniCartFooter text-right">
+                            <h3 class="text-right subtotal"> КОРЗИНА ПУСТА </h3>
+                          </div>
                         <!--/.miniCartFooter-->
+                        {% endif %}
 
                     </div>
                     <!--/.dropdown-menu-->

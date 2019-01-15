@@ -32,13 +32,16 @@
                         <div class="addto row">
                             <form action="{% url 'add_to_cart' %}" id="add_to_cart"  method="post"
                                   onsubmit="add_to_cart(this);return false;">{% csrf_token %}
-                            <div class="col-lg-4" style="padding-top: 5px; left: 20px;">
-                                 <input class="form-control"  id="items_number"  type="number" min="1" value="1" >
+
+
+                                <div style="    margin-top: 10px;" class="col-lg-4 pt_Quantity">
+                                        <input style="width: 100%;" type="number" id="items_number" min="1" max="100" step="1" value="1" data-inc="1">
+                                    </div>
                                 <input type="hidden" id="item_id" value="">
                                 <input type="hidden" id="item_name" value="">
                                 <input type="hidden" id="item_price" value="">
                                 <input type="hidden" id="item_image" value="">
-                            </div>
+
                             <div class="col-lg-4">
                                 <button class="button btn-block btn-cart cart first" title="Add to Cart"
                                         type="submit">

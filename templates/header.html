@@ -459,7 +459,7 @@
             <div class="nav navbar-nav navbar-right hidden-xs">
                 <div class="dropdown  cartMenu "><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                         class="fa fa-shopping-cart"> </i> <span class="cartRespons">
-                    КОРЗИНА (<span id="cart_total_lg">{{ total_cart_price  }}</span> &#8381;) </span>
+                    КОРЗИНА (<span id="cart_total_lg">{% if not total_cart_price  %}0{% else %}{{ total_cart_price }}{% endif %} </span> &#8381;) </span>
                     <b class="caret"> </b> </a>
 
 
@@ -495,7 +495,7 @@
 
                         <div id="cart_footer_lg" class="miniCartFooter text-right">
                             <h3 class="text-right subtotal"> ИТОГО: {{ total_cart_price }} &#8381; </h3>
-                            <a class="btn btn-sm btn-danger" href="cart.html"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
+                            <a class="btn btn-sm btn-danger" href="{% url 'show_cart' %}"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
                                 class="btn btn-sm btn-primary"> ОПЛАТА</a>
                         </div>
                             {% else %}

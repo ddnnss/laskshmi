@@ -4,6 +4,8 @@ from pytils.translit import slugify
 from PIL import Image
 from django.db.models.signals import post_save
 import uuid
+from random import choices
+import string
 
 import os
 
@@ -218,10 +220,11 @@ class ItemImage(models.Model):
 
 
 class PromoCode(models.Model):
-    promo_code = models.CharField('Промокод', max_length=255, blank=False, null=True)
-    promo_discount = models.IntegerField('Скидка на заказ', blank=True, default=0)
-    use_counts = models.IntegerField('Кол-во использований', blank=True, default=1) # удалять при 0
+    promo_code = models.CharField('Промокод (для создания рандомного значения оставить пустым)', max_length=255, blank=True, null=True)
+    promo_discount = models.IntegerField('Скидка на заказ', blank=False, default=0)
+    use_counts = models.IntegerField('Кол-во использований', blank=True, default=1)
     is_unlimited = models.BooleanField('Неограниченное кол-во использований', default=False)
+    is_active = models.BooleanField('Активен?', default=True)
     expiry = models.DateTimeField('Срок действия безлимитного кода', default=timezone.now())
 
     def __str__(self):
@@ -233,6 +236,18 @@ class PromoCode(models.Model):
     class Meta:
         verbose_name = "Промокод"
         verbose_name_plural = "Промокоды"
+
+    def save(self, *args, **kwargs):
+        if self.is_unlimited:
+            if not self.promo_code:
+                self.promo_code = "LM-"+''.join(choices(string.ascii_uppercase + string.digits, k=5))
+                self.use_counts = 0
+        else:
+            if not self.promo_code:
+                self.promo_code = "LM-" + ''.join(choices(string.ascii_uppercase + string.digits, k=5))
+
+
+        super(PromoCode, self).save(*args, **kwargs)
 
 
 def ItemImage_post_save(sender,instance,**kwargs):

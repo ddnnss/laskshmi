@@ -7,7 +7,6 @@ function delete_from_cart(del){
       var data = {};
         data.item_id = item_id;
         data['csrfmiddlewaretoken'] = csrf_token;
-
         console.log(data);
         $.ajax({
             url:url,
@@ -35,33 +34,24 @@ function delete_from_cart(del){
                         '                                    <td style="width:15%" class="miniCartSubtotal"><span> '+ v.total_price +' &#8381;</span></td>\n' +
                         '                                    <td style="width:5%" class="delete"><a data-item_id="'+ v.id +'" onclick="delete_from_cart(this);return false;"> x </a></td>\n' +
                         '                                </tr>');
-                        })
-
+                        });
                     $('#cart_total_lg').html(data.total_cart_price);
                     $('#cart_footer_lg').html('');
                     $('#cart_footer_lg').append(' <h3 class="text-right subtotal"> ИТОГО: '+ data.total_cart_price +' &#8381; </h3>\n' +
-                    '                            <a class="btn btn-sm btn-danger" href="cart.html"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
+                    '                            <a class="btn btn-sm btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
                     '                                class="btn btn-sm btn-primary"> ОПЛАТА</a>');
-
-
-
                 }
                 else
                 {
                     $('#cart_total_lg').html('0');
                     $('#cart_footer_lg').html('');
                     $('#cart_footer_lg').append('<h3 class="text-right subtotal"> КОРЗИНА ПУСТА </h3>');
-
                 }
-
-
             },
             error: function () {
                 console.log('ERROR')
             }
         });
-
-
 console.log($(del).data('item_id'));
  // $(del).closest('li').remove();
 }

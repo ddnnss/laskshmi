@@ -54,9 +54,12 @@
                                   onsubmit="add_to_cart(this,{{ item.id }});return false;">{% csrf_token %}
                                 <div style="display: inline-flex;" class="row">
                                     <div class="col-lg-offset-1 col-lg-4 col-sm-6">
-                                     <input class="form-control"  id="{{ item.id }}_items_number"  type="number" min="1" value="1" >
+
+
+                                        <input class="form-control" type="number" id="{{ item.id }}_items_number" min="1"  value="1" >
 
                                     </div>
+
                                      <div class=" col-lg-2 col-sm-6">
                                       <button type="submit" class="btn btn-primary" id="{{ item.id }}_submit"
                                               data-item_id="{{ item.id }}"

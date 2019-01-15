@@ -16,11 +16,16 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Корзина № %s ' % self.id
+        if self.client:
+            return 'Товар в корзине клиента : %s ' % self.client.name
+        elif self.guest:
+            return 'Товар в корзине гостя : %s ' % self.guest.id
+        else:
+            return 'Товар в корзине'
 
     class Meta:
-        verbose_name = "Корзина"
-        verbose_name_plural = "Корзины"
+        verbose_name = "Товар в корзине"
+        verbose_name_plural = "Товары в корзинах"
 
     def save(self, *args, **kwargs):
         if self.item.discount > 0:

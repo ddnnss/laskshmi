@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from item.models import PromoCode
 
 
 class UserManager(BaseUserManager):
@@ -54,6 +55,8 @@ class User(AbstractUser):
     passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
     address = models.CharField('Адрес', max_length=255, blank=True, null=True)
     comment = models.TextField('Комментарий', blank=True, null=True)
+    used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
+                                   verbose_name='Использованный промо-код при текущей корзине')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -72,4 +75,6 @@ class Guest(models.Model):
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
     passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
     address = models.CharField('Адрес', max_length=255, blank=True, null=True)
+    used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
+                                   verbose_name='Использованный промо-код при текущей корзине')
 

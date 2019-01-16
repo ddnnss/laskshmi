@@ -55,7 +55,7 @@
                                         <div class="price"><span>{{ cart_item.current_price}} &#8381;</span></div>
                                     </div>
                                 </td>
-                                <td class="delete"><a title="Delete"> <i
+                                <td class="delete"><a onclick="delete_from_main_cart({{ cart_item.id }});return false;" title="Delete"> <i
                                         class="glyphicon glyphicon-trash fa-2x"></i></a></td>
                                 <td><input  class="form-control"  data-item_in_cart_id="{{ cart_item.id }}" onchange="change_cart(this);return false;" type="number" min="1" value="{{ cart_item.number }}" ></td>
                                 <td>{{ cart_item.item.discount }}</td>
@@ -86,7 +86,7 @@
 
         </div>
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
-            <div class="contentBox">
+            <div class="contentBox" id="cart_sidebar">
                 <div class="w100 costDetails">
                     <div class="table-block" id="order-detail-content"><a class="btn btn-primary btn-lg btn-block "
                                                                           title="checkout" href="checkout-0.html"
@@ -105,19 +105,19 @@
                                 </tr>
                                 <tr class="cart-total-price ">
                                     <td style="vertical-align: middle;">Скидка по промо-коду :</td>
-                                    <td style="vertical-align: middle;" class="price">0</td>
+                                    <td style="vertical-align: middle;" id="promo_value" class="price">{{ promo_discount_value }} %</td>
                                 </tr>
 
                                 <tr>
                                     <td style="vertical-align: middle;"> ИТОГО</td>
-                                    <td style="font-size: 30px; font-weight: 600; vertical-align: middle;" class="site-color" id="cart_total_price_side">{{ total_cart_price }} &#8381;</td>
+                                    <td style="font-size: 30px; font-weight: 600; vertical-align: middle;" class="site-color" id="cart_total_price_side">{{ total_cart_price_with_discount }} &#8381;</td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <div class="input-append couponForm">
+                                        <div id="promo_div" class="input-append couponForm">
                                             <input class="col-lg-6" id="appendedInputButton" type="text"
                                                    placeholder="ПРОМО-КОД">
-                                            <button class="col-lg-6 btn btn-success" type="button">Применить!</button>
+                                            <button class="col-lg-6 btn btn-success" onclick="use_promo();return false;" type="button">Применить!</button>
                                         </div>
                                     </td>
                                 </tr>

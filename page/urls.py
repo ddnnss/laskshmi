@@ -20,8 +20,8 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('category/<cat_slug>', views.category, name='category'),
-    path('subcategory/<subcat_slug>', views.subcategory, name='subcategory'),
+    path('category/<cat_slug>/', views.category, name='category'),
+    path('subcategory/<subcat_slug>/', views.subcategory, name='subcategory'),
 
     # path('login/', views.login, name='login'),
     # path('logout/', views.logout_page, name='logout'),

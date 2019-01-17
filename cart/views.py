@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from cart.models import Cart
 from customuser.models import Guest
-from item.models import PromoCode
+from item.models import PromoCode,Item
 from datetime import datetime
 
 def format_number(num):
@@ -230,4 +230,19 @@ def use_promo(request):
     else:
         print('code not found')
         return_dict['result'] = False
+    return JsonResponse(return_dict)
+
+
+def sort_filter(request):
+    return_dict = {}
+    data = request.GET
+
+    filter = data.get('filter')
+    subcat = data['subcat']
+    if filter:
+        print('Поиск по фильтру')
+        items = Item.objects.filter(subcategory_id=subcat, filter__name_slug=filter)
+        print(items)
+
+
     return JsonResponse(return_dict)

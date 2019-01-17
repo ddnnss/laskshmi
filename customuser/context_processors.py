@@ -1,5 +1,6 @@
-
+from item.models import Category
 def check_profile(request):
+    all_cat = Category.objects.all()
     if request.user.is_authenticated:
         print('user')
 

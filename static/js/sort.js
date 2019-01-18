@@ -1,22 +1,28 @@
-function sort_filter(var1,filter,subcat) {
-    console.log(var1,filter,subcat);
+var last_filter = '';
+var last_order = '';
+function setGetParam(key,value) {
+        if (history.pushState) {
+            var params = new URLSearchParams(window.location.search);
+            params.set(key, value);
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString();
 
-    setGetParam('filter',filter);
-    setGetParam('subcat',subcat);
+            window.history.pushState({path:newUrl},'',newUrl);
+        }
+    }
 
-    function setGetParam(key,value) {
-  if (history.pushState) {
-    var params = new URLSearchParams(window.location.search);
-    params.set(key, value);
-    var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString();
+function filter(filter,subcat) {
 
-    window.history.pushState({path:newUrl},'',newUrl);
-  }
-}
+    console.log(filter,subcat);
+    if (last_filter == filter){
+        console.log('filter used');
+    }
+    else{
+        setGetParam('filter',filter);
+        last_filter = filter;
 
       var data = {};
 
-        var url ='/cart/sort_filter?' + location.href.split('?')[1];
+        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
         console.log(data);
         $.ajax({
             url:url,
@@ -31,5 +37,15 @@ function sort_filter(var1,filter,subcat) {
                 console.log('ERROR')
             }
         })
+
+    }
+
+}
+
+function order(order,subcat) {
+
+
+    console.log(order,subcat);
+    setGetParam('order',order);
 
 }

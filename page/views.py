@@ -23,18 +23,27 @@ def index(request):
 
 
 
+
     # ItemImage.objects.create(item_id=1,image='items/1/1201.jpg')
     return render(request, 'page/index.html', locals())
 
 
 def category(request, cat_slug):
+    try:
+        cat = Category.objects.get(name_slug=cat_slug)
+        subcats = SubCategory.objects.filter(category=cat)
+    except:
+        return render(request, '404.html', locals())
 
-    cat = Category.objects.get(name_slug=cat_slug)
-    subcats = SubCategory.objects.filter(category=cat)
+
     return render(request, 'page/category.html', locals())
 
 def subcategory(request, subcat_slug):
+    try:
+        subcat = SubCategory.objects.get(name_slug=subcat_slug)
+        items = Item.objects.filter(subcategory_id=subcat.id)
+    except:
+        return render(request, '404.html', locals())
 
-    subcat = SubCategory.objects.get(name_slug=subcat_slug)
-    items = Item.objects.filter(subcategory_id=subcat.id)
+
     return render(request, 'page/subcategory.html', locals())

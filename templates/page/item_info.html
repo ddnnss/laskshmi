@@ -10,7 +10,7 @@
                             <div class="quickview">
                                 <a data-toggle="modal" class="btn btn-xs btn-quickview" href="#" onclick="quick_view({{ item.id }});return false">БЫСТРЫЙ ПРОСМОТР </a>
                             </div>
-                            <a href="product-details.html"><img class="img-responsive" alt="img"
+                            <a href="{% url 'item_page' item.name_slug %}"><img class="img-responsive" alt="img"
                               {% for image in item.itemimage_set.all %}
                                                                 {% if image.is_main %}
                                                                 src="{{ image.image_small }}">
@@ -28,7 +28,7 @@
                         </div>
                         <div class="description" style="padding-top: 5px;">
                             <div style="height: 60px; padding-bottom: 10px;">
-                <a style="text-decoration: none; font-size: 16px; font-weight: bold;" href="#"> {{ item.name }}</a>
+                <a style="text-decoration: none; font-size: 16px; font-weight: bold;" href="{% url 'item_page' item.name_slug %}"> {{ item.name }}</a>
               </div>
 
 

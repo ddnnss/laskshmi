@@ -21,10 +21,10 @@ function change_cart(obj) {
             success: function (data) {
                 console.log('OK');
                 // console.log(data.all_items);
-                 $('#cart_table_lg').empty();
+                 $('.cart_table_lg').empty();
 
                 $.each(data.all_items,function (k,v) {
-                    $('#cart_table_lg').append('<tr class="miniCartProduct">\n' +
+                    $('.cart_table_lg').append('<tr class="miniCartProduct">\n' +
                         '                                    <td style="width:20%" class="miniCartProductThumb">\n' +
                         '                                        <div><a href="product-details.html"> <img src="'+ v.image +'" alt="img">\n' +
                         '                                        </a></div>\n' +
@@ -42,8 +42,8 @@ function change_cart(obj) {
 
 
                 });
-                $('#cart_footer_lg').html('');
-                $('#cart_footer_lg').append('' +
+                $('.cart_footer_lg').html('');
+                $('.cart_footer_lg').append('' +
                     ' <h3 class="text-right subtotal"> ИТОГО: '+ data.total_cart_price +' &#8381; </h3>\n' +
                     '                            <a class="btn btn-sm btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
                     '                                class="btn btn-sm btn-primary"> ОПЛАТА</a>');
@@ -78,7 +78,7 @@ function change_cart(obj) {
                         '                                <td class="price">'+ v.total_price +' &#8381;</td>\n' +
                         '                            </tr>');
                         });
-                $('#cart_total_lg').html(data.total_cart_price);
+                $('.cart_total_lg').html(data.total_cart_price);
                 $('#cart_subtotal_price_side').html(data.total_cart_price + ' &#8381;');
                  $('#cart_total_price_side').html(data.total_cart_price_with_discount + ' &#8381;');
                   $('#promo_value').html(data.promo_discount_value + ' %');

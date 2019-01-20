@@ -1,46 +1,44 @@
 {% load static %}
+ {% if not request.user.is_authenticated %}
 <!-- Modal Login start -->
 <div class="modal signUpContent fade" id="ModalLogin" tabindex="-1" role="dialog">
     <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h3 class="modal-title-site text-center"> Login to TSHOP </h3>
+                <h3 class="modal-title-site text-center"> ВХОД </h3>
             </div>
             <div class="modal-body">
+                                <div class="control-group"><p class="text-center">  <a class="btn  btn-block btn-lg btn-default" style="font-size: 15px;" data-toggle="modal" data-dismiss="modal"
+                                                                                       href="#ModalSignup">Нет аккаунта? Создать новый </a></p></div>
+
+
+                <form onsubmit="return false;">
                 <div class="form-group login-username">
                     <div>
-                        <input name="log" id="login-user" class="form-control input" size="20"
-                               placeholder="Enter Username" type="text">
+                        <input name="log" id="login-email"  required="required" class="form-control input" size="20"
+                               placeholder="Адрес E-MAIL" type="email">
                     </div>
                 </div>
                 <div class="form-group login-password">
                     <div>
-                        <input name="Password" id="login-password" class="form-control input" size="20"
-                               placeholder="Password" type="password">
+                        <input name="Password" id="login-password"  required="required" class="form-control input" size="20"
+                               placeholder="Пароль" type="password">
                     </div>
                 </div>
-                <div class="form-group">
-                    <div>
-                        <div class="checkbox login-remember">
-                            <label>
-                                <input name="rememberme" value="forever" checked="checked" type="checkbox">
-                                Remember Me </label>
-                        </div>
-                    </div>
-                </div>
+
+                 <div   id="errorlogin" style="color: red; margin-bottom: 5px;"></div>
+
                 <div>
                     <div>
-                        <input name="submit" class="btn  btn-block btn-lg btn-primary" value="LOGIN" type="submit">
+                        <input name="submit" class="btn  btn-block btn-lg btn-primary" value="ОТПРАВИТЬ" type="submit"  onclick="login()">
                     </div>
                 </div>
                 <!--userForm-->
-
+            </form>
             </div>
             <div class="modal-footer">
-                <p class="text-center"> Not here before? <a data-toggle="modal" data-dismiss="modal"
-                                                            href="#ModalSignup"> Sign Up. </a> <br>
-                    <a href="forgot-password.html"> Lost your password? </a></p>
+                <p class="text-center"> <a href="forgot-password.html"> Забыли пароль? </a></p>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -57,51 +55,68 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> &times; </button>
-                <h3 class="modal-title-site text-center"> REGISTER </h3>
+                <h3 class="modal-title-site text-center"> РЕГИСТРАЦИЯ </h3>
             </div>
             <div class="modal-body">
-                <div class="control-group"><a class="fb_button btn  btn-block btn-lg " href="#"> SIGNUP WITH
-                    FACEBOOK </a></div>
-                <h5 style="padding:10px 0 10px 0;" class="text-center"> OR </h5>
+    <form onsubmit="return false;">
 
-                <div class="form-group reg-username">
-                    <div>
-                        <input name="login" class="form-control input" size="20" placeholder="Enter Username"
-                               type="text">
-                    </div>
-                </div>
                 <div class="form-group reg-email">
                     <div>
-                        <input name="reg" class="form-control input" size="20" placeholder="Enter Email" type="text">
+                        <input id="reg_email" class="form-control input" size="20"   placeholder="Введите адрес E-MAIL" type="text">
                     </div>
                 </div>
-                <div class="form-group reg-password">
-                    <div>
-                        <input name="password" class="form-control input" size="20" placeholder="Password"
-                               type="password">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div>
-                        <div class="checkbox login-remember">
-                            <label>
-                                <input name="rememberme" id="rememberme" value="forever" checked="checked"
-                                       type="checkbox">
-                                Remember Me </label>
+                <div id="erroremail" style="color:red;margin-bottom: 5px;"> </div>
+                    <div class="form-group reg-password">
+                        <div>
+                            <input id="reg_pass1" class="form-control input" size="20"  placeholder="Введите пароль"
+                                   type="password">
                         </div>
                     </div>
-                </div>
-                <div>
-                    <div>
-                        <input name="submit" class="btn  btn-block btn-lg btn-primary" value="REGISTER" type="submit">
+                    <div class="form-group reg-password">
+                        <div>
+                            <input id="reg_pass2"  class="form-control input" size="20"    placeholder="Повторите пароль"
+                                   type="password">
+                        </div>
                     </div>
-                </div>
-                <!--userForm-->
+                    <div id="errorpass" style="color:red;margin-bottom: 5px;"> </div>
+                        <div class="form-group">
+                            <input type="checkbox">
 
+
+                        </div>
+                        <div class="form-group login-password">
+                            <img id="reg_n1" data-n1="{{ num1 }}" style="pointer-events: none;" src="/static/images/capthca/{{ num1 }}.png">
+                            <img style="pointer-events: none;" src="/static/images/capthca/plus.png">
+                            <img id="reg_n2" data-n2="{{ num2 }}"style="pointer-events: none;" src="/static/images/capthca/{{ num2 }}.png">
+                            <img style="pointer-events: none;" src="/static/images/capthca/eqal.png">
+                            <input id="reg_answer" style="    border-color: #DDDDDD;
+                                            -webkit-border-radius: 3px;
+                                            -moz-border-radius: 3px;
+                                            border-radius: 3px;
+                                            border-style: solid;
+                                            border-width: 1px;
+                                            color: #888888;
+                                            font-size: 14px;
+                                            width: 40px;
+                                            margin-bottom: 10px;
+                                            height: 38px;" type="text"  placeholder="ответ" required="required">
+<div id="errorother" style="color:red;margin-bottom: 5px;"></div>
+                        </div>
+
+
+                            <div>
+                                <div>
+                                    <input name="submit" class="btn  btn-block btn-lg btn-primary" value="РЕГИСТРАЦИЯ" type="submit" onclick="signup()">
+                                </div>
+                            </div>
+                            <!--userForm-->
+             </form>
             </div>
             <div class="modal-footer">
-                <p class="text-center"> Already member? <a data-toggle="modal" data-dismiss="modal" href="#ModalLogin">
-                    Sign in </a></p>
+                <p id="reg_text1" class="text-center bold"> Регистрируясь на сайте, вы даете согласие на обработку персональных данных.</p>
+                 <p id="reg_text2" style="display: none; color: green;" class="text-center"> Аккаунт успешно зарегистрирован, вы можете <a data-toggle="modal" data-dismiss="modal" href="#ModalLogin">
+                      войти </a>!</p>
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -111,7 +126,7 @@
 
 </div>
 <!-- /.ModalSignup End -->
-
+{% endif %}
 
 
 
@@ -124,24 +139,40 @@
 
                     <div class="pull-left ">
                         <ul class="userMenu ">
-                            <li><a href="#"> <span class="hidden-xs">HELP</span><i
-                                    class="glyphicon glyphicon-info-sign hide visible-xs "></i> </a></li>
+
                             <li class="phone-number">
-                                <a href="callto:+12025550151">
+                                <a href="callto:+74959263359" rel="nofollow">
                                     <span> <i class="glyphicon glyphicon-phone-alt "></i></span>
-                                    <span class="hidden-xs" style="margin-left:5px"> +1-202-555-0151 </span> </a></li>
+                                    <span class="hidden-xs" style="margin-left:5px"> +7(495) 926-33-59 </span> </a>
+                            </li>
+                              <li class="phone-number">
+                                <a href="callto:+79646477676" rel="nofollow">
+                                    <span> <i class="fa fa-whatsapp" aria-hidden="true"></i></span>
+                                    <span class="hidden-xs" style="margin-left:5px"> +7(964) 647-76-76 </span> </a>
+                            </li>
+                             <li class="phone-number">
+                                <a href="mailto:info@lakshmi888.ru" rel="nofollow">
+                                    <span> <i class="fa fa-envelope-o" aria-hidden="true"></i></span>
+                                    <span class="hidden-xs" style="margin-left:5px"> info@lakshmi888.ru </span> </a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-6 col-sm-6 col-xs-6 col-md-6 no-margin no-padding">
                     <div class="pull-right">
                         <ul class="userMenu">
-                            <li><a href="account-1.html"><span class="hidden-xs"> My Account</span> <i
-                                    class="glyphicon glyphicon-user hide visible-xs "></i></a></li>
-                            <li><a href="#" data-toggle="modal" data-target="#ModalLogin"> <span class="hidden-xs">Sign In</span>
+                            {% if request.user.is_authenticated %}
+                            <li><a href="account-1.html"><span class="hidden-xs"> ЛИЧНЫЙ КАБИНЕТ</span> <i
+                                    class="glyphicon glyphicon-user hide visible-xs "></i></a>
+                            </li>
+                                <li>
+                                    <a href="{% url 'logout' %}" > <span class="hidden-xs">ВЫХОД</span></a>
+                                </li>
+                                {% else %}
+                            <li><a href="#" data-toggle="modal" data-target="#ModalLogin"> <span class="hidden-xs">ВХОД / РЕГИСТРАЦИЯ</span>
                                 <i class="glyphicon glyphicon-log-in hide visible-xs "></i> </a></li>
-                            <li class="hidden-xs"><a href="#" data-toggle="modal" data-target="#ModalSignup"> Create
-                                Account </a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -157,7 +188,7 @@
                         class="sr-only"> Toggle navigation </span> <span class="icon-bar"> </span> <span
                         class="icon-bar"> </span> <span class="icon-bar"> </span></button>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-cart"><i
-                        class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite"> Cart ($210.00) </span>
+                        class="fa fa-shopping-cart colorWhite"> </i> <span class="cartRespons colorWhite">КОРЗИНА (<span class="cart_total_lg">{% if not total_cart_price  %}0{% else %}{{ total_cart_price }}{% endif %} </span> &#8381;) </span>
                 </button>
                 <a style="padding: 0px !important;" class="navbar-brand " href="/"> <img style="height: 45px;" src="{% static 'images/logo_bw.png' %}" alt="TSHOP"> </a>
 
@@ -174,19 +205,19 @@
             <!--- navbar social icon || this part will be hidden on mobile version -->
             <div class="nav navbar-nav navbar-right margin-top-10 hidden-xs">
                 <ul class="social-icon">
-                    <li><a title="" class="fa fa-facebook tooltipHere" data-placement="bottom" data-toggle="tooltip"
-                           data-original-title="Facebook" href="#"></a></li>
-                    <li><a title="" class="fa fa-google-plus tooltipHere" data-placement="bottom" data-toggle="tooltip"
-                           href="#" data-original-title="Google+"></a></li>
-                    <li><a title="" class="fa fa-twitter tooltipHere" data-placement="bottom" data-toggle="tooltip"
-                           href="#" data-original-title="Twitter"></a></li>
-                    <li><a title="" class="fa fa-pinterest tooltipHere" data-placement="bottom" data-toggle="tooltip"
-                           href="#" data-original-title="Pinterest"></a></li>
-                    <li><a title="" class="fa fa-linkedin tooltipHere" data-placement="bottom" data-toggle="tooltip"
-                           href="#" data-original-title="Linkedin"></a></li>
-                    <li><a title="" class="fa fa-rss tooltipHere" data-placement="bottom" data-toggle="tooltip" href="#"
-                           data-original-title="Feedburner"></a></li>
-                </ul>
+                     <li >
+                                <a href="https://www.instagram.com/lakshmi.888/" target="_blank" rel="nofollow">
+                                    <span><i class="fa fa-instagram" aria-hidden="true"></i></span> </a>
+                            </li>
+                             <li >
+                                <a href="https://vk.com/lakshmi_888" target="_blank" rel="nofollow">
+                                    <span><i class="fa fa-vk" aria-hidden="true"></i></span></a>
+                            </li>
+                             <li >
+                                <a href="#" rel="nofollow">
+                                    <span> <i class="fa fa-facebook" aria-hidden="true"></i></span></a>
+                            </li>
+               </ul>
             </div>
             <!--/.navbar-right || social icon end-->
         </div>
@@ -200,20 +231,43 @@
             <div class="navbar-cart  collapse">
                 <div class="cartMenu  col-lg-4 col-xs-12 col-md-4 ">
                     <div class="w100 miniCartTable scroll-pane">
-                        <table>
-                            <tbody>
+                       <table class="cart_table_lg">
+                                <tbody >
+                                {% for cart_item in all_items_in_cart %}
+                                    <tr class="miniCartProduct">
+                                        <td style="width:20%" class="miniCartProductThumb">
+                                            <div>
+                                                <a href="#"> <img src="{{ cart_item.item.itemimage_set.first.image_small }}" alt="img"> </a>
+                                            </div>
+                                        </td>
+                                        <td style="width:40%">
+                                            <div class="miniCartDescription">
+                                                <h4><a href=""> {{ cart_item.item.name }}</a></h4>
+                                                <div class="price"><span> {{ cart_item.current_price}} &#8381;</span></div>
+                                            </div>
+                                        </td>
+                                        <td style="width:10%" class="miniCartQuantity"><a> X {{ cart_item.number }} </a></td>
+                                        <td style="width:15%" class="miniCartSubtotal"><span> {{ cart_item.total_price }} &#8381;</span></td>
+                                        <td style="width:5%" class="delete"><a data-item_id="{{  cart_item.item.id }}" onclick="delete_from_cart(this);return false;"> x </a></td>
+                                    </tr>
+                                {% endfor %}
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
                     </div>
-                    <!--/.miniCartTable-->
+                          {% if count_items_in_cart > 0 %}
 
-                    <div class="miniCartFooter  miniCartFooterInMobile text-right">
-                        <h3 class="text-right subtotal"> Subtotal: $210 </h3>
-                        <a class="btn btn-sm btn-danger" href="cart.html"> <i class="fa fa-shopping-cart"> </i> VIEW
-                            CART </a><a
-                            class="btn btn-sm btn-primary"> CHECKOUT </a></div>
-                    <!--/.miniCartFooter-->
+                        <div  class="cart_footer_lg miniCartFooter text-right">
+                            <h3 class="text-right subtotal"> ИТОГО: {{ total_cart_price }} &#8381; </h3>
+                            <a class="btn btn-sm btn-danger" href="{% url 'show_cart' %}"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
+                                class="btn btn-sm btn-primary"> ОПЛАТА</a>
+                        </div>
+                            {% else %}
+                          <div class="cart_footer_lg miniCartFooter text-right">
+                            <h3 class="text-right subtotal"> КОРЗИНА ПУСТА </h3>
+                          </div>
+                        <!--/.miniCartFooter-->
+                        {% endif %}
 
                 </div>
                 <!--/.cartMenu-->
@@ -257,15 +311,14 @@
                 </ul>
               <div class="nav navbar-nav navbar-right hidden-xs">
                 <div class="dropdown  cartMenu "><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
-                        class="fa fa-shopping-cart"> </i> <span class="cartRespons">
-                    КОРЗИНА (<span id="cart_total_lg">{% if not total_cart_price  %}0{% else %}{{ total_cart_price }}{% endif %} </span> &#8381;) </span>
+                        class="fa fa-shopping-cart"> </i><span class="cartRespons"> КОРЗИНА (<span class="cart_total_lg">{% if not total_cart_price  %}0{% else %}{{ total_cart_price }}{% endif %} </span> &#8381;) </span>
                     <b class="caret"> </b> </a>
 
 
 
                     <div class="dropdown-menu col-lg-4 col-xs-12 col-md-4 ">
                         <div class="w100 miniCartTable scroll-pane">
-                            <table id="cart_table_lg">
+                            <table class="cart_table_lg">
                                 <tbody >
                                 {% for cart_item in all_items_in_cart %}
                                     <tr class="miniCartProduct">
@@ -292,13 +345,13 @@
                         <!--/.miniCartTable-->
                         {% if count_items_in_cart > 0 %}
 
-                        <div id="cart_footer_lg" class="miniCartFooter text-right">
+                        <div class="cart_footer_lg miniCartFooter text-right">
                             <h3 class="text-right subtotal"> ИТОГО: {{ total_cart_price }} &#8381; </h3>
                             <a class="btn btn-sm btn-danger" href="{% url 'show_cart' %}"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
                                 class="btn btn-sm btn-primary"> ОПЛАТА</a>
                         </div>
                             {% else %}
-                          <div id="cart_footer_lg" class="miniCartFooter text-right">
+                          <div class="cart_footer_lg miniCartFooter text-right">
                             <h3 class="text-right subtotal"> КОРЗИНА ПУСТА </h3>
                           </div>
                         <!--/.miniCartFooter-->

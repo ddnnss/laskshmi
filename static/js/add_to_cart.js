@@ -46,10 +46,10 @@ function add_to_cart(form,i_id) {
                 // console.log(data.total_items_in_cart);
                 // console.log(data.all_items);
 
-                $('#cart_table_lg').empty();
+                $('.cart_table_lg').empty();
 
                 $.each(data.all_items,function (k,v) {
-                    $('#cart_table_lg').append('<tr class="miniCartProduct">\n' +
+                    $('.cart_table_lg').append('<tr class="miniCartProduct">\n' +
                         '                                    <td style="width:20%" class="miniCartProductThumb">\n' +
                         '                                        <div><a href="product-details.html"> <img src="'+ v.image +'" alt="img">\n' +
                         '                                        </a></div>\n' +
@@ -67,9 +67,9 @@ function add_to_cart(form,i_id) {
 
 
                 });
-                $('#cart_total_lg').html(data.total_cart_price);
-                $('#cart_footer_lg').html('');
-                $('#cart_footer_lg').append('' +
+                $('.cart_total_lg').html(data.total_cart_price);
+                $('.cart_footer_lg').html('');
+                $('.cart_footer_lg').append('' +
                     ' <h3 class="text-right subtotal"> ИТОГО: '+ data.total_cart_price +' &#8381; </h3>\n' +
                     '                            <a class="btn btn-sm btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
                     '                                class="btn btn-sm btn-primary"> ОПЛАТА</a>');

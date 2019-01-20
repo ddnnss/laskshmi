@@ -41,3 +41,49 @@
   }
   customQuantity();
 })(jQuery);
+
+ $(document).ready(function () {
+        //$('.swipebox').zoom();
+console.log('ready');
+        $('#zoomContent').zoom();
+        $(".zoomThumb a").click(function () {
+            var largeImage = $(this).find("img").attr('data-large');
+            $(".zoomImage1").attr('src', largeImage);
+            $(".zoomImg").attr('src', largeImage);
+            $(".gall-item").attr('href', largeImage);
+
+        });
+
+        $('.productImageZoomx').magnificPopup({
+            delegate: 'img', type: 'image', gallery: {enabled: true},
+
+            callbacks: {
+                elementParse: function () {
+                    this.item.src = this.item.el.attr('src');
+                }
+            }
+
+        });
+
+
+        $('.gall-item').magnificPopup({
+            type: 'image',
+            gallery: {
+                enabled: true
+            }
+        });
+
+        $("#zoomContent").click(function () {
+            //alert();
+            $('.gall-item').trigger('click');
+        });
+
+        // CHANGE IMAGE MODAL THUMB
+
+        $(".product-thumbList a").click(function () {
+            var largeImage = $(this).find("img").attr('data-large');
+            $(".mainImg").attr('src', largeImage);
+
+        });
+
+    });

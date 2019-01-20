@@ -1,5 +1,6 @@
 var last_filter = '';
 var last_order = '';
+var last_search = '';
 function setGetParam(key,value) {
         if (history.pushState) {
             var params = new URLSearchParams(window.location.search);
@@ -43,9 +44,33 @@ function filter(filter,subcat) {
 }
 
 function order(order,subcat) {
+     if (last_order == order){
+        console.log('order used');
+    }
+    else{
+       console.log(order,subcat);
+       setGetParam('order',order);
+       last_order = order;
+     }
 
 
-    console.log(order,subcat);
-    setGetParam('order',order);
+
+
+}
+
+function search(subcat) {
+    var search_string = $('#search_string').val();
+
+    if (last_search == search_string){
+        console.log('search used');
+    }
+    else{
+        console.log(search_string,subcat);
+        setGetParam('search',search_string);
+        last_search=search_string;
+     }
+
+
+
 
 }

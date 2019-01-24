@@ -3,6 +3,18 @@ from django.db.models.signals import post_save, post_delete
 from customuser.models import User, Guest
 from item.models import Item, PromoCode
 
+class Wishlist(models.Model):
+    client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+                               verbose_name='Клиент')
+    item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Товар')
+
+    def __str__(self):
+        return 'Закладка клиента : %s ' % self.client.email
+
+    class Meta:
+        verbose_name = "Закладка клиента"
+        verbose_name_plural = "Закладки клиентов"
+
 
 class OrderStatus(models.Model):
     name = models.CharField('Статус для заказа', max_length=100, blank=False)

@@ -18,26 +18,33 @@ function filter(filter,subcat) {
         console.log('filter used');
     }
     else{
+        if ($('#search_string').val()){
+            console.log('search not empty');
+        }
+        else {
+            console.log('search empty');
+            setGetParam('search',$('#search_string').val());
+        }
         setGetParam('filter',filter);
         last_filter = filter;
 
-      var data = {};
+      // var data = {};
 
         var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
-        console.log(data);
-        $.ajax({
-            url:url,
-            type:'GET',
-            data: data,
-            cache:true,
-            success: function (data) {
-                console.log('OK');
-
-            },
-            error: function () {
-                console.log('ERROR')
-            }
-        })
+        // console.log(data);
+        // $.ajax({
+        //     url:url,
+        //     type:'GET',
+        //     data: data,
+        //     cache:true,
+        //     success: function (data) {
+        //         console.log('OK');
+        //
+        //     },
+        //     error: function () {
+        //         console.log('ERROR')
+        //     }
+        // })
 
     }
 
@@ -51,6 +58,28 @@ function order(order,subcat) {
        console.log(order,subcat);
        setGetParam('order',order);
        last_order = order;
+        // var data = {};
+
+        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        // console.log(data);
+        // $.ajax({
+        //     url:url,
+        //     type:'GET',
+        //     data: data,
+        //     cache:true,
+        //     success: function (data) {
+        //         console.log('OK');
+        //
+        //         $('#subcat_items').html('');
+        //
+        //
+        //
+        //     },
+        //     error: function () {
+        //         console.log('ERROR')
+        //     }
+        // })
+
      }
 
 
@@ -68,6 +97,24 @@ function search(subcat) {
         console.log(search_string,subcat);
         setGetParam('search',search_string);
         last_search=search_string;
+         // var data = {};
+
+        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        // console.log(data);
+        // $.ajax({
+        //     url:url,
+        //     type:'GET',
+        //     data: data,
+        //     cache:true,
+        //     success: function (data) {
+        //         console.log('OK');
+        //
+        //     },
+        //     error: function () {
+        //         console.log('ERROR')
+        //     }
+        // })
+
      }
 
 

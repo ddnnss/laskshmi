@@ -3,7 +3,7 @@
 
 {% block content %}
 
-
+<div class="container main-container headerOffset globalPaddingBottom">
  <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
@@ -32,9 +32,9 @@
                     </div>
                                 <div class="w100  clearfix center-xs-inner">
                                     <p class="pull-left shrtByP center-xs"><span>СОРТИРОВАТЬ ПО :</span>
-                                        <a class="active" onclick="order('-name',{{ subcat.id }});return false;">По наименованию</a> |
-                                        <a>По возрастанию цены</a>|
-                                        <a>По убыванию цены</a>|
+                                        <a class="active" onclick="order('name',{{ subcat.id }});return false;">По наименованию</a> |
+                                        <a  onclick="order('price',{{ subcat.id }});return false;">По возрастанию цены</a>|
+                                        <a onclick="order('-price',{{ subcat.id }});return false;">По убыванию цены</a>|
                                         <a>По скидке</a>|
                                         <a>По новизне (новые)</a>|
                                         <a>По новизне (старые)</a>|
@@ -92,7 +92,7 @@
         <!-- /main container -->
     </section>
 
-
+</div>
 {% include 'page/quick_view.html' %}
 
 {% endblock %}

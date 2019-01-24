@@ -2,9 +2,9 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from cart.models import Cart
 from customuser.models import Guest
-from item.models import PromoCode,Item
+from item.models import PromoCode,Item,SubCategory
 from datetime import datetime
-
+from order.models import Wishlist
 def format_number(num):
     if num % 1 == 0:
         return int(num)
@@ -14,6 +14,25 @@ def format_number(num):
 def show_cart(request):
     return render(request, 'cart/cart.html', locals())
 
+def wishlist_delete(request):
+    return_dict = {}
+    if request.user.is_authenticated:
+        Wishlist.objects.get(id=int(request.POST.get('id'))).delete()
+
+        return_dict['result'] = True
+    else:
+        return_dict['result'] = False
+    return JsonResponse(return_dict)
+
+def wishlist_add(request):
+    return_dict = {}
+    if request.user.is_authenticated:
+        Wishlist.objects.create(client=request.user, item_id=int(request.POST.get('item_id')))
+
+        return_dict['result'] = True
+    else:
+        return_dict['result'] = False
+    return JsonResponse(return_dict)
 
 def add_to_cart(request):
     return_dict = {}
@@ -334,13 +353,42 @@ def use_promo(request):
 def sort_filter(request):
     return_dict = {}
     data = request.GET
-
+    print(data)
+    search = data.get('search')
     filter = data.get('filter')
-    subcat = data['subcat']
+    order = data.get('order')
+    subcat =data['subcat']
+    sub = SubCategory.objects.get(id=subcat)
+    if order:
+        all_items = sub.item_set.all().order_by(order)
+    else:
+        all_items=sub.item_set.all()
+
+    search_qs = None
+    if search:
+        search_qs = all_items.filter(name__contains=search)
+        items = search_qs
+        print(items)
     if filter:
         print('Поиск по фильтру')
-        items = Item.objects.filter(subcategory_id=subcat, filter__name_slug=filter)
-        print(items)
+        if search_qs:
+            items = search_qs.filter(filter__name_slug=filter)
+            print(items)
+        else:
+            items = all_items.filter(filter__name_slug=filter)
+            print(items)
+
+    return_dict['all_items'] = list()
+    for item in items:
+        item_dict = dict()
+        item_dict['id'] = item.item.id
+        item_dict['name'] = item.item.name
+        item_dict['name_slug'] = item.item.name_slug
+        item_dict['price'] = item.current_price
+        item_dict['total_price'] = item.total_price
+        item_dict['number'] = item.number
+        item_dict['image'] = item.item.itemimage_set.first().image_small
+        return_dict['all_items'].append(item_dict)
 
 
     return JsonResponse(return_dict)

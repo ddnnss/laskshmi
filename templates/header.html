@@ -79,8 +79,12 @@
                         </div>
                     </div>
                     <div id="errorpass" style="color:red;margin-bottom: 5px;"> </div>
-                        <div class="form-group">
-                            <input type="checkbox">
+                         <div class="form-group ">
+
+                                <div class="icheckbox_square-green iCheck-margin" style="position: relative;">
+                            <input type="checkbox" value="1" name="newsletter" required="required" style="position: absolute; opacity: 0;">
+                             </div>
+                                <label style="font-weight: normal;" for="newsletter">Вы даете согласие на обработку Ваших персональных данных?</label>
 
 
                         </div>
@@ -112,12 +116,7 @@
                             <!--userForm-->
              </form>
             </div>
-            <div class="modal-footer">
-                <p id="reg_text1" class="text-center bold"> Регистрируясь на сайте, вы даете согласие на обработку персональных данных.</p>
-                 <p id="reg_text2" style="display: none; color: green;" class="text-center"> Аккаунт успешно зарегистрирован, вы можете <a data-toggle="modal" data-dismiss="modal" href="#ModalLogin">
-                      войти </a>!</p>
 
-            </div>
         </div>
         <!-- /.modal-content -->
 
@@ -163,7 +162,7 @@
                     <div class="pull-right">
                         <ul class="userMenu">
                             {% if request.user.is_authenticated %}
-                            <li><a href="account-1.html"><span class="hidden-xs"> ЛИЧНЫЙ КАБИНЕТ</span> <i
+                            <li><a href="{% url 'account' %}"><span class="hidden-xs"> ЛИЧНЫЙ КАБИНЕТ</span> <i
                                     class="glyphicon glyphicon-user hide visible-xs "></i></a>
                             </li>
                                 <li>
@@ -367,6 +366,7 @@
                         <button class="btn btn-nobg getFullSearch" type="button"><i class="fa fa-search"> </i></button>
                     </div>
                     <!-- /input-group -->
+
 
                 </div>
                 <!--/.search-box -->

@@ -2354,7 +2354,7 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 .featuredImageLook3 .inner .img-title {
     color: white;
     display: block;
-    font-size: 20px;
+    font-size: 25px;
     font-family: Oswald;
     font-weight: normal;
     letter-spacing: 3px;
@@ -3080,7 +3080,7 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 /***  -------  Parallax section 2  ------- ***/
 
 .parallax-image-2 {
-    background: url(../../images/parallax/people-collage.jpg) fixed;
+
     background-attachment: fixed; /* IE FIX */
 }
 

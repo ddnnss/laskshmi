@@ -55,6 +55,7 @@ class User(AbstractUser):
     passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
     address = models.CharField('Адрес', max_length=255, blank=True, null=True)
     comment = models.TextField('Комментарий', blank=True, null=True)
+    is_allow_email = models.BooleanField('Согласен на рассылку', default=True)
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
                                    verbose_name='Использованный промо-код при текущей корзине')
 

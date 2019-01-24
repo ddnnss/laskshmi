@@ -1,7 +1,43 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponseRedirect
-from .forms import SignUpForm
+from .forms import SignUpForm, UpdateForm
+from order.models import Wishlist
+
+
+
+def account(request):
+    if request.user.is_authenticated:
+        return render(request, 'customuser/account.html', locals())
+    else:
+        return HttpResponseRedirect('/')
+
+
+
+def account_edit(request):
+
+    client = request.user
+
+    if request.POST:
+        form = UpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+
+        return render(request, 'customuser/account_edit.html', locals())
+    else:
+        form = UpdateForm(instance=client)
+        return render(request, 'customuser/account_edit.html', locals())
+
+
+def wishlist(request):
+    if request.user.is_authenticated:
+        wish_list = Wishlist.objects.filter(client=request.user)
+
+        return render(request, 'customuser/wishlist.html', locals())
+    else:
+        return HttpResponseRedirect('/')
+
+
 
 
 def log_out(request):
@@ -49,6 +85,7 @@ def signup(request):
                 user = form.save(commit=False)
                 user.is_active = True
                 user.save()
+                login(request, user)
 
                 return_dict['result'] = 'success'
                 return JsonResponse(return_dict)

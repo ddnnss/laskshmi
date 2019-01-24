@@ -250,6 +250,8 @@ class PromoCode(models.Model):
         super(PromoCode, self).save(*args, **kwargs)
 
 
+
+
 def ItemImage_post_save(sender,instance,**kwargs):
     image = Image.open(instance.image)
 

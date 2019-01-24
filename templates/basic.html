@@ -21,6 +21,7 @@
     <link href="{% static 'css/amaran.min.css'%}" rel="stylesheet">
     <link href="{% static 'css/showLoading.css'%}" rel="stylesheet">
     <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+     <link href="{% static 'css/icheck.css'%}" rel="stylesheet">
 
 
     <script>
@@ -34,10 +35,10 @@
 <body>
     <form id="dummy_form">{% csrf_token %}</form>
     {% include 'header.html' %}
-    <div class="container main-container headerOffset globalPaddingBottom">
+
     {% block content %}
     {% endblock %}
-    </div>
+
     {% include 'footer.html' %}
     <script type="text/javascript" src="{% static 'js/jquery-1.10.1.min.js'%}"></script>
     <script src="{% static 'js/bootstrap.min.js'%}"></script>
@@ -69,6 +70,7 @@
     <script src="{% static 'js/sort.js'%}"></script>
         <script src="{% static 'js/jquery.zoom.js'%}"></script>
       <script src="{% static 'js/login.js'%}"></script>
+    <script src="{% static 'js/wishlist.js'%}"></script>
 
 
  <script type="text/javascript">

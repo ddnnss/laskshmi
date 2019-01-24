@@ -57,8 +57,9 @@ function signup(){
                 }
 
                 if(data['result'] == "success"){
-                    $('#reg_text1').css('display','none');
-                    $('#reg_text2').css('display','block');
+                    // $('#reg_text1').css('display','none');
+                    // $('#reg_text2').css('display','block');
+                    location.reload();
 
                 }
                 else{

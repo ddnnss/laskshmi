@@ -16,15 +16,6 @@ def index(request):
     collections = Collection.objects.filter(show_at_homepage=True)
     main_category = Category.objects.all()
 
-
-
-
-
-
-
-
-
-
     # ItemImage.objects.create(item_id=1,image='items/1/1201.jpg')
     return render(request, 'page/index.html', locals())
 

@@ -11,6 +11,28 @@ function setGetParam(key,value) {
         }
     }
 
+function removeParam(parameter)
+{
+  var url=document.location.href;
+  var urlparts= url.split('?');
+
+ if (urlparts.length>=2)
+ {
+  var urlBase=urlparts.shift();
+  var queryString=urlparts.join("?");
+
+  var prefix = encodeURIComponent(parameter)+'=';
+  var pars = queryString.split(/[&;]/g);
+  for (var i= pars.length; i-->0;)
+      if (pars[i].lastIndexOf(prefix, 0)!==-1)
+          pars.splice(i, 1);
+  url = urlBase+'?'+pars.join('&');
+  window.history.pushState('',document.title,url); // added this line to push the new url directly to url bar .
+
+}
+return url;
+}
+
 function filter(filter,subcat) {
 
     console.log(filter,subcat);
@@ -23,14 +45,17 @@ function filter(filter,subcat) {
         }
         else {
             console.log('search empty');
-            setGetParam('search',$('#search_string').val());
+            removeParam("search");
+
         }
         setGetParam('filter',filter);
         last_filter = filter;
 
       // var data = {};
 
-        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        var url =location.href.split('?')[1];
+
+        window.location.href = '?'+url;
         // console.log(data);
         // $.ajax({
         //     url:url,
@@ -58,9 +83,12 @@ function order(order,subcat) {
        console.log(order,subcat);
        setGetParam('order',order);
        last_order = order;
-        // var data = {};
+       var url =location.href.split('?')[1];
 
-        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        window.location.href = '?'+url;
+       // var data = {};
+
+        //var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
         // console.log(data);
         // $.ajax({
         //     url:url,
@@ -97,9 +125,12 @@ function search(subcat) {
         console.log(search_string,subcat);
         setGetParam('search',search_string);
         last_search=search_string;
-         // var data = {};
+        var url =location.href.split('?')[1];
 
-        var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        window.location.href = '?'+url;
+        // var data = {};
+
+       // var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
         // console.log(data);
         // $.ajax({
         //     url:url,

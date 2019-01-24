@@ -19,7 +19,7 @@
 
                             <div  class="input-append couponForm">
                                 <form class="col-lg-12 form-inline">
-                                      <input class="col-lg-9" id="search_string" type="text"
+                                      <input class="col-lg-9" id="search_string" type="text" {% if param_search %}value="{{ param_search }}" {% endif %}
                                                    placeholder="Введите наименование товара или его часть" required="required">
                                             <button class="col-lg-3 btn btn-success" onclick="search({{ subcat.id }});return false;" type="submit">ПОИСК</button>
 
@@ -32,12 +32,12 @@
                     </div>
                                 <div class="w100  clearfix center-xs-inner">
                                     <p class="pull-left shrtByP center-xs"><span>СОРТИРОВАТЬ ПО :</span>
-                                        <a class="active" onclick="order('name',{{ subcat.id }});return false;">По наименованию</a> |
-                                        <a  onclick="order('price',{{ subcat.id }});return false;">По возрастанию цены</a>|
-                                        <a onclick="order('-price',{{ subcat.id }});return false;">По убыванию цены</a>|
-                                        <a>По скидке</a>|
-                                        <a>По новизне (новые)</a>|
-                                        <a>По новизне (старые)</a>|
+                                        <a {% if param_order == 'name' %}class="active"{% endif %} onclick="order('name',{{ subcat.id }});return false;">По наименованию</a> |
+                                        <a {% if param_order == 'price' %}class="active"{% endif %} onclick="order('price',{{ subcat.id }});return false;">По возрастанию цены</a>|
+                                        <a {% if param_order == '-price' %}class="active"{% endif %} onclick="order('-price',{{ subcat.id }});return false;">По убыванию цены</a>|
+                                        <a {% if param_order == 'discount' %}class="active"{% endif %} onclick="order('discount',{{ subcat.id }});return false;">По скидке</a>|
+                                        <a {% if param_order == '-created_at' %}class="active"{% endif %} onclick="order('-created_at',{{ subcat.id }});return false;">По новизне (новые)</a>|
+                                        <a {% if param_order == 'created_at' %}class="active"{% endif %} onclick="order('created_at',{{ subcat.id }});return false;">По новизне (старые)</a>|
 
                                     </p>
 
@@ -48,8 +48,8 @@
 
                         <div style="margin-bottom: 20px;" >
                         <ul class="list-inline">
-                            <li style="margin: 3px 0 3px 0;"><a href="#"   class="btn-outline danger-outline ">ВСЕ ТОВАРЫ</a></li>
-                            <li style="margin: 3px 0 3px 0;"><a href="#"  class="btn-outline success-outline ">НОВИНКИ</a></li>
+                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="filter('all',{{ subcat.id }});return false;"   class="btn-outline danger-outline ">ВСЕ ТОВАРЫ</a></li>
+                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="filter('{{ 'new' }}',{{ subcat.id }});return false;"  class="btn-outline success-outline ">НОВИНКИ</a></li>
                             {% for filter in subcat.filter_set.all %}
                    <li style="margin: 3px 0 3px 0;">  <a  href="javascript:void(0);" onclick="filter('{{ filter.name_slug }}',{{ subcat.id }});return false;"  class="btn-outline default-outline ">{{ filter.name }}</a></li>
                     {% endfor %}
@@ -90,6 +90,35 @@
             <!-- /.row  -->
         </div>
         <!-- /main container -->
+         <nav id="items_paginator" class="shop-pagination" aria-label="Shop navigation">
+                                <ul class="pagination justify-content-end">
+                                {% if items.has_previous %}
+                                    <li class="page-item">
+                                      <a class="page-link" href="?{% if param_search %}&search={{ param_search }}{% endif %}{% if param_filter %}&filter={{ param_filter }}{% endif %}{% if param_order %}&order={{ param_order }}{% endif %}" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">begin</span>
+                                      </a>
+                                    </li>
+                                {% endif %}
+                                    {% for pg in items.paginator.page_range %}
+                                        {% if items.number == pg %}
+                                            <li class="page-item active"><a class="page-link" href="?{% if pg > 1 %}page={{ pg }}{% endif %}{% if param_search %}&search={{ param_search }}{% endif %}{% if param_filter %}&filter={{ param_filter }}{% endif %}{% if param_order %}&order={{ param_order }}{% endif %}">{{pg}}</a></li>
+                                        {% elif pg > items.number|add:'-6' and pg < items.number|add:'6' %}
+                                            <li class="page-item"><a class="page-link" href="?{% if pg > 1 %}page={{ pg }}{% endif %}{% if param_search %}&search={{ param_search }}{% endif %}{% if param_filter %}&filter={{ param_filter }}{% endif %}{% if param_order %}&order={{ param_order }}{% endif %}">{{pg}}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% if items.has_next %}
+                                  <li class="page-item">
+                                    <a class="page-link" href="?page={{ items.paginator.num_pages }}{% if param_search %}&search={{ param_search }}{% endif %}{% if param_filter %}&filter={{ param_filter }}{% endif %}{% if param_order %}&order={{ param_order }}{% endif %}" aria-label="Next">
+                                      <span aria-hidden="true">&raquo;</span>
+                                      <span class="sr-only">end</span>
+                                    </a>
+                                  </li>
+                                  {% endif %}
+
+                                </ul>
+
+                            </nav>
     </section>
 
 </div>

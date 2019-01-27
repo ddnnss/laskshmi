@@ -122,59 +122,55 @@
 
                 <div class="clear"></div>
 
+
                 <div class="product-tab w100 clearfix">
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#details" data-toggle="tab">Details</a></li>
-                        <li><a href="#size" data-toggle="tab">Size</a></li>
-                        <li><a href="#shipping" data-toggle="tab">Shipping</a></li>
+                        <li class="active"><a href="#details" data-toggle="tab">ДЕТАЛИ</a></li>
+                        <li><a href="#shipping" data-toggle="tab">ДОСТАВКА</a></li>
+
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div class="tab-pane active" id="details">Sed ut eros felis. Vestibulum rutrum imperdiet nunc a
-                            interdum. In scelerisque libero ut elit porttitor commodo. Suspendisse laoreet magna nec
-                            urna
-                            fringilla viverra.<br>
-                            100% Cotton<br></div>
-                        <div class="tab-pane" id="size"> 16" waist<br>
-                            34" inseam<br>
-                            10.5" front rise<br>
-                            8.5" knee<br>
-                            7.5" leg opening<br>
-                            <br>
-                            Measurements taken from size 30<br>
-                            Model wears size 31. Model is 6'2 <br>
-                            <br>
+
+                        <div class="tab-pane active" id="details">
+                            Ширина: {{ item.width }}<br>
+                            Длина: {{ item.length }}<br>
+                            Высота: {{ item.height }}<br>
+                            Материал: {{ item.material }}<br>
+                            Вес: {{ item.weight }}<br>
+
+
+
                         </div>
 
                         <div class="tab-pane" id="shipping">
                             <table>
                                 <colgroup>
-                                    <col style="width:33%">
+
                                     <col style="width:33%">
                                     <col style="width:33%">
                                 </colgroup>
                                 <tbody>
                                 <tr>
-                                    <td>Standard</td>
-                                    <td>1-5 business days</td>
-                                    <td>$7.95</td>
+                                    <td>Самовывоз из офиса</td>
+                                    <td>бесплатно</td>
                                 </tr>
                                 <tr>
-                                    <td>Two Day</td>
-                                    <td>2 business days</td>
-                                    <td>$15</td>
+
+                                    <td>Доставка до Транспортной Кампании</td>
+                                    <td>бесплатно*</td>
                                 </tr>
                                 <tr>
-                                    <td>Next Day</td>
-                                    <td>1 business day</td>
-                                    <td>$30</td>
+
+                                    <td>Доставка по Москве (в пределах МКАД)</td>
+                                    <td>500 рублей</td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                 <tr>
-                                    <td colspan="3">* Free on orders of $50 or more</td>
+                                    <td colspan="3"><a class=" btn btn-info" href="{% url 'dostavka' %}" target="_blank">Подробнее про доставку</a></td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -188,15 +184,7 @@
 
                 <div style="clear:both"></div>
 
-                <div class="product-share clearfix">
-                    <p> SHARE </p>
 
-                    <div class="socialIcon">
-                        <a href="#"> <i class="fa fa-facebook"></i></a>
-                        <a href="#"> <i class="fa fa-twitter"></i></a>
-                        <a href="#"> <i class="fa fa-google-plus"></i></a>
-                        <a href="#"> <i class="fa fa-pinterest"></i></a></div>
-                </div>
                 <!--/.product-share-->
 
         </div>
@@ -207,7 +195,7 @@
 
     <div class="row recommended">
 
-        <h1> YOU MAY ALSO LIKE </h1>
+        <h1> РЕКОМЕНДОВАННЫЕ ТОВАРЫ </h1>
 
         <div id="SimilarProductSlider">
             <div class="item">

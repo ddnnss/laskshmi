@@ -19,6 +19,10 @@ def contacts(request):
 def dostavka(request):
     return render(request, 'page/dostavka.html', locals())
 
+def new(request):
+    items = Item.objects.filter(is_new=True)
+    return render(request, 'page/new.html', locals())
+
 def index(request):
     banners = Banner.objects.filter(is_active=True).order_by('-order')
     collections = Collection.objects.filter(show_at_homepage=True)
@@ -51,6 +55,7 @@ def subcategory(request, subcat_slug):
     order = data.get('order')
     page = request.GET.get('page')
     search_qs = None
+    filter_sq = None
     if search:
         items = all_items.filter(name__contains=search)
         search_qs = items
@@ -58,25 +63,46 @@ def subcategory(request, subcat_slug):
         param_search = search
 
 
-    if filter == 'all':
-        items = all_items
 
     if filter == 'new':
-        items = all_items.filter(is_new=True)
+        print('Поиск по фильтру туц')
+        if search_qs:
+            items = search_qs.filter(is_new=True)
+            filter_sq = items
+            param_filter = filter
+        else:
+            items = all_items.filter(is_new=True)
+            filter_sq = items
+            param_filter = filter
 
-    if order:
-        items = subcat.item_set.all().order_by(order)
-        param_order = order
+        param_filter = 'new'
 
-    if filter and filter != 'all' and filter != 'new':
+
+    if filter and filter != 'new':
         print('Поиск по фильтру')
 
         if search_qs:
             items = search_qs.filter(filter__name_slug=filter)
+            filter_sq = items
             param_filter = filter
         else:
             items = all_items.filter(filter__name_slug=filter)
+            filter_sq = items
             param_filter = filter
+
+    if order:
+        if search_qs and filter_sq:
+            items = filter_sq.order_by(order)
+        elif filter_sq:
+            items = filter_sq.order_by(order)
+        elif search_qs:
+            items = search_qs.order_by(order)
+        else:
+            items = all_items.order_by(order)
+
+
+        param_order = order
+
 
     if not search and not order and not filter:
         items = all_items

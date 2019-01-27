@@ -8,8 +8,8 @@
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
                 <li><a href="/">ГЛАВНАЯ</a></li>
-                <li><a href="{% url 'category' subcat.category.name_slug %}">{{ subcat.category.name.upper }}</a></li>
-                <li class="active">{{ subcat.name.upper }}</li>
+
+                <li class="active">НОВИНКИ ТОВАРОВ</li>
             </ul>
         </div>
    <div class="catTopBar clearfix">
@@ -47,15 +47,15 @@
                             </div>
 
                         <div style="margin-bottom: 20px;" >
-                        <ul class="list-inline">
-                        {% if param_filter %}
-                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="del_filter();return false;"   class="btn-outline danger-outline ">УБРАТЬ ФИЛЬТРЫ</a></li>
-                         {% endif %}
-                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="filter('{{ 'new' }}',{{ subcat.id }});return false;"  class="btn-outline success-outline ">НОВИНКИ</a></li>
-                            {% for filter in subcat.filter_set.all %}
-                   <li style="margin: 3px 0 3px 0;">  <a {% if filter.name_slug == param_filter %}style="background-color: #e7e7e7;" {% endif %}  href="javascript:void(0);" onclick="filter('{{ filter.name_slug }}',{{ subcat.id }});return false;"  class="btn-outline default-outline ">{{ filter.name }}</a></li>
-                    {% endfor %}
-                        </ul>
+{#                        <ul class="list-inline">#}
+{#                        {% if param_filter %}#}
+{#                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="del_filter();return false;"   class="btn-outline danger-outline ">УБРАТЬ ФИЛЬТРЫ</a></li>#}
+{#                         {% endif %}#}
+{#                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="filter('{{ 'new' }}',{{ subcat.id }});return false;"  class="btn-outline success-outline ">НОВИНКИ</a></li>#}
+{#                            {% for filter in subcat.filter_set.all %}#}
+{#                   <li style="margin: 3px 0 3px 0;">  <a {% if filter.name_slug == param_filter %}style="background-color: #e7e7e7;" {% endif %}  href="javascript:void(0);" onclick="filter('{{ filter.name_slug }}',{{ subcat.id }});return false;"  class="btn-outline default-outline ">{{ filter.name }}</a></li>#}
+{#                    {% endfor %}#}
+{#                        </ul>#}
 
 
 

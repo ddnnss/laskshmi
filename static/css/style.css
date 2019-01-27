@@ -2352,16 +2352,17 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 }
 
 .featuredImageLook3 .inner .img-title {
+    line-height: 30px;
     color: white;
     display: block;
-    font-size: 25px;
+    font-size: 30px;
     font-family: Oswald;
     font-weight: normal;
     letter-spacing: 3px;
     padding: 0 10px;
     position: absolute;
     text-align: center;
-    text-shadow: 1px 0px 2px #555;
+    text-shadow: 2px 2px 2px #555;
     text-transform: uppercase;
     top: 40%;
     width: 100%;
@@ -4409,7 +4410,7 @@ tr.CartProduct td, tr.CartProduct th {
 }
 
 .parallax-image-aboutus {
-    background: url(../../images/site/about-bg.jpg) no-repeat 50% -80px fixed;
+
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

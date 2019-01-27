@@ -80,6 +80,15 @@ function order(order,subcat) {
         console.log('order used');
     }
     else{
+          if ($('#search_string').val()){
+            console.log('search not empty');
+        }
+        else {
+            console.log('search empty');
+            removeParam("search");
+
+        }
+
        console.log(order,subcat);
        setGetParam('order',order);
        last_order = order;
@@ -148,7 +157,10 @@ function search(subcat) {
 
      }
 
+}
 
-
+function del_filter() {
+         removeParam("filter");
+         window.location.reload();
 
 }

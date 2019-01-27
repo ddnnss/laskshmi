@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 import uuid
 from random import choices
 import string
+from ckeditor_uploader.fields import RichTextUploadingField
 
 import os
 
@@ -24,7 +25,7 @@ class Category(models.Model):
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
     short_description = models.TextField('Краткое описание для главной', max_length=255, blank=True, default='')
-    description = models.TextField('Описание категории', max_length=255, blank=False, null=True)
+    description = RichTextUploadingField('Описание категории', blank=False, null=True)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -49,7 +50,7 @@ class SubCategory(models.Model):
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
-    description = models.TextField('Описание подкатегории', max_length=255, blank=False, null=True)
+    description = RichTextUploadingField('Описание подкатегории', blank=False, null=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -96,7 +97,7 @@ class Collection(models.Model):
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', max_length=255, blank=False, null=True)
-    description = models.TextField('Описание коллекции', max_length=255, blank=False, null=True)
+    description = RichTextUploadingField('Описание коллекции', blank=False, null=True)
     discount = models.IntegerField('Скидка на все товары в коллекции %', blank=True, default=0)
     views = models.IntegerField(default=0)
     show_at_homepage = models.BooleanField('Отображать на главной', default=True)
@@ -129,7 +130,7 @@ class Item(models.Model):
     discount = models.IntegerField('Скидка %', blank=True, default=0)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
-    description = models.TextField('Описание товара', max_length=255, blank=False, null=True)
+    description = models.TextField('Описание товара', blank=False, null=True)
     comment = models.TextField('Комментарий', max_length=255, blank=True, null=True)
     length = models.CharField('Длина', max_length=15, default='Не указано')
     width = models.CharField('Ширина', max_length=15, default='Не указано')

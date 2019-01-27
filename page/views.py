@@ -10,7 +10,15 @@ import csv
 from django.core.files.storage import FileSystemStorage
 
 
-# Create your views here.
+def about_us(request):
+    return render(request, 'page/about_us.html', locals())
+
+def contacts(request):
+    return render(request, 'page/contacts.html', locals())
+
+def dostavka(request):
+    return render(request, 'page/dostavka.html', locals())
+
 def index(request):
     banners = Banner.objects.filter(is_active=True).order_by('-order')
     collections = Collection.objects.filter(show_at_homepage=True)

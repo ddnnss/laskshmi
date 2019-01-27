@@ -302,9 +302,11 @@
                         </li>
                     </ul>
                       <li class=""><a href="#"> НОВИНКИ </a></li>
-                 <li class=""><a href="#"> О НАС </a></li>
-                 <li class=""><a href="#"> КОНТАКТЫ </a></li>
-                 <li class=""><a href="#"> ДОСТАВКА </a></li>
+                 <li class=""><a href="{% url 'about_us' %}"> О НАС </a></li>
+                 <li class=""><a href="{% url 'contacts' %}"> КОНТАКТЫ </a></li>
+                 <li class=""><a href="{% url 'dostavka' %}"> ДОСТАВКА </a></li>
+                  <li class=""><a href="#" onclick="qwerty();return false;"> поиск </a></li>
+
                 </li>
 
                 </ul>
@@ -369,6 +371,7 @@
 
 
                 </div>
+
                 <!--/.search-box -->
             </div>
                 <!--/.navbar-nav hidden-xs-->
@@ -394,7 +397,11 @@
 
     </div>
     <!--/.w100-full-->
-
+<div class="search-menu-bar">
+                                    <form>
+                                        <input class="seach-input input--sm form-full" id="seach_input" name="seach_input" placeholder="Please Enter Keywords" type="search">
+                                    </form>
+                                </div>
 </div>
 <hr>
 <!-- /.Fixed navbar  -->

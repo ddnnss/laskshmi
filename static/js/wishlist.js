@@ -99,3 +99,13 @@ function wishlist_delete(id) {
         })
 
 }
+
+function qwerty() {
+    if ($('.search-menu-bar').hasClass('search-menu-open')){
+        $('.search-menu-bar').removeClass('search-menu-open');
+    }
+    else {
+       $('.search-menu-bar').addClass('search-menu-open');
+    }
+
+}

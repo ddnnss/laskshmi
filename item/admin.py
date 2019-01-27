@@ -31,7 +31,7 @@ class ItemAdmin(admin.ModelAdmin):
 class SubcatAdmin(admin.ModelAdmin):
     # list_display = ['name','discount']
     list_display = [field.name for field in SubCategory._meta.fields]
-    inlines = [ItemsInline, FilterInline]
+  #  inlines = [ItemsInline, FilterInline]
     # exclude = ['info'] #не отображать на сранице редактирования
     class Meta:
         model = SubCategory

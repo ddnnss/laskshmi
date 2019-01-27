@@ -3,15 +3,12 @@
 
 {% block content %}
 
-
- <div class="container main-container headerOffset globalPaddingBottom">
-    <!-- Main component call to action -->
-    <div class="row">
-
-        <div class=" image-show-case-wrapper center-block relative col-lg-12">
+     <div  class="headerOffset image-show-case-wrapper center-block relative col-lg-12">
             <div id="imageShowCase" class="owl-carousel owl-theme">
                 {% for banner in banners %}
+
                 <div class="product-slide">
+                    <a href="{{ banner.url }}">
                     <div class="box-content-overly box-content-overly-white">
                         <div class="box-text-table">
                             <div class="box-text-cell ">
@@ -21,7 +18,10 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#"><img class="img-responsive" src="{{ banner.image.url }}" alt="img"></a></div>
+                     </a>
+                    <a href="#"><img style="margin: 0 auto;" class="img-responsive" src="{{ banner.image.url }}" alt="img"></a>
+                </div>
+
                 {% endfor %}
 
             </div>
@@ -31,6 +31,11 @@
             <a id="ps-next" class="ps-nav"> <img src="{% static '/images/arrow-right.png' %}" alt="N E X T"> </a> <a id="ps-prev"
                                                                                                           class="ps-nav">
             <img src="{% static '/images/arrow-left.png' %}" alt="P R E V"></a></div>
+ <div class="container main-container headerOffset globalPaddingBottom">
+    <!-- Main component call to action -->
+    <div class="row">
+
+
         <!--/.image-show-case-wrapper -->
     </div>
 

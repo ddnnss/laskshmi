@@ -22,6 +22,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('category/<cat_slug>/', views.category, name='category'),
     path('subcategory/<subcat_slug>/', views.subcategory, name='subcategory'),
+    path('about_us/', views.about_us, name='about_us'),
+    path('contacts/', views.contacts, name='contacts'),
+    path('dostavka/', views.dostavka, name='dostavka'),
 
     # path('login/', views.login, name='login'),
     # path('logout/', views.logout_page, name='logout'),

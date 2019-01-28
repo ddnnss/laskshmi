@@ -58,6 +58,7 @@ class User(AbstractUser):
     is_allow_email = models.BooleanField('Согласен на рассылку', default=True)
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
                                    verbose_name='Использованный промо-код при текущей корзине')
+    profile_ok = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

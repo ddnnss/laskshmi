@@ -22,6 +22,8 @@ def account_edit(request):
         form = UpdateForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+            client.profile_ok = True
+            client.save(force_update=True)
 
         return render(request, 'customuser/account_edit.html', locals())
     else:

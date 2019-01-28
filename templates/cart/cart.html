@@ -3,12 +3,12 @@
 
 {% block content %}
 
-
+<div class="container main-container headerOffset">
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
                 <li><a href="/">ГЛАВНАЯ</a></li>
-                <li class="active">ПРОСМОТР КОРЗИНЫ</li>
+                <li class="active"> КОРЗИНА</li>
             </ul>
         </div>
     </div>
@@ -89,7 +89,7 @@
             <div class="contentBox" id="cart_sidebar">
                 <div class="w100 costDetails">
                     <div class="table-block" id="order-detail-content"><a class="btn btn-primary btn-lg btn-block "
-                                                                          title="checkout" href="checkout-0.html"
+                                                                          title="checkout" href="{% url 'checkout' %}"
                                                                           style="margin-bottom:20px"> Оформить заказ &nbsp; <i class="fa fa-arrow-right"></i> </a>
 
                         <div class="w100 cartMiniTable">
@@ -133,7 +133,7 @@
 
     </div>
     <!--/row-->
-
+</div>
     <div style="clear:both"></div>
 
 <!-- /.main-container -->

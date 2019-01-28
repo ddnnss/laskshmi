@@ -32,6 +32,8 @@ def quick_view(request):
 def item_page(request, item_slug):
     try:
         item = Item.objects.get(name_slug=item_slug)
+        item.views += 1
+        item.save(force_update=True)
     except:
         return render(request, '404.html', locals())
 

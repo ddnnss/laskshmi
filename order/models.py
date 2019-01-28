@@ -26,6 +26,26 @@ class OrderStatus(models.Model):
         verbose_name = "Статус для заказа"
         verbose_name_plural = "Статусы для заказов"
 
+class OrderPayment(models.Model):
+    name = models.CharField('Вариант оплаты заказа', max_length=100, blank=False)
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = "Вариант оплаты заказа"
+        verbose_name_plural = "Варианты оплаты заказов"
+
+class OrderShipping(models.Model):
+    name = models.CharField('Вариант доставки заказа', max_length=100, blank=False)
+
+    def __str__(self):
+        return '%s' % self.name
+
+    class Meta:
+        verbose_name = "Вариант доставки заказа"
+        verbose_name_plural = "Варианты доставки заказов"
+
 class Order(models.Model):
     client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.SET_NULL,
                                verbose_name='Заказ клиента')
@@ -35,7 +55,13 @@ class Order(models.Model):
                               verbose_name='Использованный промо-код')
     status = models.ForeignKey(OrderStatus, blank=True, null=True, default=None, on_delete=models.SET_NULL,
                               verbose_name='Статус заказа')
+    payment = models.ForeignKey(OrderPayment, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+                               verbose_name='Оплата заказа')
+    shipping = models.ForeignKey(OrderShipping, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+                                verbose_name='Доставка заказа')
     total_price = models.IntegerField('Общая стоимость заказа', default=0)
+    total_price_with_code = models.DecimalField('Общая стоимость заказа с учетом промо-кода', decimal_places=2,
+                                                max_digits=10, default=0)
     is_complete = models.BooleanField('Заказ выполнен ?', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -164,3 +164,13 @@ function del_filter() {
          window.location.reload();
 
 }
+
+function checkout_form_change() {
+    $('#checkout_user_info_btn').css('margin-bottom','20px');
+
+    $('#checkout_user_info_btn').css('display','block');
+
+    $('#checkout_btn').attr('disabled','disabled');
+    $('#checkout_btn').html('ВЫ ИЗМЕНИЛИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ, ИХ НЕОБХОДИМО СОХРАНИТЬ');
+
+}

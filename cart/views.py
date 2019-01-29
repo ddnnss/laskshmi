@@ -5,6 +5,8 @@ from customuser.models import Guest
 from item.models import PromoCode,Item,SubCategory
 from datetime import datetime
 from order.models import Wishlist
+
+
 def format_number(num):
     if num % 1 == 0:
         return int(num)
@@ -12,6 +14,7 @@ def format_number(num):
         return num
 
 def show_cart(request):
+
     return render(request, 'cart/cart.html', locals())
 
 def wishlist_delete(request):

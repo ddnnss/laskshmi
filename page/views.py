@@ -3,12 +3,9 @@ from .models import Banner
 from item.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from customuser.forms import SignUpForm, UpdateForm
-from pytils.translit import slugify
-import os
-from PIL import Image
-
-import csv
-from django.core.files.storage import FileSystemStorage
+from order.models import *
+from cart.models import Cart
+from customuser.models import Guest
 
 
 def about_us(request):
@@ -48,13 +45,62 @@ def checkout(request):
                 return render(request, 'page/checkout.html', locals())
 
         if request.POST.get('form_type') == 'checkout':
-            pass
+            if request.user.used_promo:
+                promo_id = request.user.used_promo.id
+            else:
+                promo_id = None
+            order = Order.objects.create(client=request.user, promo_code_id=promo_id,
+                                         payment_id=int(request.POST.get('payment')),
+                                         shipping_id=int(request.POST.get('shipping')))
+            order.save(force_update=True)
+            all_cart_items = Cart.objects.filter(client_id=request.user.id)
+            for item in all_cart_items:
+                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.id, number=item.number,
+                                            current_price=item.item.price)
+                item.item.buys = item.item.buys + 1
+                item.item.save(force_update=True)
+            all_cart_items.delete()
+            request.user.used_promo = None
+            request.user.save(force_update=True)
 
+            if promo_id:
+                print('order with promo')
+                order_saved = Order.objects.get(id=order.id)
+                print('order total = {}'.format(order_saved.total_price))
+                promo_discount_value = order_saved.promo_code.promo_discount
+                print('promo discount = {}'.format(promo_discount_value))
+                total_order_price_with_discount = format_number(
+                    order_saved.total_price - (order_saved.total_price * promo_discount_value / 100))
+                order_saved.total_price_with_code = total_order_price_with_discount
+
+                order_saved.save(force_update=True)
+
+        if request.POST.get('form_type') == 'checkout_guest':
+            print(request.POST)
+            s_key = request.session.session_key
+            guest = Guest.objects.get(session=s_key)
+            if guest.used_promo:
+                promo_id = guest.used_promo.id
+                print('With promo')
+            else:
+                promo_id = None
+                print('With no promo')
+
+            if request.POST.get('with_register') == 'on':
+                print('With register')
+
+
+
+    shipping = OrderShipping.objects.all()
+    payment = OrderPayment.objects.all()
 
     if request.user.is_authenticated:
-                client = request.user
-                form = UpdateForm(instance=client)
-                return render(request, 'page/checkout.html', locals())
+        client = request.user
+        form = UpdateForm(instance=client)
+        return render(request, 'page/checkout.html', locals())
+    else:
+        form = UpdateForm()
+        return render(request, 'page/checkout.html', locals())
 
 
 

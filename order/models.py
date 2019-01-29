@@ -108,8 +108,10 @@ def ItemsInOrder_post_save(sender,instance,**kwargs):
     order = instance.order
     order_total_price = 0
     all_items_in_order = ItemsInOrder.objects.filter(order=order)
+
     for item in all_items_in_order:
         order_total_price += item.total_price
+
     instance.order.total_price = order_total_price
     instance.order.save(force_update=True)
 

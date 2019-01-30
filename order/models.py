@@ -62,6 +62,8 @@ class Order(models.Model):
     total_price = models.IntegerField('Общая стоимость заказа', default=0)
     total_price_with_code = models.DecimalField('Общая стоимость заказа с учетом промо-кода', decimal_places=2,
                                                 max_digits=10, default=0)
+    track_code = models.CharField('Трек код', max_length=50, blank=True, null=True)
+    order_code = models.CharField('Код заказа', max_length=10, blank=True, null=True)
     is_complete = models.BooleanField('Заказ выполнен ?', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -112,7 +114,7 @@ class ItemsInOrder(models.Model):
 
     class Meta:
         verbose_name = "Товар в заказе"
-        verbose_name_plural = "Товары в заказах"
+        verbose_name_plural = "Товары в заказе"
 
 
 def ItemsInOrder_post_save(sender,instance,**kwargs):

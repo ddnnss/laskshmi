@@ -2,8 +2,9 @@ from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse, HttpResponseRedirect
 from .forms import SignUpForm, UpdateForm
-from order.models import Wishlist
-
+from order.models import Wishlist,Order
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 
 
 def account(request):
@@ -12,7 +13,19 @@ def account(request):
     else:
         return HttpResponseRedirect('/')
 
+def orders(request):
+    if request.user.is_authenticated:
+        orders = Order.objects.filter(client=request.user)
+        return render(request, 'customuser/orders.html', locals())
+    else:
+        return HttpResponseRedirect('/')
 
+def order(request, order_code):
+    if request.user.is_authenticated:
+        order = Order.objects.get(order_code=order_code)
+        return render(request, 'customuser/order.html', locals())
+    else:
+        return HttpResponseRedirect('/')
 
 def account_edit(request):
 
@@ -87,7 +100,13 @@ def signup(request):
                 user = form.save(commit=False)
                 user.is_active = True
                 user.save()
+                print('User registred')
+                msg_html = render_to_string('email/register.html', {'login': email, 'password': password1})
+                send_mail('Регистрация на сайте LAKSHMI888', None, 'info@lakshmi888.ru', [email],
+                          fail_silently=False, html_message=msg_html)
+                print('Email sent to {} with pass {}'.format(email,password1))
                 login(request, user)
+
 
                 return_dict['result'] = 'success'
                 return JsonResponse(return_dict)

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseRedirect
 from .models import Banner
 from item.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 def create_password():
     from random import choices
     import string
-    password = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=6))
+    password = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
     return password
 
 def is_email(string):
@@ -53,6 +53,18 @@ def check_email(request):
     return_dict['email_error'] = email_error
     return JsonResponse(return_dict)
 
+
+def order(request, order_code):
+    try:
+        order = Order.objects.get(order_code=order_code)
+    except:
+        order=None
+
+    if order:
+        return render(request, 'page/order_complete.html', locals())
+    else:
+        return render(request, '404.html', locals())
+
 def about_us(request):
     return render(request, 'page/about_us.html', locals())
 
@@ -90,11 +102,12 @@ def checkout(request):
                 return render(request, 'page/checkout.html', locals())
 
         if request.POST.get('form_type') == 'checkout':
+            order_code = create_password()
             if request.user.used_promo:
                 promo_id = request.user.used_promo.id
             else:
                 promo_id = None
-            order = Order.objects.create(client=request.user, promo_code_id=promo_id,
+            order = Order.objects.create(client=request.user, promo_code_id=promo_id, order_code=order_code,
                                          payment_id=int(request.POST.get('payment')),
                                          shipping_id=int(request.POST.get('shipping')))
             order.save(force_update=True)
@@ -107,21 +120,14 @@ def checkout(request):
             all_cart_items.delete()
             request.user.used_promo = None
             request.user.save(force_update=True)
-            msg_html = render_to_string('email/new_order.html', {'order': order})
+            new_order = Order.objects.get(id=order.id)
+            msg_html = render_to_string('email/new_order.html', {'order': new_order})
             send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [request.user.email],
                       fail_silently=False, html_message=msg_html)
+            return HttpResponseRedirect('/order/{}'.format(new_order.order_code))
 
-            # if promo_id:
-            #     print('order with promo')
-            #     order_saved = Order.objects.get(id=order.id)
-            #     print('order total = {}'.format(order_saved.total_price))
-            #     promo_discount_value = order_saved.promo_code.promo_discount
-            #     print('promo discount = {}'.format(promo_discount_value))
-            #     total_order_price_with_discount = format_number(
-            #         order_saved.total_price - (order_saved.total_price * promo_discount_value / 100))
-            #     order_saved.total_price_with_code = total_order_price_with_discount
-            #
-            #     order_saved.save(force_update=True)
+
+
 
         if request.POST.get('form_type') == 'checkout_guest':
             print(request.POST)
@@ -140,6 +146,7 @@ def checkout(request):
             payment = int(request.POST.get('payment'))
             with_register=request.POST.get('with_register')
             user = None
+            order_code = create_password()
 
 
 
@@ -157,6 +164,9 @@ def checkout(request):
                 user = User.objects.create_user(email=email, name=name, family=family, otchestvo=otchestvo, country=country,
                                          city=city, post_code=post_code, phone=phone, address=address, profile_ok=True,
                                          password=password)
+                msg_html = render_to_string('email/register.html', {'login': email, 'password': password})
+                send_mail('Регистрация на сайте LAKSHMI888', None, 'info@lakshmi888.ru', [email],
+                          fail_silently=False, html_message=msg_html)
             else:
                 guest.email = email
                 guest.name = name
@@ -170,11 +180,11 @@ def checkout(request):
                 guest.save(force_update=True)
 
             if user:
-                order = Order.objects.create(client=user, promo_code_id=promo_id,
+                order = Order.objects.create(client=user, promo_code_id=promo_id, order_code=order_code,
                                          payment_id=int(request.POST.get('payment')),
                                          shipping_id=int(request.POST.get('shipping')))
             else:
-                order = Order.objects.create(guest=guest, promo_code_id=promo_id,
+                order = Order.objects.create(guest=guest, promo_code_id=promo_id, order_code=order_code,
                                              payment_id=int(request.POST.get('payment')),
                                              shipping_id=int(request.POST.get('shipping')))
             order.save(force_update=True)
@@ -192,6 +202,7 @@ def checkout(request):
             send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
                       fail_silently=False, html_message=msg_html)
             print('Email sent')
+            return HttpResponseRedirect('/order/{}'.format(new_order.order_code))
 
 
 #-------------------------------------------------------------------------------GET request

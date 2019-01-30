@@ -3,11 +3,11 @@ from customuser.models import User, Guest
 from item.models import Item
 
 class Cart(models.Model):
-    client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+    client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE,
                                verbose_name='Корзина клиента')
-    guest = models.ForeignKey(Guest, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+    guest = models.ForeignKey(Guest, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Корзина гостя')
-    item = models.ForeignKey(Item, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+    item = models.ForeignKey(Item, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
     current_price = models.IntegerField('Цена за ед.', default=0)

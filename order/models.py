@@ -47,9 +47,9 @@ class OrderShipping(models.Model):
         verbose_name_plural = "Варианты доставки заказов"
 
 class Order(models.Model):
-    client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+    client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.CASCADE,
                                verbose_name='Заказ клиента')
-    guest = models.ForeignKey(Guest, blank=True, null=True, default=None, on_delete=models.SET_NULL,
+    guest = models.ForeignKey(Guest, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Заказ гостя')
     promo_code = models.ForeignKey(PromoCode, blank=True, null=True, default=None, on_delete=models.SET_NULL,
                               verbose_name='Использованный промо-код')
@@ -74,11 +74,22 @@ class Order(models.Model):
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
 
+    def save(self, *args, **kwargs):
+        if self.promo_code:
+            self.total_price_with_code = self.total_price - (self.total_price * self.promo_code.promo_discount / 100)
+        else:
+            self.total_price_with_code = self.total_price
+
+
+        super(Order, self).save(*args, **kwargs)
+
+
+
 
 class ItemsInOrder(models.Model):
-    order = models.ForeignKey(Order, blank=False, null=True, default=None, on_delete=models.SET_NULL,
+    order = models.ForeignKey(Order, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='В заказе')
-    item = models.ForeignKey(Item, blank=False, null=True, default=None, on_delete=models.SET_NULL,
+    item = models.ForeignKey(Item, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
     current_price = models.IntegerField('Цена за ед.', default=0)
@@ -105,15 +116,20 @@ class ItemsInOrder(models.Model):
 
 
 def ItemsInOrder_post_save(sender,instance,**kwargs):
-    order = instance.order
-    order_total_price = 0
-    all_items_in_order = ItemsInOrder.objects.filter(order=order)
+    try:
+        order = instance.order
+    except:
+        order = None
 
-    for item in all_items_in_order:
-        order_total_price += item.total_price
+    if order:
+        order_total_price = 0
+        all_items_in_order = ItemsInOrder.objects.filter(order=order)
 
-    instance.order.total_price = order_total_price
-    instance.order.save(force_update=True)
+        for item in all_items_in_order:
+            order_total_price += item.total_price
+
+        instance.order.total_price = order_total_price
+        instance.order.save(force_update=True)
 
 
 post_delete.connect(ItemsInOrder_post_save, sender=ItemsInOrder)

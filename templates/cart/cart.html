@@ -3,6 +3,7 @@
 
 {% block content %}
 
+    {% if total_cart_price %}
 <div class="container main-container headerOffset">
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
@@ -88,7 +89,7 @@
         <div class="col-lg-3 col-md-3 col-sm-5 rightSidebar">
             <div class="contentBox" id="cart_sidebar">
                 <div class="w100 costDetails">
-                    <div class="table-block" id="order-detail-content"><a class="btn btn-primary btn-lg btn-block "
+                    <div class="table-block" id="order-detail-content"><a id="cart_continue_btn" class="btn btn-primary btn-lg btn-block "
                                                                           title="checkout" href="{% url 'checkout' %}"
                                                                           style="margin-bottom:20px"> Оформить заказ &nbsp; <i class="fa fa-arrow-right"></i> </a>
 
@@ -139,4 +140,7 @@
 <!-- /.main-container -->
 
 <div class="gap"></div>
+    {% else %}
+         {% include 'page/empty_cart.html' %}
+    {% endif %}
 {% endblock %}

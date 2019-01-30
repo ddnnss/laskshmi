@@ -83,6 +83,9 @@ function delete_from_main_cart(i_id) {
                   $('#promo_value').html(data.promo_discount_value + ' %');
                 jQuery('#cart_content').hideLoading();
                 jQuery('#cart_sidebar').hideLoading();
+                if(data.total_cart_price == '0'){
+                    $('#cart_continue_btn').attr('disabled','disabled');
+                }
             },
             error: function () {
                 console.log('ERROR')

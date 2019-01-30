@@ -2,10 +2,14 @@
 {% load static %}
 
 {% block content %}
-    {% if request.user.is_authenticated %}
-        {% include 'page/checkout_members.html' %}
+    {% if total_cart_price %}
+        {% if request.user.is_authenticated %}
+            {% include 'page/checkout_members.html' %}
+        {% else %}
+            {% include 'page/checkout_guest.html' %}
+        {% endif %}
     {% else %}
-        {% include 'page/checkout_guest.html' %}
+         {% include 'page/empty_cart.html' %}
     {% endif %}
 
 

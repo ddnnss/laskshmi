@@ -46,6 +46,7 @@ function delete_from_cart(del){
                     $('.cart_total_lg').html('0');
                     $('.cart_footer_lg').html('');
                     $('.cart_footer_lg').append('<h3 class="text-right subtotal"> КОРЗИНА ПУСТА </h3>');
+                    $('#checkout_btn').attr('disabled','disabled');
                 }
             },
             error: function () {

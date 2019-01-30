@@ -54,7 +54,12 @@
                     {{ item.filter }}
                                 {% if item.discount > 0 %}
 
-                                     <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;"><span>{{ item.discount_value }} &#8381;</span> <span class="old-price">{{ item.price }} &#8381;</span></div>
+                                     <div class="price" style="padding-bottom: 5px;">
+                                         <span style="font-size: 20px;">
+                                             <span>{{ item.discount_value }} &#8381;</span>
+                                             <span class="old-price">{{ item.price }} &#8381;</span>
+                                         </span>
+                                     </div>
                                 {% else %}
                                      <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
                                 {% endif %}

@@ -27,6 +27,7 @@ urlpatterns = [
     path('dostavka/', views.dostavka, name='dostavka'),
     path('new/', views.new, name='new'),
     path('checkout/', views.checkout, name='checkout'),
+    path('check_email/', views.check_email, name='check_email'),
 
     # path('login/', views.login, name='login'),
     # path('logout/', views.logout_page, name='logout'),

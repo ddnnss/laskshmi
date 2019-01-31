@@ -1,11 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from customuser.models import User
 from django.http import JsonResponse, HttpResponseRedirect
 from .forms import SignUpForm, UpdateForm
 from order.models import Wishlist,Order
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+def create_password():
+    from random import choices
+    import string
+    password = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=8))
+    return password
 
 def account(request):
     if request.user.is_authenticated:
@@ -53,6 +59,23 @@ def wishlist(request):
         return HttpResponseRedirect('/')
 
 
+def restore(request):
+    return_dict = {}
+    return_dict['result'] = False
+    try:
+        user = User.objects.get(email=request.POST.get('email'))
+    except:
+        user = None
+
+    if user:
+        new_password = create_password()
+        user.set_password(new_password)
+        user.save()
+        return_dict['result'] = True
+        msg_html = render_to_string('email/restore_passord.html', {'login': user.email, 'password': new_password})
+        send_mail('Новый пароль на сайте LAKSHMI888', None, 'info@lakshmi888.ru', [user.email],
+                  fail_silently=False, html_message=msg_html)
+    return JsonResponse(return_dict)
 
 
 def log_out(request):

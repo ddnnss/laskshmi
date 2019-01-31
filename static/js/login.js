@@ -110,3 +110,32 @@ function checkout() {
             }
         });
 }
+
+function restore(){
+        email = document.getElementById("restore-email").value;
+
+        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        $("#errorrestore").html("");
+        $("#okrestore").html("");
+        $('#restore_btn').attr('disabled','disabled');
+        $.ajax({
+            type:"POST",
+            url:'/user/restore/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'email':email,
+
+            },
+            success : function(data){
+                console.log(data);
+                if(data['result']){
+                   $("#okrestore").html("Новый пароль отправлен на Вашу почту!");
+                    $('#restore_btn').attr('disabled','disabled');
+                }
+                else{
+                    $("#errorrestore").html("Пользователь не найден!");
+                    $('#restore_btn').removeAttr('disabled');
+                }
+            }
+        });
+    }

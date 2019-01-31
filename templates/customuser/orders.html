@@ -57,7 +57,7 @@
                             {% else %}
                                 <td>{{ order.total_price }}</td>
                             {% endif %}
-                            <td>{{ order.total_price }}</td>
+
                             <td data-value="78025368997">{{ order.created_at|date:"d M Y" }}</td>
                             <td data-value="3"><span class="label label-success">{% if order.status %}{{ order.status.name }}{% else %}Обработка{% endif %}</span>
                             </td>

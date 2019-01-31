@@ -121,13 +121,13 @@ class Collection(models.Model):
         verbose_name_plural = "Коллекции"
 
 class Item(models.Model):
-    collection = models.ManyToManyField(Collection, blank=True, verbose_name='Коллекция')
-    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL)
-    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, verbose_name='Подкатегория', on_delete=models.SET_NULL)
+    collection = models.ManyToManyField(Collection, blank=True, verbose_name='Коллекция',db_index=True)
+    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True)
+    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, verbose_name='Подкатегория', on_delete=models.SET_NULL,db_index=True)
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
-    name_slug = models.CharField(max_length=255, blank=True, null=True)
-    price = models.IntegerField('Цена', blank=False, default=0)
-    discount = models.IntegerField('Скидка %', blank=True, default=0)
+    name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
+    price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
+    discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     description = models.TextField('Описание товара', blank=False, null=True)
@@ -138,13 +138,13 @@ class Item(models.Model):
     article = models.CharField('Артикул', max_length=50, blank=False, null=True, default='')
     weight = models.CharField('Вес',  max_length=15, default='Не указано')
     material = models.CharField('Материал', max_length=50, blank=True, null=True, default='')
-    is_active = models.BooleanField('Отображать товар ?', default=True)
-    is_present = models.BooleanField('Товар в наличии ?', default=True)
-    is_new = models.BooleanField('Товар новинка ?', default=False)
+    is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
+    is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
+    is_new = models.BooleanField('Товар новинка ?', default=False, db_index=True)
     is_reserved = models.BooleanField('Товар в резерве ?', default=False)
     buys = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
@@ -172,6 +172,7 @@ class Item(models.Model):
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
+
 
 
 class ItemImage(models.Model):

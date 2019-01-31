@@ -41,17 +41,18 @@
                         </div>
                         <div class="description" style="padding-top: 5px;">
                             <div style="height: 60px; padding-bottom: 10px;">
-                <a style="text-decoration: none; font-size: 16px; font-weight: bold;" href="{% url 'item_page' item.name_slug %}"> {{ item.name }}</a>
-              </div>
+                                <a style="text-decoration: none; font-size: 16px; font-weight: bold;" href="{% url 'item_page' item.name_slug %}"> {{ item.name }}</a>
+                            </div>
 
 
                             <div class="grid-description" style="height: 20px;">
                                 <p style="padding-top: 5px;" > АРТИКУЛ : {{ item.article }}</p>
                             </div>
 
-{#                            <span class="size">XL / XXL / S </span>#}
-                             </div>
-                    {{ item.filter }}
+                            {#                            <span class="size">XL / XXL / S </span>#}
+                        </div>
+{#                    {{ item.filter }}#}
+{#                    {{ item.collection.all.first }}#}
                                 {% if item.discount > 0 %}
 
                                      <div class="price" style="padding-bottom: 5px;">

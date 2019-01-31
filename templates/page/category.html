@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div class="container main-container headerOffset globalPaddingBottom">
+<div class="container main-container headerOffset ">
     <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
@@ -35,9 +35,35 @@
 
         </div>
     </div>
+
 </section>
+  {% if cat.collection_set.count %}
+</div>
+
+    <section class="section-hero globalPaddingBottom" id="section-shop" style="background-color: #edeef0; box-sizing: border-box; display: block; border-bottom: 1px solid #d1d4d6; padding: 50px 0; -webkit-box-sizing: border-box;
+border-top: 1px solid #d1d4d6";>
+        <div class="container">
+            <h3 class="section-title style2 text-center" style="background-color: #edeef0";><span>КОЛЛЕКЦИИ</span></h3>
+            <div class="section-content">
+                <div class="width100 section-block ">
+                    <div class="row featureImg">
+                        {% for  collection in cat.collection_set.all %}
+            <div class="col-md-3 col-sm-3 col-xs-6"><a href="{% url 'collection' collection.name_slug %}"><img src="{{ collection.image.url }}" class="img-responsive" alt="img"></a>
+                        </div>
+
+            {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+ <div class="container main-container globalPaddingTop">
+    {% endif %}
    <div>
     {{ cat.description|safe }}
     </div>
-</div>
+ </div>
 {% endblock %}

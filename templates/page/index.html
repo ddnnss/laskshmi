@@ -104,7 +104,7 @@ border-top: 1px solid #d1d4d6";>
                 <div class="width100 section-block ">
                     <div class="row featureImg">
                         {% for  collection in collections %}
-            <div class="col-md-3 col-sm-3 col-xs-6"><a href="category.html"><img src="{{ collection.image.url }}" class="img-responsive" alt="img"></a>
+            <div class="col-md-3 col-sm-3 col-xs-6"><a href="{% url 'collection' collection.name_slug %}"><img src="{{ collection.image.url }}" class="img-responsive" alt="img"></a>
                         </div>
 
             {% endfor %}

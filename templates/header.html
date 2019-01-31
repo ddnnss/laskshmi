@@ -9,8 +9,12 @@
                 <h3 class="modal-title-site text-center"> ВХОД </h3>
             </div>
             <div class="modal-body">
-                                <div class="control-group"><p class="text-center">  <a class="btn  btn-block btn-lg btn-default" style="font-size: 15px;" data-toggle="modal" data-dismiss="modal"
-                                                                                       href="#ModalSignup">Нет аккаунта? Создать новый </a></p></div>
+                                <div class="control-group "><p class="text-center">
+                                    <strong>
+                                     Изменился только дизайн сайта! Заходите под вашим логином и паролем!
+                                    </strong>
+
+                                </p></div>
 
 
                 <form onsubmit="return false;">
@@ -38,8 +42,15 @@
             </form>
             </div>
             <div class="modal-footer">
-                <p class="text-center"> <a class="btn  btn-block btn-lg btn-default" style="font-size: 15px;" data-toggle="modal" data-dismiss="modal"
-                                                                                       href="#ModalLostPass">Забыли пароль?  </a></p>
+
+                         <a class="btn  btn-lg btn-default" style="font-size: 15px;" data-toggle="modal" data-dismiss="modal"
+                                                                                       href="#ModalSignup">Нет аккаунта? Создать новый </a>
+
+
+                        <a class="btn   btn-lg btn-default" style="font-size: 15px;" data-toggle="modal" data-dismiss="modal"
+                                                                                       href="#ModalLostPass">Забыли пароль?  </a>
+
+
             </div>
         </div>
         <!-- /.modal-content -->
@@ -424,9 +435,11 @@
         </a>
 
             <div class="searchInputBox pull-right">
-                <input type="search" data-searchurl="search?=" name="q"
-                       placeholder="start typing and hit enter to search" class="search-input">
-                <button class="btn-nobg search-btn" type="submit"><i class="fa fa-search"> </i></button>
+                <form action="{% url 'search' %}" method="get">
+                <input type="search" data-searchurl="search?=" name="search"
+                       placeholder="Введите часть названия товара или артикул..." class="search-input">
+                <button  class="btn-nobg search-btn" type="submit"><i class="fa fa-search"> </i></button>
+                     </form>
             </div>
         </div>
         <!--/.search-full ||  search form here-->
@@ -434,9 +447,9 @@
     </div>
     <!--/.w100-full-->
 <div class="search-menu-bar">
-                                    <form>
-                                        <input class="seach-input input--sm form-full" id="seach_input" name="seach_input" placeholder="Please Enter Keywords" type="search">
-                                    </form>
+{#                                    <form action="{% url 'search' %}" method="get">#}
+{#                                        <input class="seach-input input--sm form-full" id="seach_input" name="search" placeholder="Please Enter Keywords" type="search">#}
+{#                                    </form>#}
                                 </div>
 </div>
 <hr>

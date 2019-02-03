@@ -250,7 +250,7 @@ This less file only for category-2 page.
 }
 .main-container-wrapper {
   position: relative;
-  padding-top: 40px;
+  /*padding-top: 40px;*/
   background: #fff;
   width: 100%;
   height: auto;

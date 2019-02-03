@@ -7,6 +7,8 @@ import uuid
 from random import choices
 import string
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.conf import settings
+from django.utils.safestring import mark_safe
 
 import os
 
@@ -125,12 +127,13 @@ class Item(models.Model):
     filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True)
     subcategory = models.ForeignKey(SubCategory, blank=False, null=True, verbose_name='Подкатегория', on_delete=models.SET_NULL,db_index=True)
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
+    name_lower = models.CharField(max_length=255, blank=True, null=True,default='')
     name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
     price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
-    description = models.TextField('Описание товара', blank=False, null=True)
+    description = models.TextField('Описание товара', blank=True, null=True)
     comment = models.TextField('Комментарий', max_length=255, blank=True, null=True)
     length = models.CharField('Длина', max_length=15, default='Не указано')
     width = models.CharField('Ширина', max_length=15, default='Не указано')
@@ -149,7 +152,20 @@ class Item(models.Model):
 
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)
+        self.name_lower = self.name.lower()
         super(Item, self).save(*args, **kwargs)
+
+    def getfirstimage(self):
+        for img in self.itemimage_set.all():
+            if img.is_main:
+                url = img.image_small
+        return url
+
+    def image_tag(self):
+        # used in the admin site model as a "thumbnail"
+        return mark_safe('<img src="{}" width="100" height="100" />'.format(self.getfirstimage()))
+
+    image_tag.short_description = 'Основная картинка'
 
 
 
@@ -160,6 +176,7 @@ class Item(models.Model):
         else:
             dis_val = 0
         return (format_number(dis_val))
+
 
     def __str__(self):
         if self.filter:
@@ -199,7 +216,14 @@ class ItemImage(models.Model):
 
     class Meta:
         verbose_name = "Изображение для товара"
-        verbose_name_plural = "Изображения для товаров"
+        verbose_name_plural = "Изображения для товара"
+
+    def image_tag(self):
+        # used in the admin site model as a "thumbnail"
+        return mark_safe('<img src="{}" width="150" height="150" />'.format(self.image.url))
+
+    image_tag.short_description = 'Картинка'
+
 
     def save(self, *args, **kwargs):
         if not self.image_small:

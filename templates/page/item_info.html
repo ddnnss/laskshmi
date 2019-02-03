@@ -32,10 +32,13 @@
                             </a>
                             <div class="promotion">
                                 {% if item.is_new %}
-                                   <span class="new-product"> NEW</span>
+                                   <span class="new-product" style="background-color: #F2486E !important;"> НОВИНКА</span>
                                 {% endif %}
                                 {% if item.discount > 0 %}
-                                    <span class="discount">{{ item.discount }}% СКИДКА</span>
+                                    <span class="discount" style="background-color: #D33061 !important;">- {{ item.discount }}% </span>
+                                {% endif %}
+                                 {% if item.is_reserved %}
+                                   <span class="new-product" style="background-color: #A839A8 !important;"> РЕЗЕРВ</span>
                                 {% endif %}
                             </div>
                         </div>

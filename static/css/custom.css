@@ -11,10 +11,10 @@
 }
 
 .btn-outline {
-  border: 2px solid black;
+  border: 1px solid black;
   background-color: white;
   color: black;
-  padding: 10px 28px;
+  padding: 5px 15px;
   font-size: 13px;
   cursor: pointer;
 }

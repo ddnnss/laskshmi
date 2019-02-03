@@ -198,101 +198,38 @@
         <h1> РЕКОМЕНДОВАННЫЕ ТОВАРЫ </h1>
 
         <div id="SimilarProductSlider">
+            {% for rec_item in recomended %}
+                {% if rec_item != item %}
             <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/a1.jpg" alt="img"> </a>
+                <div class="product"><a href="{% url 'item_page' rec_item.name_slug %}" class="product-image"> <img
+                        {% for image in rec_item.itemimage_set.all %}
+                                                                {% if image.is_main %}
+                                                                src="{{ image.image_small }}"
+                                                                {% endif %}
+                               {% endfor %}
+                        alt="img"> </a>
 
                     <div class="description">
-                        <h4><a href="san-remo-spaghetti">YOUR LIFE</a></h4>
+                        <h4><a href="{% url 'item_page' rec_item.name_slug %}">{{ rec_item.name }}</a></h4>
 
-                        <div class="price"><span>$57</span></div>
+                      {% if item.discount > 0 %}
+
+                                     <div class="price" style="padding-bottom: 5px;">
+                                         <span style="font-size: 20px;">
+                                             <span>{{ item.discount_value }} &#8381;</span>
+                                             <span class="old-price">{{ item.price }} &#8381;</span>
+                                         </span>
+                                     </div>
+                                {% else %}
+                                     <div class="price" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
+                                {% endif %}
                     </div>
                 </div>
             </div>
+                {% endif %}
             <!--/.item-->
+            {% endfor %}
 
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/a2.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">RED CROWN</a></h4>
-
-                        <div class="price"><span>$44</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/a3.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">WHITE GOLD</a></h4>
-
-                        <div class="price"><span>$35</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/a4.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">DENIM 4240</a></h4>
-
-                        <div class="price"> $<span>55</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/30.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">CROWN ROCK</a></h4>
-
-                        <div class="price"><span>$500</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/a5.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">SLIM ROCK</a></h4>
-
-                        <div class="price"><span>$50 </span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/36.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">ROCK T-Shirts </a></h4>
-
-                        <div class="price"><span>$130</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
-
-            <div class="item">
-                <div class="product"><a class="product-image"> <img src="images/product/13.jpg" alt="img"> </a>
-
-                    <div class="description">
-                        <h4><a href="san-remo-spaghetti">Denim T-Shirts </a></h4>
-
-                        <div class="price"><span>$43</span></div>
-                    </div>
-                </div>
-            </div>
-            <!--/.item-->
         </div>
         <!--/.recommended-->
 

@@ -34,6 +34,9 @@ def item_page(request, item_slug):
         item = Item.objects.get(name_slug=item_slug)
         item.views += 1
         item.save(force_update=True)
+        recomended = Item.objects.filter(subcategory_id=item.subcategory_id).order_by('-views')[:12]
+
+        print(recomended)
     except:
         return render(request, '404.html', locals())
 

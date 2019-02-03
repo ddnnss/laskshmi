@@ -10,6 +10,7 @@ from customuser.models import User, Guest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+
 def create_password():
     from random import choices
     import string
@@ -242,7 +243,7 @@ def category(request, cat_slug):
 def subcategory(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
-        all_items = Item.objects.filter(subcategory_id=subcat.id).order_by('name')
+        all_items = Item.objects.filter(subcategory_id=subcat.id).order_by('-created_at')
     except:
         return render(request, '404.html', locals())
     data = request.GET
@@ -302,7 +303,7 @@ def subcategory(request, subcat_slug):
         items = all_items
         # subcat.views = subcat.views + 1
         # subcat.save()
-        param_order = 'name'
+        param_order = '-created_at'
 
     items_paginator = Paginator(items, 12)
 

@@ -21,6 +21,7 @@ function wishlist_add(item_id) {
             cache:true,
             success: function (data) {
                 console.log('OK');
+                $('#item_add_wishlist').attr('disabled','disabled');
                 console.log(data.result);
 
                 if (data.result){

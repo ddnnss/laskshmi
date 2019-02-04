@@ -1127,7 +1127,7 @@ legend {
 }
 
 .miniCartFooter {
-    background: #ECF0F1;
+    background: #fff;
     padding: 10px 10px 10px;
 }
 
@@ -1139,7 +1139,7 @@ legend {
 .miniCartFooter .subtotal {
     color: #000000;
     font-size: 16px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     line-height: normal;
     margin-bottom: 0;
     text-transform: uppercase;
@@ -2965,10 +2965,11 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
     display: block;
     clear: both;
     height: auto;
+    max-height: 350px;
 }
 
 .parallax-image-1 {
-    background: url(../../images/parallax/parallax.jpg);
+    /*background: url(../../images/parallax/parallax.jpg);*/
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -4000,8 +4001,10 @@ button.first {
     font-size: 14px;
     font-weight: normal;
     letter-spacing: 2px;
-    margin: 15px 20px 0 0;
+    /*margin: 15px 20px 0 0;*/
     text-transform: uppercase;
+    margin: 7px 0px 2px 0px;
+    position: absolute;
 }
 
 .incaps i {

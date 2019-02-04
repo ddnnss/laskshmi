@@ -118,3 +118,10 @@
         -webkit-transform: translateY(-50%);
         top: 50%;
     }
+
+.home_feature_image{
+    width: 100px;
+    display: block;
+    margin: 0 auto;
+}
+

@@ -55,10 +55,11 @@
 
                 <div class="product-price">
                     {% if item.discount > 0 %}
-                                     <div class="price-sales" style="padding-bottom: 5px;"><span style="font-size: 20px;"><span>{{ item.discount_value }} &#8381;</span> <span class="price-standard">{{ item.price }} &#8381;</span></div>
-                                {% else %}
-                                     <div class="price-sales" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
-                                {% endif %}
+                        <div class="price-sales" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.discount_value }} &#8381;</span>
+                            <span class="price-standard">{{ item.price }} &#8381;</span></div>
+                    {% else %}
+                        <div class="price-sales" style="padding-bottom: 5px;"><span style="font-size: 20px;">{{ item.price }} &#8381;</span></div>
+                    {% endif %}
 
 
                 </div>
@@ -67,38 +68,7 @@
                     <p>{{ item.description|safe }}</p>
                 </div>
 
-                   <div class="action-control">
-                            <form action="{% url 'add_to_cart' %}"   method="post"
-                                  onsubmit="add_to_cart(this,{{ item.id }});return false;">{% csrf_token %}
 
-                                   <div class="productFilter productFilterLook2">
-                    <div class="addto row">
-                        <div class="col-lg-6 col-sm-6 col-xs-6">
-                            <div class="filterBox">
-                                 <input class="form-control" type="number" id="{{ item.id }}_items_number" min="1"  value="1" >
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-sm-6 col-xs-6">
-                            <div class="filterBox">
-                                 <button type="submit" class="btn btn-primary" id="{{ item.id }}_submit"
-                                              data-item_id="{{ item.id }}"
-                                              data-item_name="{{ item.name }}"
-                                              data-item_price="{{ item.price }}"
-                                              data-item_image="{{ item.itemimage_set.first.image_small }}">
-                                  <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> В КОРЗИНУ </span>
-                                </button>
-
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-                            </form>
-
-                        </div>
 
 
                 <!-- productFilter -->
@@ -106,13 +76,7 @@
 
 
 
-                    {% if item.is_present %}
-                         <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> В НАЛИЧИИ</h3>
-                    {% elif item.is_reserved %}
-                         <h3 class="incaps"><i class="fa fa fa-check-circle-o color-out"></i> В РЕЗЕРВЕ</h3>
-                    {% elif not item.is_present %}
-                        <h3 class="incaps"><i class="glyphicon glyphicon-lock"></i> НЕТ В НАЛИЧИИ</h3>
-                    {% endif %}
+
 
 
 
@@ -135,11 +99,11 @@
                     <div class="tab-content">
 
                         <div class="tab-pane active" id="details">
-                            Ширина: {{ item.width }}<br>
-                            Длина: {{ item.length }}<br>
-                            Высота: {{ item.height }}<br>
-                            Материал: {{ item.material }}<br>
-                            Вес: {{ item.weight }}<br>
+                            {% if item.width != 'не указано'  %}Ширина: {{ item.width }} мм.<br>{% endif %}
+                             {% if item.length != 'не указано'  %}Длина: {{ item.length }} мм.<br>{% endif %}
+                             {% if item.height != 'не указано'  %}Высота: {{ item.height }} мм.<br>{% endif %}
+                             {% if item.material != 'не указано'  %}Материал: {{ item.material }}<br>{% endif %}
+                             {% if item.weight  != 'не указано' %}Вес: {{ item.weight }} гр.<br>{% endif %}
 
 
 
@@ -175,7 +139,57 @@
                                 </tfoot>
                             </table>
                         </div>
+                         <div class="action-control">
 
+                            <form action="{% url 'add_to_cart' %}"   method="post"
+                                  onsubmit="add_to_cart(this,{{ item.id }});return false;">{% csrf_token %}
+
+                                   <div class="productFilter productFilterLook2">
+                    <div class="addto row">
+                        <div class="col-lg-3 col-sm-3 col-xs-3">
+                            {% if item.is_present %}
+                         <h3 class="incaps"><i class="fa fa fa-check-circle-o color-in"></i> В НАЛИЧИИ</h3>
+                    {% elif item.is_reserved %}
+                         <h3 class="incaps"><i class="fa fa fa-check-circle-o color-out"></i> В РЕЗЕРВЕ</h3>
+                    {% elif not item.is_present %}
+                        <h3 class="incaps"><i class="glyphicon glyphicon-lock"></i> НЕТ В НАЛИЧИИ</h3>
+                    {% endif %}
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-3">
+                            <div class="filterBox">
+                                 <input class="form-control" type="number" id="{{ item.id }}_items_number" min="1"  value="1" >
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-3 col-xs-3">
+                            <div class="filterBox">
+                                 <button type="submit" class="btn btn-primary" id="{{ item.id }}_submit"
+                                              data-item_id="{{ item.id }}"
+                                              data-item_name="{{ item.name }}"
+                                              data-item_price="{{ item.price }}"
+                                              data-item_image="{{ item.itemimage_set.first.image_small }}">
+                                  <span class="add2cart"><i class="glyphicon glyphicon-shopping-cart"> </i> В КОРЗИНУ </span>
+                                </button>
+
+                            </div>
+                        </div>
+                     <div class="col-lg-3 col-sm-3 col-xs-3">
+                         {% if item.id not in wishlist_ids %}
+                          <button  id="item_add_wishlist" class="btn btn-primary" onclick="wishlist_add({{ item.id }});return false;">
+                                  <span class="add2cart">В ЗАКЛАДКИ</span></button>
+                         {% else %}
+                              <button  class="btn btn-success" onclick="return false;" >
+                                  <span class="add2cart">ДОБАВЛЕН</span></button>
+                         {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                            </form>
+
+                        </div>
                     </div>
                     <!-- /.tab content -->
 

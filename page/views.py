@@ -251,6 +251,7 @@ def subcategory(request, subcat_slug):
     search = data.get('search')
     filter = data.get('filter')
     order = data.get('order')
+    count = data.get('count')
     page = request.GET.get('page')
     search_qs = None
     filter_sq = None
@@ -305,7 +306,11 @@ def subcategory(request, subcat_slug):
         # subcat.save()
         param_order = '-created_at'
 
-    items_paginator = Paginator(items, 12)
+    if count:
+        items_paginator = Paginator(items, int(count))
+        param_count = count
+    else:
+        items_paginator = Paginator(items, 12)
 
     try:
         items = items_paginator.get_page(page)

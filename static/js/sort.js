@@ -174,3 +174,45 @@ function checkout_form_change() {
     $('#checkout_btn').html('ВЫ ИЗМЕНИЛИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ, ИХ НЕОБХОДИМО СОХРАНИТЬ');
 
 }
+
+function per_page(subcat) {
+    var count = $( "#per_page option:selected" ).val();
+    console.log(count);
+
+    if (last_search == search_string){
+        console.log('search used');
+    }
+    else{
+        if ($('#search_string').val()){
+            console.log('search not empty');
+        }
+        else {
+            console.log('search empty');
+            removeParam("search");
+
+        }
+        setGetParam('count',count);
+        var url =location.href.split('?')[1];
+
+        window.location.href = '?'+url;
+        // var data = {};
+
+       // var url ='/cart/sort_filter?subcat='+subcat+'&'+ location.href.split('?')[1];
+        // console.log(data);
+        // $.ajax({
+        //     url:url,
+        //     type:'GET',
+        //     data: data,
+        //     cache:true,
+        //     success: function (data) {
+        //         console.log('OK');
+        //
+        //     },
+        //     error: function () {
+        //         console.log('ERROR')
+        //     }
+        // })
+
+     }
+
+}

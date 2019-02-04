@@ -104,7 +104,8 @@ li ul {
 }
 
 li, dt, dd {
-    font-size: 13px;
+    font-size: 15px;
+    font-weight: bold;
     line-height: 20px;
 }
 
@@ -247,7 +248,8 @@ table {
 }
 
 td, th {
-    font-size: 13px;
+    font-size: 16px;
+    font-weight: bold;
     line-height: 16px;
     border-bottom: 1px solid #eee;
     vertical-align: top;
@@ -264,7 +266,7 @@ thead th,
 tfoot td {
     color: #666;
     padding: 5px 10px;
-    font-size: 11px;
+    font-size: 14px;
     background: #fff;
     border: none;
     border-top: 1px solid #eee;

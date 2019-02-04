@@ -22,6 +22,7 @@
                         <div class="image">
                             <div class="quickview">
                                 <a data-toggle="modal" class="btn btn-xs btn-quickview" href="#" onclick="quick_view({{ item.id }});return false">БЫСТРЫЙ ПРОСМОТР </a>
+
                             </div>
                             <a href="{% url 'item_page' item.name_slug %}"><img class="img-responsive" alt="img"
                               {% for image in item.itemimage_set.all %}
@@ -98,5 +99,9 @@
                             </form>
 
                         </div>
+                    {% if request.user.is_staff %}
+                     <a class="btn btn-xs btn-danger" href="/admin/item/item/{{ item.id }}/change/" target="_blank"> РЕДАКТИРОВАТЬ</a>
+                    {% endif %}
                     </div>
+
                 </div>

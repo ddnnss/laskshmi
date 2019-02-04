@@ -156,6 +156,7 @@ class Item(models.Model):
         super(Item, self).save(*args, **kwargs)
 
     def getfirstimage(self):
+        url = None
         for img in self.itemimage_set.all():
             if img.is_main:
                 url = img.image_small
@@ -163,7 +164,10 @@ class Item(models.Model):
 
     def image_tag(self):
         # used in the admin site model as a "thumbnail"
-        return mark_safe('<img src="{}" width="100" height="100" />'.format(self.getfirstimage()))
+        if self.getfirstimage():
+            return mark_safe('<img src="{}" width="100" height="100" />'.format(self.getfirstimage()))
+        else:
+            return mark_safe('<span>НЕТ МИНИАТЮРЫ</span>')
 
     image_tag.short_description = 'Основная картинка'
 
@@ -220,7 +224,10 @@ class ItemImage(models.Model):
 
     def image_tag(self):
         # used in the admin site model as a "thumbnail"
-        return mark_safe('<img src="{}" width="150" height="150" />'.format(self.image.url))
+        if self.image_small:
+            return mark_safe('<img src="{}" width="150" height="150" />'.format(self.image_small))
+        else:
+            return mark_safe('<span>НЕТ МИНИАТЮРЫ</span>')
 
     image_tag.short_description = 'Картинка'
 

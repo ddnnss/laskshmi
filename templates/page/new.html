@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<div class="container main-container headerOffset globalPaddingBottom">
+<div class="container  headerOffset ">
  <div class="row">
         <div class="breadcrumbDiv col-lg-12">
             <ul class="breadcrumb">
@@ -12,61 +12,51 @@
                 <li class="active">НОВИНКИ ТОВАРОВ</li>
             </ul>
         </div>
-   <div class="catTopBar clearfix">
-                    <div class="catTopBarInner clearfix">
-                      <div class="f-right">
-                          <div class="row ">
-
-                            <div  class="input-append couponForm">
-                                <form class="col-lg-12 form-inline">
-                                      <input class="col-lg-9" id="search_string" type="text" {% if param_search %}value="{{ param_search }}" {% endif %}
-                                                   placeholder="Введите наименование товара или его часть" required="required">
-                                            <button class="col-lg-3 btn btn-success" onclick="search({{ subcat.id }});return false;" type="submit">ПОИСК</button>
-
-                           </form>
+       <div class="catTopBar clearfix">
+         <div class="catTopBarInner clearfix" >
 
 
-                        </div>
+             <div class="f-right">
+                 <div class="row ">
+                     <div class="col-lg-6">
+                         <p class="pull-left shrtByP center-xs"><span>СОРТИРОВАТЬ ПО :</span>
+                             <a {% if param_order == '-created_at' %}class="active"{% endif %} onclick="order('-created_at',{{ subcat.id }});return false;">НОВИЗНЕ</a>|
+                             <a {% if param_order == 'name' %}class="active"{% endif %} onclick="order('name',{{ subcat.id }});return false;">А - Я</a> |
+                             <a {% if param_order == '-name' %}class="active"{% endif %} onclick="order('-name',{{ subcat.id }});return false;">Я - А</a> |
+                             <a {% if param_order == 'price' %}class="active"{% endif %} onclick="order('price',{{ subcat.id }});return false;">Цене <i class="fa fa-arrow-up" aria-hidden="true"></i></a>|
+                             <a {% if param_order == '-price' %}class="active"{% endif %} onclick="order('-price',{{ subcat.id }});return false;">Цене <i class="fa fa-arrow-down" aria-hidden="true"></i></a>|
+                             <a {% if param_order == '-discount' %}class="active"{% endif %} onclick="order('-discount',{{ subcat.id }});return false;">скидке</a>|
+                         </p>
+                     </div>
+                     <div class="col-lg-6">
+                         <div class="row">
+                             <div  class="input-append couponForm">
+                                 <form style="display: none;" class="col-lg-9 form-inline">
+                                     <input class="col-lg-9"  id="search_string" type="text" {% if param_search %}value="{{ param_search }}" {% endif %}
+                                            placeholder="Введите наименование товара или его часть" required="required">
+                                     <button class="col-lg-3 btn btn-success" onclick="search({{ subcat.id }});return false;" type="submit">ПОИСК</button>
 
+                                 </form>
 
-                    </div>
-                                <div class="w100  clearfix center-xs-inner">
-                                    <p class="pull-left shrtByP center-xs"><span>СОРТИРОВАТЬ ПО :</span>
-                                        <a {% if param_order == 'name' %}class="active"{% endif %} onclick="order('name',{{ subcat.id }});return false;">По наименованию</a> |
-                                        <a {% if param_order == 'price' %}class="active"{% endif %} onclick="order('price',{{ subcat.id }});return false;">По возрастанию цены</a>|
-                                        <a {% if param_order == '-price' %}class="active"{% endif %} onclick="order('-price',{{ subcat.id }});return false;">По убыванию цены</a>|
-                                        <a {% if param_order == 'discount' %}class="active"{% endif %} onclick="order('discount',{{ subcat.id }});return false;">По скидке</a>|
-                                        <a {% if param_order == '-created_at' %}class="active"{% endif %} onclick="order('-created_at',{{ subcat.id }});return false;">По новизне (новые)</a>|
-                                        <a {% if param_order == 'created_at' %}class="active"{% endif %} onclick="order('created_at',{{ subcat.id }});return false;">По новизне (старые)</a>|
+                                 <select id="per_page" style="height: 35px;border-style: solid;border-width: 1px;    border-radius: 3px;
+                                 color: #888888;font-size: 14px;margin-bottom: 10px;" class="col-lg-3 " onchange="per_page({{ subcat.id }})">
+                                     <option value="12" {% if param_count == '12' %}selected="selected"{% endif %} >12 товаров</option>
+                                     <option value="24" {% if param_count == '24' %}selected="selected"{% endif %}>24 товаров</option>
+                                     <option value="36" {% if param_count == '36' %}selected="selected"{% endif %}>36 товаров</option>
+                                     <option value="48" {% if param_count == '48' %}selected="selected"{% endif %}>48 товаров</option>
+                                 </select>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
 
-                                    </p>
+         </div>
+     </div>
+             </div>
 
+         </div>
 
-
-                                </div>
-                            </div>
-
-                        <div style="margin-bottom: 20px;" >
-{#                        <ul class="list-inline">#}
-{#                        {% if param_filter %}#}
-{#                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="del_filter();return false;"   class="btn-outline danger-outline ">УБРАТЬ ФИЛЬТРЫ</a></li>#}
-{#                         {% endif %}#}
-{#                            <li style="margin: 3px 0 3px 0;"><a href="javascript:void(0);" onclick="filter('{{ 'new' }}',{{ subcat.id }});return false;"  class="btn-outline success-outline ">НОВИНКИ</a></li>#}
-{#                            {% for filter in subcat.filter_set.all %}#}
-{#                   <li style="margin: 3px 0 3px 0;">  <a {% if filter.name_slug == param_filter %}style="background-color: #e7e7e7;" {% endif %}  href="javascript:void(0);" onclick="filter('{{ filter.name_slug }}',{{ subcat.id }});return false;"  class="btn-outline default-outline ">{{ filter.name }}</a></li>#}
-{#                    {% endfor %}#}
-{#                        </ul>#}
-
-
-
-
-
-
-                        </div>
-                    </div>
-
-                </div>
-    </div>
 
     <section class="main-container-wrapper clearfix" id="main-container-wrapper">
         <div class="container main-container">
@@ -122,9 +112,7 @@
 
                             </nav>
     </section>
-   <div>
-    {{ subcat.description|safe }}
-    </div>
+
 </div>
 
 {% include 'page/quick_view.html' %}

@@ -336,11 +336,11 @@
                                 {% for cat in all_cat %}
 
                                 <ul class="col-lg-2  col-sm-2 col-md-2 unstyled">
-                                    <li class="no-border">
+                                    <li style="font-size: 16px;" class="no-border">
                                         <p><strong>{{ cat.name }} </strong></p>
                                     </li>
                                     {% for sub_cat in cat.subcategory_set.all %}
-                                    <li><a href="{% url 'subcategory' sub_cat.name_slug  %}"> {{ sub_cat.name }} </a></li>
+                                    <li ><a style="font-size: 16px;" href="{% url 'subcategory' sub_cat.name_slug  %}"> {{ sub_cat.name }} </a></li>
                                    {% endfor %}
                                 </ul>
                                 {% endfor %}
@@ -395,8 +395,8 @@
 
                         <div class="cart_footer_lg miniCartFooter text-right">
                             <h3 class="text-right subtotal"> ИТОГО: {{ total_cart_price }} &#8381; </h3>
-                            <a class="btn btn-sm btn-danger" href="{% url 'show_cart' %}"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
-                                class="btn btn-sm btn-primary"> ОПЛАТА</a>
+                            <a class="btn  btn-danger" href="{% url 'show_cart' %}"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a
+                                class="btn  btn-primary"> ОПЛАТА</a>
                         </div>
                             {% else %}
                           <div class="cart_footer_lg miniCartFooter text-right">

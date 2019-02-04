@@ -45,8 +45,8 @@ function change_cart(obj) {
                 $('.cart_footer_lg').html('');
                 $('.cart_footer_lg').append('' +
                     ' <h3 class="text-right subtotal"> ИТОГО: '+ data.total_cart_price +' &#8381; </h3>\n' +
-                    '                            <a class="btn btn-sm btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
-                    '                                class="btn btn-sm btn-primary"> ОПЛАТА</a>');
+                    '                            <a class="btn  btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
+                    '                                class="btn  btn-primary"> ОПЛАТА</a>');
                  $('#cart_content_table').empty();
                  $('#cart_content_table').append('   <tr class="CartProduct cartTableHeader">\n' +
                      '                                <td style="width:15%"> </td>\n' +

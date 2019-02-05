@@ -92,7 +92,7 @@ def new(request):
     search_qs = None
     filter_sq = None
     if search:
-        items = all_items.filter(name__contains=search)
+        items = all_items.filter(name_lower__contains=search.lower())
         if not items:
             items = all_items.filter(article__contains=search)
         search_qs = items
@@ -329,7 +329,7 @@ def subcategory(request, subcat_slug):
     search_qs = None
     filter_sq = None
     if search:
-        items = all_items.filter(name__contains=search)
+        items = all_items.filter(name_lower__contains=search.lower())
 
         if not items:
             items = all_items.filter(article__contains=search)
@@ -411,7 +411,7 @@ def collection(request, collection_slug):
     search_qs = None
     filter_sq = None
     if search:
-        items = all_items.filter(name__contains=search)
+        items = all_items.filter(name_lower__contains=search.lower())
 
         if not items:
             items = all_items.filter(article__contains=search)
@@ -480,7 +480,7 @@ def search(request):
     search_string = request.GET.get('search')
     page = request.GET.get('page')
     param_search = search_string
-    items = Item.objects.filter(name__contains=search_string)
+    items = Item.objects.filter(name_lower__contains=search_string.lower())
     if not items:
         items = Item.objects.filter(article__contains=search_string)
     items_paginator = Paginator(items, 12)

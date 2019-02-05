@@ -35,6 +35,7 @@ function wishlist_add(item_id) {
                             'position'  :'bottom right',
                             'outEffect' :'slideBottom'
                         });
+                    $('#quick_view_wish_button').css('display','none')
                 }
                 else
                 {

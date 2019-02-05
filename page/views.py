@@ -68,7 +68,7 @@ def order(request, order_code):
         return render(request, '404.html', locals())
 
 def about_us(request):
-    
+
     return render(request, 'page/about_us.html', locals())
 
 
@@ -93,7 +93,6 @@ def new(request):
     filter_sq = None
     if search:
         items = all_items.filter(name__contains=search)
-
         if not items:
             items = all_items.filter(article__contains=search)
         search_qs = items

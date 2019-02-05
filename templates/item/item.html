@@ -177,8 +177,8 @@
                           <button  id="item_add_wishlist" class="btn btn-primary" onclick="wishlist_add({{ item.id }});return false;">
                                   <span class="add2cart">В ЗАКЛАДКИ</span></button>
                          {% else %}
-                              <button  class="btn btn-success" onclick="return false;" >
-                                  <span class="add2cart">ДОБАВЛЕН</span></button>
+                              <button style="background-color: #d33061 !important;"  class="btn btn-primary" disabled="disabled" onclick="return false;" >
+                                  <span class="add2cart">В ЗАКЛАДКАХ</span></button>
                          {% endif %}
                         </div>
 

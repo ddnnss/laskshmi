@@ -53,7 +53,7 @@ class User(AbstractUser):
     post_code = models.CharField('Индекс', max_length=50, blank=True, null=True)
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
     passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
-    address = models.CharField('Адрес', max_length=255, blank=True, null=True)
+    address = models.TextField('Адрес', blank=True, null=True)
     comment = models.TextField('Комментарий', blank=True, null=True)
     is_allow_email = models.BooleanField('Согласен на рассылку', default=True)
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
@@ -76,7 +76,7 @@ class Guest(models.Model):
     post_code = models.CharField('Индекс', max_length=50, blank=True, null=True)
     phone = models.CharField('Телефон', max_length=50, blank=True, null=True)
     passport = models.CharField('Паспортные данные', max_length=255, blank=True, null=True)
-    address = models.CharField('Адрес', max_length=255, blank=True, null=True)
+    address = models.TextField('Адрес',  blank=True, null=True)
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
                                    verbose_name='Использованный промо-код при текущей корзине')
 

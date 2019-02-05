@@ -9,6 +9,7 @@ from cart.models import Cart
 from customuser.models import User, Guest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+import csv
 
 
 def create_password():
@@ -67,6 +68,26 @@ def order(request, order_code):
         return render(request, '404.html', locals())
 
 def about_us(request):
+    all_img = ItemImage.objects.all()
+
+    for img in all_img:
+        if not img.image_small:
+            print(img.f_id)
+            image = Image.open(img.image)
+            fill_color = '#fff'
+            os.makedirs('media/items/{}'.format(img.f_id), exist_ok=True)
+            if image.mode in ('RGBA', 'LA'):
+                background = Image.new(image.mode[:-1], image.size, fill_color)
+                background.paste(image, image.split()[-1])
+                image = background
+            image.thumbnail((400, 400), Image.ANTIALIAS)
+
+            small_name = 'media/items/{}/{}'.format(img.f_id, str(uuid.uuid4()) + '.jpg')
+
+            image.save(small_name, 'JPEG', quality=75)
+            img.image_small = '/' + small_name
+            print(img.image_small)
+            img.save(force_update=True)
     return render(request, 'page/about_us.html', locals())
 
 

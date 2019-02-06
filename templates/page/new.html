@@ -31,10 +31,10 @@
                      <div class="col-lg-6">
                          <div class="row">
                              <div  class="input-append couponForm">
-                                 <form style="display: none;" class="col-lg-9 form-inline">
+                                 <form  class="col-lg-9 form-inline">
                                      <input class="col-lg-9"  id="search_string" type="text" {% if param_search %}value="{{ param_search }}" {% endif %}
                                             placeholder="Введите наименование товара или его часть" required="required">
-                                     <button class="col-lg-3 btn btn-success" onclick="search({{ subcat.id }});return false;" type="submit">ПОИСК</button>
+                                     <button class="col-lg-3 btn btn-danger" onclick="search({{ subcat.id }});return false;" type="submit">ПОИСК</button>
 
                                  </form>
 

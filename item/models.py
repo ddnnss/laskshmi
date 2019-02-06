@@ -188,8 +188,6 @@ class Item(models.Model):
         else:
             return 'id:%s %s | Фильтра нет' % (self.id, self.name)
 
-
-
     class Meta:
         verbose_name = "Товар"
         verbose_name_plural = "Товары"

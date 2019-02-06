@@ -156,6 +156,8 @@ def new(request):
     return render(request, 'page/new.html', locals())
 
 
+
+
 def checkout(request):
 
     if request.POST:
@@ -307,8 +309,12 @@ def category(request, cat_slug):
         # cat.views += 1
         # cat.save()
         subcats = SubCategory.objects.filter(category=cat)
+
+
     except:
         return render(request, '404.html', locals())
+    collections = Collection.objects.filter(category=cat, show_at_category=True)
+
 
     return render(request, 'page/category.html', locals())
 

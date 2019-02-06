@@ -2199,17 +2199,17 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
     height: auto;
     position: absolute;
     text-align: center;
-    top: 38%;
+    top: 50%;
     width: auto;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
 }
 
 #ps-next {
-    right: 15px;
+    right: 3%;
 }
 
 #ps-prev {
-    left: 15px;
+    left: 3%;
 }
 
 @media (max-width: 767px) {

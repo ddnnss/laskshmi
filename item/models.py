@@ -231,7 +231,7 @@ class ItemImage(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if not self.image_small:
+        if self.image_small:
             image = Image.open(self.image)
             fill_color = '#fff'
             os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)

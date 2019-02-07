@@ -21,6 +21,7 @@ def quick_view(request):
     return_dict['item_discount'] = item.discount
     return_dict['item_new'] = item.is_new
     return_dict['item_article'] = item.article
+    return_dict['item_present'] = item.is_present
     return_dict['item_images'] = list()
     for image in images:
         return_dict['item_images'].append(image.image_small)

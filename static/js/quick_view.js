@@ -42,6 +42,15 @@ function quick_view(item_id)
 
                  })
                 $('#thumb_0').addClass('selected');
+                 if(data.item_present){
+                     $('#add_to_cart').css('display','block');
+                     $('#item_not_present').css('display','none');
+                 }
+                 else
+                 {
+                    $('#add_to_cart').css('display','none');
+                     $('#item_not_present').css('display','block');
+                 }
 
                 $('#productSetailsModalAjax').modal('show');
 

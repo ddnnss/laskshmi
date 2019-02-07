@@ -171,11 +171,11 @@ def checkout(request):
                 client.is_allow_email = mail_tmp
                 client.save(force_update=True)
 
-                return render(request, 'page/checkout.html', locals())
+                return HttpResponseRedirect('/checkout/')
             else:
                 client = request.user
                 form = UpdateForm(instance=client)
-                return render(request, 'page/checkout.html', locals())
+                return HttpResponseRedirect('/checkout/')
 
         if request.POST.get('form_type') == 'checkout':
             order_code = create_password()

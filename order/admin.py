@@ -3,6 +3,7 @@ from .models import *
 
 class ItemsInline (admin.TabularInline):
     model = ItemsInOrder
+    # list_display = ['id', 'discount']
     extra = 0
 
 

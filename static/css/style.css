@@ -452,7 +452,7 @@ ul.list-border li:hover {
     border-bottom: 1px solid #E5E5E5;
     color: #FFFFFF;
     padding: 5px 15px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .modal-title-site {
@@ -2205,11 +2205,11 @@ h1.bolder-style.dark, h1.bolder-style.dark a {
 }
 
 #ps-next {
-    right: 3%;
+    right: 5%;
 }
 
 #ps-prev {
-    left: 3%;
+    left: 5%;
 }
 
 @media (max-width: 767px) {

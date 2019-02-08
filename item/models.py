@@ -253,7 +253,6 @@ class ItemImage(models.Model):
         super(ItemImage, self).save(*args, **kwargs)
 
 
-
 class PromoCode(models.Model):
     promo_code = models.CharField('Промокод (для создания рандомного значения оставить пустым)', max_length=255, blank=True, null=True)
     promo_discount = models.IntegerField('Скидка на заказ', blank=False, default=0)

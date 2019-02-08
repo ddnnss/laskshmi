@@ -12,6 +12,11 @@ from django.utils.safestring import mark_safe
 
 import os
 
+def create_rand():
+    from random import choices
+    import string
+    rand = ''.join(choices(string.ascii_uppercase + string.ascii_lowercase + string.digits, k=6))
+    return rand
 
 def format_number(num):
     if num % 1 == 0:
@@ -240,7 +245,7 @@ class ItemImage(models.Model):
             image = background
         image.thumbnail((400, 400), Image.ANTIALIAS)
 
-        small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
+        small_name = 'media/items/{}/{}'.format(self.item.id, 'small_' + create_rand() + '.jpg')
 
         image.save(small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name

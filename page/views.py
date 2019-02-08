@@ -9,7 +9,7 @@ from cart.models import Cart
 from customuser.models import User, Guest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-import csv
+
 
 
 def create_password():
@@ -308,6 +308,9 @@ def category(request, cat_slug):
         cat = Category.objects.get(name_slug=cat_slug)
         # cat.views += 1
         # cat.save()
+        title = cat.page_title
+        description = cat.page_description
+        keywords = cat.page_keywords
         subcats = SubCategory.objects.filter(category=cat)
 
 
@@ -323,6 +326,9 @@ def subcategory(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
         all_items = Item.objects.filter(subcategory_id=subcat.id).order_by('-created_at')
+        title = subcat.page_title
+        description = subcat.page_description
+        keywords = subcat.page_keywords
     except:
         return render(request, '404.html', locals())
     data = request.GET
@@ -388,6 +394,7 @@ def subcategory(request, subcat_slug):
     if count:
         items_paginator = Paginator(items, int(count))
         param_count = count
+        canonical_link = '/subcategory/'+subcat.name_slug
     else:
         items_paginator = Paginator(items, 12)
 
@@ -404,6 +411,9 @@ def collection(request, collection_slug):
     try:
         collection = Collection.objects.get(name_slug=collection_slug)
         all_items = collection.item_set.all().order_by('-created_at')
+        title = collection.page_title
+        description = collection.page_description
+        keywords = collection.page_keywords
        # all_items = Item.objects.filter(collection__name_slug=collection_slug)
     except:
         return render(request, '404.html', locals())
@@ -470,6 +480,7 @@ def collection(request, collection_slug):
     if count:
         items_paginator = Paginator(items, int(count))
         param_count = count
+        canonical_link = '/collection/' + collection.name_slug
     else:
         items_paginator = Paginator(items, 12)
 

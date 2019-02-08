@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save, post_delete
 from customuser.models import User, Guest
 from item.models import Item, PromoCode
+from django.utils.safestring import mark_safe
 
 class Wishlist(models.Model):
     client = models.ForeignKey(User, blank=True, null=True, default=None, on_delete=models.SET_NULL,
@@ -115,6 +116,22 @@ class ItemsInOrder(models.Model):
     class Meta:
         verbose_name = "Товар в заказе"
         verbose_name_plural = "Товары в заказе"
+
+    def getfirstimage(self):
+        url = None
+        for img in self.item.itemimage_set.all():
+            if img.is_main:
+                url = img.image_small
+        return url
+
+    def image_tag(self):
+        # used in the admin site model as a "thumbnail"
+        if self.getfirstimage():
+            return mark_safe('<img src="{}" width="100" height="100" />'.format(self.getfirstimage()))
+        else:
+            return mark_safe('<span>НЕТ МИНИАТЮРЫ</span>')
+
+    image_tag.short_description = 'Основная картинка'
 
 
 def ItemsInOrder_post_save(sender,instance,**kwargs):

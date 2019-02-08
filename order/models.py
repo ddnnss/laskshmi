@@ -71,11 +71,17 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return 'Заказ № %s . Статус: %s ' % (self.id, self.is_complete)
+        return 'Заказ № %s. Создан : %s  . Статус: %s ' % (self.id, self.created_at.strftime('%d-%m-%Y'), self.is_complete)
 
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
+
+    def created_tag(self):
+
+        return mark_safe('<strong>{}</strong>'.format(self.created_at.strftime('%d-%m-%Y, %H:%M:%S')))
+
+    created_tag.short_description = mark_safe('<strong>Дaта заказа</strong>')
 
     def save(self, *args, **kwargs):
         if self.promo_code:

@@ -18,7 +18,9 @@ class OrdersAdmin(admin.ModelAdmin):
    # list_display = [field.name for field in Categories._meta.fields]
     list_filter = ('is_complete',)
     inlines = [ItemsInline]
-    readonly_fields = ('order_code', 'promo_code', 'total_price', 'total_price_with_code')
+
+    readonly_fields = ('order_code', 'promo_code', 'total_price', 'total_price_with_code', 'created_tag')
+    #include = ['created_at']
     # exclude = ['info'] #не отображать на сранице редактирования
     class Meta:
         model = Order

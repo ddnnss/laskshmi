@@ -10,6 +10,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
+
 import os
 
 def create_rand():
@@ -238,7 +239,7 @@ class ItemImage(models.Model):
     def save(self, *args, **kwargs):
         image = Image.open(self.image)
         fill_color = '#fff'
-        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
+        os.makedirs('/media/items/{}'.format(self.item.id), exist_ok=True)
         if image.mode in ('RGBA', 'LA'):
             background = Image.new(image.mode[:-1], image.size, fill_color)
             background.paste(image, image.split()[-1])
@@ -248,7 +249,7 @@ class ItemImage(models.Model):
         small_name = 'media/items/{}/{}'.format(self.item.id, 'small_' + create_rand() + '.jpg')
 
         image.save(small_name, 'JPEG', quality=75)
-        self.image_small = '/' + small_name
+        self.image_small = '/'+ small_name
 
         super(ItemImage, self).save(*args, **kwargs)
 

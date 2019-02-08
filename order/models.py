@@ -131,6 +131,16 @@ class ItemsInOrder(models.Model):
         else:
             return mark_safe('<span>НЕТ МИНИАТЮРЫ</span>')
 
+    def name_tag(self):
+        name = self.item.name
+        return name
+
+    def article_tag(self):
+        name = self.item.article
+        return name
+
+    article_tag.short_description = 'Артикул'
+    name_tag.short_description = 'Название товара'
     image_tag.short_description = 'Основная картинка'
 
 

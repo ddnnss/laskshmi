@@ -200,6 +200,8 @@ def checkout(request):
             msg_html = render_to_string('email/new_order.html', {'order': new_order})
             send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [request.user.email],
                       fail_silently=False, html_message=msg_html)
+            send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
+                      fail_silently=False, html_message=msg_html)
             return HttpResponseRedirect('/order/{}'.format(new_order.order_code))
 
 
@@ -276,6 +278,8 @@ def checkout(request):
             new_order = Order.objects.get(id=order.id)
             msg_html = render_to_string('email/new_order.html', {'order': new_order})
             send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
+                      fail_silently=False, html_message=msg_html)
+            send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
                       fail_silently=False, html_message=msg_html)
             print('Email sent')
             return HttpResponseRedirect('/order/{}'.format(new_order.order_code))

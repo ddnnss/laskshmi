@@ -231,20 +231,19 @@ class ItemImage(models.Model):
 
 
     def save(self, *args, **kwargs):
-        if self.image_small:
-            image = Image.open(self.image)
-            fill_color = '#fff'
-            os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
-            if image.mode in ('RGBA', 'LA'):
-                background = Image.new(image.mode[:-1], image.size, fill_color)
-                background.paste(image, image.split()[-1])
-                image = background
-            image.thumbnail((400, 400), Image.ANTIALIAS)
+        image = Image.open(self.image)
+        fill_color = '#fff'
+        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
+        if image.mode in ('RGBA', 'LA'):
+            background = Image.new(image.mode[:-1], image.size, fill_color)
+            background.paste(image, image.split()[-1])
+            image = background
+        image.thumbnail((400, 400), Image.ANTIALIAS)
 
-            small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
+        small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
 
-            image.save(small_name, 'JPEG', quality=75)
-            self.image_small = '/' + small_name
+        image.save(small_name, 'JPEG', quality=75)
+        self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)
 

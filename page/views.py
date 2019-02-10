@@ -72,7 +72,7 @@ def about_us(request):
         orders = Order.objects.all()
         for orderr in orders:
             msg_html = render_to_string('email/new_order.html', {'order': orderr})
-            send_mail('Пересылка текущих заказов', None, 'norply@lakshmi888.ru', ['undemoro@yandex.ru'],
+            send_mail('Пересылка текущих заказов', None, 'norply@lakshmi888.ru', ['undemoro@yandex.ru', 'info@lakshmi888.ru'],
                   fail_silently=False, html_message=msg_html)
     return render(request, 'page/about_us.html', locals())
 

@@ -81,7 +81,7 @@ def dostavka(request):
 
 
 def new(request):
-    all_items = Item.objects.filter(is_new=True).order_by('-created_at')
+    all_items = Item.objects.filter(is_new=True, is_active=True).order_by('-created_at')
     data = request.GET
     print(request.GET)
     search = data.get('search')
@@ -329,7 +329,7 @@ def category(request, cat_slug):
 def subcategory(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
-        all_items = Item.objects.filter(subcategory_id=subcat.id).order_by('-created_at')
+        all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True).order_by('-created_at')
         title = subcat.page_title
         description = subcat.page_description
         keywords = subcat.page_keywords
@@ -414,7 +414,7 @@ def subcategory(request, subcat_slug):
 def collection(request, collection_slug):
     try:
         collection = Collection.objects.get(name_slug=collection_slug)
-        all_items = collection.item_set.all().order_by('-created_at')
+        all_items = collection.item_set.filter(is_active=True).order_by('-created_at')
         title = collection.page_title
         description = collection.page_description
         keywords = collection.page_keywords
@@ -501,7 +501,7 @@ def search(request):
     search_string = request.GET.get('search')
     page = request.GET.get('page')
     param_search = search_string
-    items = Item.objects.filter(name_lower__contains=search_string.lower())
+    items = Item.objects.filter(name_lower__contains=search_string.lower(), is_active=True)
     if not items:
         items = Item.objects.filter(article__contains=search_string)
     items_paginator = Paginator(items, 12)

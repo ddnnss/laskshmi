@@ -9,6 +9,7 @@ import string
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from laskshmi import settings
 
 import os
 
@@ -205,7 +206,7 @@ class ItemImage(models.Model):
 
         return self.upload_to % (self.item.id, filename)
 
-    item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.SET_NULL, verbose_name='Товар')
+    item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
     image = models.ImageField('Изображение товара', upload_to=_get_upload_to, blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
     f_id = models.CharField(max_length=5, blank=True, default='')
@@ -240,10 +241,11 @@ class ItemImage(models.Model):
             background.paste(image, image.split()[-1])
             image = background
         image.thumbnail((400, 400), Image.ANTIALIAS)
-
         small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
-
-        image.save(small_name, 'JPEG', quality=75)
+        if settings.DEBUG:
+            image.save(small_name, 'JPEG', quality=75)
+        else:
+            image.save('laskshmi/' + small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)

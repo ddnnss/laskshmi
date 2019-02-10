@@ -8,12 +8,12 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('email', 'password1', 'password2', )
+        fields = ('email', 'name', 'phone', 'password1', 'password2', )
 
 class UpdateForm(UserChangeForm):
     class Meta:
         model = User
-        fields = ('email','name','family','otchestvo','country','city','post_code','phone','address','is_allow_email')
+        fields = ('email', 'name', 'family', 'otchestvo', 'country', 'city', 'post_code', 'phone', 'address', 'is_allow_email')
 
         error_messages = {
              'email': {

@@ -147,6 +147,9 @@ def new(request):
     else:
         items_paginator = Paginator(items, 12)
 
+    if page:
+        canonical_link = '/new/'
+
     try:
         items = items_paginator.get_page(page)
     except PageNotAnInteger:
@@ -398,9 +401,11 @@ def subcategory(request, subcat_slug):
     if count:
         items_paginator = Paginator(items, int(count))
         param_count = count
-        canonical_link = '/subcategory/'+subcat.name_slug
     else:
         items_paginator = Paginator(items, 12)
+
+    if page:
+        canonical_link = '/subcategory/' + subcat.name_slug
 
     try:
         items = items_paginator.get_page(page)
@@ -484,9 +489,11 @@ def collection(request, collection_slug):
     if count:
         items_paginator = Paginator(items, int(count))
         param_count = count
-        canonical_link = '/collection/' + collection.name_slug
     else:
         items_paginator = Paginator(items, 12)
+
+    if page:
+        canonical_link = '/collection/' + collection.name_slug
 
     try:
         items = items_paginator.get_page(page)

@@ -28,6 +28,8 @@ function login(){
 
 function signup(){
             email = document.getElementById("reg_email").value;
+            user_name = document.getElementById("reg_name").value;
+            phone = document.getElementById("reg_phone").value;
             password1 = document.getElementById("reg_pass1").value;
             password2 = document.getElementById("reg_pass2").value;
             n1 = $('#reg_n1').data('n1');
@@ -42,9 +44,11 @@ function signup(){
             url:'/user/signup/',
             data:{
                 'csrfmiddlewaretoken': csrfmiddlewaretoken,
-              'email':email,
-              'password1':password1,
-              'password2':password2,
+                'email':email,
+                'name':user_name,
+                'phone':phone,
+                'password1':password1,
+                'password2':password2,
                 'n1':n1,
                 'n2':n2,
                 'answer':answer,
@@ -59,7 +63,8 @@ function signup(){
                 if(data['result'] == "success"){
                     // $('#reg_text1').css('display','none');
                     // $('#reg_text2').css('display','block');
-                    location.reload();
+                    //location.reload();
+                    window.location.href = ('/user/account/edit');
 
                 }
                 else{

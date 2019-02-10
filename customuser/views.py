@@ -115,9 +115,11 @@ def signup(request):
         if n1 + n2 == answer:
             print(request.POST)
             email = request.POST.get('email')
+            name = request.POST.get('name')
+            phone = request.POST.get('phone')
             password1 = request.POST.get('password1')
             password2 = request.POST.get('password2')
-            data = {'email': email, 'password2': password2, 'password1': password1}
+            data = {'email': email, 'name': name, 'phone': phone, 'password2': password2, 'password1': password1}
             form = SignUpForm(data=data)
             if form.is_valid():
                 user = form.save(commit=False)

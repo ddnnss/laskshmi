@@ -125,3 +125,7 @@
     margin: 0 auto;
 }
 
+.pagination > li > a,
+.pagination > li > span {
+    color: #454545 !important;
+}

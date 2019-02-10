@@ -80,3 +80,6 @@ class Guest(models.Model):
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
                                    verbose_name='Использованный промо-код при текущей корзине')
 
+    def __str__(self):
+        return 'Гостевой аккаунт. EMAIL : %s' % self.email
+

@@ -71,7 +71,21 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return 'Заказ № %s. Создан : %s  . Статус: %s ' % (self.id, self.created_at.strftime('%d-%m-%Y'), self.is_complete)
+        if self.client:
+            if self.promo_code:
+                return 'Заказ № %s. Создан : %s  . Клиент: %s . Сумма заказа : %s' % (
+                self.id, self.created_at.strftime('%d-%m-%Y'), self.client.email, self.total_price_with_code)
+            else:
+                return 'Заказ № %s. Создан : %s  . Клиент: %s . Сумма заказа : %s' % (
+                self.id, self.created_at.strftime('%d-%m-%Y'), self.client.email, self.total_price)
+        if self.guest:
+            if self.promo_code:
+                return 'Заказ № %s. Создан : %s  . Гость: %s . Сумма заказа : %s' % (
+                self.id, self.created_at.strftime('%d-%m-%Y'), self.guest.email, self.total_price_with_code)
+            else:
+                return 'Заказ № %s. Создан : %s  . Гость: %s . Сумма заказа : %s' % (
+                self.id, self.created_at.strftime('%d-%m-%Y'), self.guest.email, self.total_price)
+
 
     class Meta:
         verbose_name = "Заказ"

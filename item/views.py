@@ -31,6 +31,7 @@ def quick_view(request):
 
 
 def item_page(request, item_slug):
+    print(request.get_host())
     try:
         item = Item.objects.get(name_slug=item_slug)
         item.views += 1

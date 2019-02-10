@@ -74,8 +74,6 @@ def about_us(request):
             msg_html = render_to_string('email/new_order.html', {'order': orderr})
             send_mail('Пересылка текущих заказов', None, 'norply@lakshmi888.ru', ['undemoro@yandex.ru'],
                   fail_silently=False, html_message=msg_html)
-
-
     return render(request, 'page/about_us.html', locals())
 
 

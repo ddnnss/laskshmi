@@ -25,10 +25,10 @@
 
 
                 <form action="{% url 'checkout' %}" method="post">{% csrf_token %}
- <div class="row userInfo">
-                    <div class="col-xs-9 col-sm-6">
-                        <div class="form-group required">
-                            <label for="InputName">Ваше имя <sup>*</sup> </label>
+                <div class="row userInfo">
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group ">
+                            <label >Ваше имя <sup>*</sup> </label>
                             <input  required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not guest.name %}{% else %}{{ guest.name }}{% endif %}">
                         </div>
                        <div class="form-group required">
@@ -69,11 +69,7 @@
                              <textarea  required="required" name="{{ form.address.name }}" class="form-control" rows="5"  placeholder="Адрес доставки">{% if not guest.address %}{% else %}{{ guest.address }}{% endif %}</textarea>
                         </div>
 
-
-
-                    </div>
-  <div class="col-lg-12">
-                        <div class="form-group ">
+<div class="form-group ">
 
                                 <div class="icheckbox_square-green iCheck-margin" style="position: relative;">
                             <input  type="checkbox" name="with_register"  id="with_register" style="position: absolute; opacity: 0;">
@@ -82,7 +78,11 @@
 
 
                         </div>
+
                     </div>
+
+
+
 
    </div>
 

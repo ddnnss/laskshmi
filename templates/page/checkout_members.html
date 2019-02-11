@@ -25,7 +25,7 @@
 
                 <form action="{% url 'checkout' %}" method="post">{% csrf_token %}
  <div class="row userInfo">
-                    <div class="col-xs-9 col-sm-6">
+                    <div class="col-xs-12 col-sm-6">
                         <div class="form-group required">
                             <label for="InputName">Ваше имя <sup>*</sup> </label>
                             <input oninput="checkout_form_change();" required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not client.name %}{% else %}{{ client.name }}{% endif %}">

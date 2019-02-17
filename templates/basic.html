@@ -10,7 +10,7 @@
     <meta name="keywords" content= "{{ keywords }}" />
     <meta name="yandex-verification" content="627fbcd85b9f00c2" />
     <link rel="shortcut icon" href="{% static '/images/favicon.ico' %}" />
-    
+
     {% if canonical_link %}
     <link rel="canonical" href="{{canonical_link}}"/>
     {% endif %}
@@ -32,6 +32,23 @@
     </script>
     <script src="{% static 'js/pace.min.js'%}"></script>
     <link id="pagestyle" rel="stylesheet" type="text/css" href="{% static 'css/skin-1.css'%}">
+
+    <!— Yandex.Metrika counter —>
+    <script type="text/javascript" >
+    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+    (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+    ym(52425169, "init", {
+    id:52425169,
+    clickmap:true,
+    trackLinks:true,
+    accurateTrackBounce:true,
+    webvisor:true
+    });
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/52425169" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    <!— /Yandex.Metrika counter —>
 </head>
 <body>
     <form id="dummy_form">{% csrf_token %}</form>
@@ -73,7 +90,9 @@
     <script src="{% static 'js/jquery.zoom.js'%}"></script>
     <script src="{% static 'js/login.js'%}"></script>
     <script src="{% static 'js/wishlist.js'%}"></script>
+     <script src="{% static 'js/jquery.watermark.min.js'%}"></script>
  <script type="text/javascript">
+
     $(function () {
         var target = $("div.has-overly-shade"),
                 targetHeight = target.outerHeight();

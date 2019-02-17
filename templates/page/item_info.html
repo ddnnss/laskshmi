@@ -15,7 +15,7 @@
             <div class="quickview">
                 <a data-toggle="modal" class="btn btn-xs btn-quickview" href="#" onclick="quick_view({{ item.id }});return false">БЫСТРЫЙ ПРОСМОТР </a>
             </div>
-            <a href="{% url 'item_page' item.name_slug %}"><img class="img-responsive" alt="img"
+            <a href="{% url 'item_page' item.name_slug %}"><img class="img-responsive watermark_test" alt="img"
                     {% for image in item.itemimage_set.all %}
                         {% if image.is_main %}
                            src="{{ image.image_small }}">

@@ -1,0 +1,6 @@
+User-agent:
+Allow: /
+Disallow: /cart/
+Disallow: /user/
+Disallow: /admin/
+Sitemap: http://www.lakshmi888.ru/sitemap.xml

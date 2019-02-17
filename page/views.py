@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse,HttpResponseRedirect
+from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from .models import Banner
 from item.models import *
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -75,6 +75,16 @@ def about_us(request):
     #         send_mail('Пересылка текущих заказов', None, 'norply@lakshmi888.ru', ['undemoro@yandex.ru', 'info@lakshmi888.ru'],
     #               fail_silently=False, html_message=msg_html)
     return render(request, 'page/about_us.html', locals())
+
+
+def robots(request):
+
+    return render(request, 'page/robots.txt')
+
+def sitemap(request):
+    return render(request, 'page/sitemap.xml', content_type = "application/xhtml+xml")
+
+
 
 
 def contacts(request):

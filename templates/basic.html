@@ -8,7 +8,9 @@
     <meta name="description" content="{{ description }}"/>
     <meta property="og:description" content="{{ description }}"/>
     <meta name="keywords" content= "{{ keywords }}" />
-    <link rel="icon" type="image/png" href="{% static '/images/favicon.png' %}">
+    <meta name="yandex-verification" content="627fbcd85b9f00c2" />
+    <link rel="shortcut icon" href="{% static '/images/favicon.ico' %}" />
+    
     {% if canonical_link %}
     <link rel="canonical" href="{{canonical_link}}"/>
     {% endif %}
@@ -22,6 +24,7 @@
     <link href="{% static 'css/footable-0.1.css'%}" rel="stylesheet">
     <link href="{% static 'css/footable.sortable-0.1.css'%}" rel="stylesheet">
     <link href="{% static 'css/custom.css'%}" rel="stylesheet">
+
     <script>
         paceOptions = {
             elements: true

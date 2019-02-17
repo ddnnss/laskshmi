@@ -309,6 +309,9 @@ def checkout(request):
 
 
 def index(request):
+    title = 'Лакшми888 - Магазин Фен Шуй'
+    description = 'Интернет Магазин фен шуй товаров: у нас вы можете купить фен шуй товары по выгодным ценам. Доставка во все регионы.'
+    keywords = ''
     banners = Banner.objects.filter(is_active=True).order_by('-order')
     collections = Collection.objects.filter(show_at_homepage=True)
     main_category = Category.objects.all()
@@ -324,13 +327,9 @@ def category(request, cat_slug):
         description = cat.page_description
         keywords = cat.page_keywords
         subcats = SubCategory.objects.filter(category=cat)
-
-
     except:
         return render(request, '404.html', locals())
     collections = Collection.objects.filter(category=cat, show_at_category=True)
-
-
     return render(request, 'page/category.html', locals())
 
 

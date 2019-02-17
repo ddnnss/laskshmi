@@ -1,14 +1,15 @@
 function change_cart(obj) {
-    console.log($(obj).val());
-    console.log($(obj).data('item_in_cart_id'));
+ //   console.log($(obj).val());
+ //   console.log($(obj).data('item_in_cart_id'));
     jQuery('#cart_content').showLoading();
     jQuery('#cart_sidebar').showLoading();
     var item_id = $(obj).data('item_in_cart_id');
     var item_number = $(obj).val();
-    var url = '/cart/update_cart/';
-    var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
-    console.log(csrf_token);
-      var data = {};
+    if (parseInt(item_number) > 0){
+        var url = '/cart/update_cart/';
+        var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
+ //   console.log(csrf_token);
+        var data = {};
         data.item_id = item_id;
         data.item_number = item_number;
         data['csrfmiddlewaretoken'] = csrf_token;
@@ -19,7 +20,7 @@ function change_cart(obj) {
             data: data,
             cache:true,
             success: function (data) {
-                console.log('OK');
+            //    console.log('OK');
                 // console.log(data.all_items);
                  $('.cart_table_lg').empty();
 
@@ -39,8 +40,6 @@ function change_cart(obj) {
                         '                                    <td style="width:15%" class="miniCartSubtotal"><span> '+ v.total_price +' &#8381;</span></td>\n' +
                         '                                    <td style="width:5%" class="delete"><a data-item_id="'+ v.id +'" onclick="delete_from_cart(this);return false;"> x </a></td>\n' +
                         '                                </tr>');
-
-
                 });
                 $('.cart_footer_lg').html('');
                 $('.cart_footer_lg').append('' +
@@ -80,8 +79,8 @@ function change_cart(obj) {
                         });
                 $('.cart_total_lg').html(data.total_cart_price);
                 $('#cart_subtotal_price_side').html(data.total_cart_price + ' &#8381;');
-                 $('#cart_total_price_side').html(data.total_cart_price_with_discount + ' &#8381;');
-                  $('#promo_value').html(data.promo_discount_value + ' %');
+                $('#cart_total_price_side').html(data.total_cart_price_with_discount + ' &#8381;');
+                $('#promo_value').html(data.promo_discount_value + ' %');
 
                 jQuery('#cart_content').hideLoading();
                 jQuery('#cart_sidebar').hideLoading();
@@ -90,6 +89,15 @@ function change_cart(obj) {
                 console.log('ERROR')
             }
         });
+    }
+    else{
+     // console.log('lower or zero');
+      $(obj).val('1');
+       jQuery('#cart_content').hideLoading();
+       jQuery('#cart_sidebar').hideLoading();
+    }
+
+
 
 
 }

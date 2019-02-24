@@ -111,3 +111,13 @@ function qwerty() {
     }
 
 }
+
+ $(".search-trigger").on('click', function (e) {
+        $('.search-overly-mask').toggleClass("open"); //you can list several class names
+        e.preventDefault();
+    });
+
+    $(".search-overly-close-trigger").on('click', function (e) {
+        $('.search-overly-mask').removeClass("open"); //you can list several class names
+        e.preventDefault();
+    });

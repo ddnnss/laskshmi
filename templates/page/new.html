@@ -65,6 +65,11 @@
                 {% for item in items %}
                     {% include 'page/item_info.html' %}
                 {% endfor %}
+         {% if not items.has_next %}
+                {% for item in not_present %}
+                    {% include 'page/item_info.html' %}
+                {% endfor %}
+            {% endif %}
             </div>
             </div>
            <nav id="items_paginator" class="shop-pagination" aria-label="Shop navigation">

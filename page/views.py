@@ -88,6 +88,55 @@ def sitemap(request):
 
 
 def contacts(request):
+    if request.GET.get('photo') == '1':
+        all_items = Item.objects.all()
+
+        for item in all_items:
+            all_images = item.itemimage_set.all()
+            for image in all_images:
+                fill_color = '#fff'
+                try:
+                    base_image = Image.open(image.image)
+
+                except:
+                    print('error')
+                    base_image = None
+
+                if base_image:
+
+                    if base_image.mode in ('RGBA', 'LA'):
+                        background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
+                        background.paste(base_image, base_image.split()[-1])
+                        base_image = background
+
+                    watermark = Image.open('static/images/watermark30.png')
+                    width, height = base_image.size
+                    transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
+                    transparent.paste(base_image, (0, 0))
+                    transparent.paste(watermark, (300, 371), mask=watermark)
+                    # transparent.show()
+                    image_url = 'media/items/{}/{}'.format(item.id, str(uuid.uuid4()) + '_watermarked.jpg')
+                    if settings.DEBUG:
+                        transparent.save(image_url, 'JPEG', quality=80)
+                    else:
+                        transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
+                    # transparent.save(image_url, 'JPEG', quality=80)
+                    image.image = '/' + image_url
+
+
+                    os.makedirs('media/items/{}'.format(item.id), exist_ok=True)
+                    # if image.mode in ('RGBA', 'LA'):
+                    #     background = Image.new(image.mode[:-1], image.size, fill_color)
+                    #     background.paste(image, image.split()[-1])
+                    #     image = background
+                    transparent.thumbnail((400, 400), Image.ANTIALIAS)
+                    small_name = 'media/items/{}/{}'.format(item.id, str(uuid.uuid4()) + '.jpg')
+                    if settings.DEBUG:
+                        transparent.save(small_name, 'JPEG', quality=75)
+                    else:
+                        transparent.save('laskshmi/' + small_name, 'JPEG', quality=75)
+                    image.image_small = '/' + small_name
+                    image.save()
     return render(request, 'page/contacts.html', locals())
 
 
@@ -96,7 +145,8 @@ def dostavka(request):
 
 
 def new(request):
-    all_items = Item.objects.filter(is_new=True, is_active=True).order_by('-created_at')
+    all_items = Item.objects.filter(is_new=True, is_active=True, is_present=True).order_by('-created_at')
+    not_present = Item.objects.filter(is_new=True, is_active=True, is_present=False)
     data = request.GET
     print(request.GET)
     search = data.get('search')
@@ -322,7 +372,7 @@ def index(request):
     title = 'Лакшми888 - Магазин Фен Шуй'
     description = 'Интернет Магазин фен шуй товаров: у нас вы можете купить фен шуй товары по выгодным ценам. Доставка во все регионы.'
     keywords = ''
-    banners = Banner.objects.filter(is_active=True).order_by('-order')
+    banners = Banner.objects.filter(is_active=True).order_by('order')
     collections = Collection.objects.filter(show_at_homepage=True)
     main_category = Category.objects.all()
     return render(request, 'page/index.html', locals())
@@ -346,7 +396,8 @@ def category(request, cat_slug):
 def subcategory(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
-        all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True).order_by('-created_at')
+        all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=True).order_by('-created_at')
+        not_present = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=False)
         title = subcat.page_title
         description = subcat.page_description
         keywords = subcat.page_keywords
@@ -433,7 +484,8 @@ def subcategory(request, subcat_slug):
 def collection(request, collection_slug):
     try:
         collection = Collection.objects.get(name_slug=collection_slug)
-        all_items = collection.item_set.filter(is_active=True).order_by('-created_at')
+        all_items = collection.item_set.filter(is_active=True, is_present=True).order_by('-created_at')
+        not_present = collection.item_set.filter(is_active=True, is_present=False)
         title = collection.page_title
         description = collection.page_description
         keywords = collection.page_keywords
@@ -522,7 +574,10 @@ def search(request):
     search_string = request.GET.get('search')
     page = request.GET.get('page')
     param_search = search_string
-    items = Item.objects.filter(name_lower__contains=search_string.lower(), is_active=True)
+    try:
+        items = Item.objects.filter(name_lower__contains=search_string.lower(), is_active=True)
+    except:
+        return render(request, '404.html', locals())
     if not items:
         items = Item.objects.filter(article__contains=search_string)
     items_paginator = Paginator(items, 12)

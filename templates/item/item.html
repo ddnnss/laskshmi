@@ -18,14 +18,14 @@
         <div class="row transitionfx">
             <div class="col-lg-6 col-md-6 col-sm-6 productImageZoom">
                 <div class='zoom' id='zoomContent'>
-                    <a class="gall-item" title="{{ item.name }}" href="{{ item.itemimage_set.first.image.url }}"><img
-                            class="zoomImage1 img-responsive" data-src="{{ item.itemimage_set.first.image.url }}"
-                            src='{{ item.itemimage_set.first.image.url }}' alt='{{ item.name }}'/></a>
+                    <a class="gall-item" title="{{ item.name }}" href="{{ item.itemimage_set.first.image }}"><img
+                            class="zoomImage1 img-responsive" data-src="{{ item.itemimage_set.first.image }}"
+                            src='{{ item.itemimage_set.first.image }}' alt='{{ item.name }}'/></a>
                 </div>
                 <div class="zoomThumb ">
                     {% for image in item.itemimage_set.all %}
                         <a class="zoomThumbLink">
-                            <img data-large="{{ image.image.url }}"
+                            <img data-large="{{ image.image }}"
                                  src="{{ image.image_small }}" alt="{{ image.item.name }}" title=""/></a>
                     {% endfor %}
                 </div>

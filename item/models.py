@@ -207,7 +207,7 @@ class ItemImage(models.Model):
         return self.upload_to % (self.item.id, filename)
 
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
-    image = models.ImageField('Изображение товара', upload_to=_get_upload_to, blank=False)
+    image = models.ImageField('Изображение товара', upload_to='temp/', blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
     f_id = models.CharField(max_length=5, blank=True, default='')
     is_main = models.BooleanField('Основная картинка ?', default=False)
@@ -215,7 +215,7 @@ class ItemImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Изображение для товара : %s ' % self.item.name
+        return '%s Изображение для товара : %s ' % (self.id, self.item.name)
 
     class Meta:
         verbose_name = "Изображение для товара"
@@ -232,20 +232,44 @@ class ItemImage(models.Model):
 
 
     def save(self, *args, **kwargs):
-
-        image = Image.open(self.image)
         fill_color = '#fff'
+        base_image = Image.open(self.image)
+
+        if base_image.mode in ('RGBA', 'LA'):
+            background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
+            background.paste(base_image, base_image.split()[-1])
+            base_image = background
+
+        watermark = Image.open('static/images/watermark30.png')
+        width, height = base_image.size
+        transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
+        transparent.paste(base_image, (0, 0))
+        transparent.paste(watermark, (300, 371), mask=watermark)
+        # transparent.show()
+        image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_watermarked.jpg')
+        if settings.DEBUG:
+            transparent.save(image_url, 'JPEG', quality=80)
+        else:
+            transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
+        original_image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_original.jpg')
+        if settings.DEBUG:
+            base_image.save(original_image_url, 'JPEG', quality=80)
+        else:
+            base_image.save('laskshmi/' + original_image_url, 'JPEG', quality=80)
+        # transparent.save(image_url, 'JPEG', quality=80)
+        self.image = '/' + image_url
+
         os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
-        if image.mode in ('RGBA', 'LA'):
-            background = Image.new(image.mode[:-1], image.size, fill_color)
-            background.paste(image, image.split()[-1])
-            image = background
-        image.thumbnail((400, 400), Image.ANTIALIAS)
+        # if image.mode in ('RGBA', 'LA'):
+        #     background = Image.new(image.mode[:-1], image.size, fill_color)
+        #     background.paste(image, image.split()[-1])
+        #     image = background
+        transparent.thumbnail((400, 400), Image.ANTIALIAS)
         small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
         if settings.DEBUG:
-            image.save(small_name, 'JPEG', quality=75)
+            transparent.save(small_name, 'JPEG', quality=75)
         else:
-            image.save('laskshmi/' + small_name, 'JPEG', quality=75)
+            transparent.save('laskshmi/' + small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)
@@ -286,11 +310,36 @@ class PromoCode(models.Model):
 
 
 def ItemImage_post_save(sender,instance,**kwargs):
+    base_image = Image.open(instance.image)
+    fill_color = '#fff'
+    os.remove(instance.image.url)
+    if base_image.mode in ('RGBA', 'LA'):
+        background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
+        background.paste(base_image, base_image.split()[-1])
+        base_image = background
+    watermark = Image.open('static/images/watermark.png')
+    width, height = base_image.size
+
+    transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
+    transparent.paste(base_image, (0, 0))
+    transparent.paste(watermark, (0, 0), mask=watermark)
+    transparent.show()
+    img_path = 'media/items/{}/{}'.format(instance.item.id, str(uuid.uuid4()) + '_water.jpg')
+    transparent.save(img_path, 'JPEG', quality=75)
+
     image = Image.open(instance.image)
 
-    image.thumbnail((500, 500), Image.ANTIALIAS)
+    os.makedirs('media/items/{}'.format(instance.item.id), exist_ok=True)
+    if image.mode in ('RGBA', 'LA'):
+        background = Image.new(image.mode[:-1], image.size, fill_color)
+        background.paste(image, image.split()[-1])
+        image = background
+    image.thumbnail((400, 400), Image.ANTIALIAS)
+    small_name = 'media/items/{}/{}'.format(instance.item.id, str(uuid.uuid4()) + '.jpg')
+    if settings.DEBUG:
+        image.save(small_name, 'JPEG', quality=75)
+    else:
+        image.save('laskshmi/' + small_name, 'JPEG', quality=75)
+    instance.image_small = '/' + small_name
 
-    image.save('media/items/{}/{}_small.jpg'.format(instance.item.id, str(uuid.uuid4())), 'JPEG', quality=75)
-    instance.image_small = image.path
-
-# post_save.connect(ItemImage_post_save, sender=ItemImage)
+#post_save.connect(ItemImage_post_save, sender=ItemImage)

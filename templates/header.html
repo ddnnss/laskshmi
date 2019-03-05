@@ -147,7 +147,6 @@
         </div>
     </div>
 {% endif %}
-
 <div class="navbar navbar-tshop navbar-fixed-top megamenu" role="navigation">
     <div class="navbar-top">
         <div class="container">
@@ -284,7 +283,7 @@
                                 {% for cat in all_cat %}
                                     <ul class="col-lg-3  col-sm-3 col-md-3 unstyled">
                                         <li style="font-size: 16px;" class="no-border">
-                                            <p><a style="font-size: 16px;" href="{% url 'category' cat.name_slug %}"><strong>{{ cat.name }} </strong></a></p>
+                                            <p><strong>{{ cat.name }} </strong></p>
                                         </li>
                                         {% for sub_cat in cat.subcategory_set.all %}
                                             <li>
@@ -300,7 +299,6 @@
                     <li class=""><a href="{% url 'about_us' %}"> О НАС </a></li>
                     <li class=""><a href="{% url 'contacts' %}"> КОНТАКТЫ </a></li>
                     <li class=""><a href="{% url 'dostavka' %}"> ДОСТАВКА </a></li>
-
                 </ul>
                 <div class="nav navbar-nav navbar-right hidden-xs">
                     <div class="dropdown  cartMenu "><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
@@ -346,7 +344,7 @@
                     </div>
                     <div class="search-box">
                         <div class="input-group">
-                              <a class="btn btn-nobg  search-trigger"><i class="fa fa-search"> </i></a>
+                            <button class="btn btn-nobg getFullSearch" type="button"><i class="fa fa-search"> </i></button>
                         </div>
                     </div>
                 </div>
@@ -366,41 +364,6 @@
         {#                                    <form action="{% url 'search' %}" method="get">#}
         {#                                        <input class="seach-input input--sm form-full" id="seach_input" name="search" placeholder="Please Enter Keywords" type="search">#}
         {#                                    </form>#}
-    </div>
-</div>
-
-<div id="search-overly" class="search-overly-mask">
-    <a class=" search-close search-overly-close-trigger "> <i class=" fa fa-times-circle"> </i> </a>
-    <div class="container">
-
-        <form action="{% url 'search' %}" method="get" class="form-horizontal">
-            <fieldset>
-
-                <!-- Form Name -->
-
-                <!-- Appended Input-->
-                <div class="control-group">
-                    <label class="control-label">Search into the shop..</label>
-
-                    <div class="controls">
-                        <div class="search " role="search" id="mySearch">
-                            <input style=" font-size: 45px !important;" class="form-control" name="search" required="required" placeholder="Введите часть названия товара или артикул... " type="search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="submit">
-                                    <span class="glyphicon glyphicon-search"></span>
-                                    <span class="sr-only">Search</span>
-                                </button>
-                            </span>
-                        </div>
-                        <!-- for error or message -->
-                        <p class="help-block hide">help</p>
-                    </div>
-                </div>
-
-            </fieldset>
-        </form>
-
-
     </div>
 </div>
 <hr>

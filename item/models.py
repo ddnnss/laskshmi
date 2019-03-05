@@ -244,7 +244,7 @@ class ItemImage(models.Model):
         width, height = base_image.size
         transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
         transparent.paste(base_image, (0, 0))
-        transparent.paste(watermark, (300, 371), mask=watermark)
+        transparent.paste(watermark, (291, 386), mask=watermark)
         # transparent.show()
         image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_watermarked.jpg')
         if settings.DEBUG:

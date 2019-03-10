@@ -68,12 +68,12 @@ def order(request, order_code):
         return render(request, '404.html', locals())
 
 def about_us(request):
-    # if request.GET.get('sendmail') == '1':
-    #     orders = Order.objects.all()
-    #     for orderr in orders:
-    #         msg_html = render_to_string('email/new_order.html', {'order': orderr})
-    #         send_mail('Пересылка текущих заказов', None, 'norply@lakshmi888.ru', ['undemoro@yandex.ru', 'info@lakshmi888.ru'],
-    #               fail_silently=False, html_message=msg_html)
+    if request.GET.get('sendmail') == '1':
+        users = User.objects.all()
+        for user in users:
+            msg_html = render_to_string('email/sendmail.html')
+            send_mail('Новая коллекция от Лиллиан Ту', None, 'info@lakshmi888.ru', [user.email],
+                  fail_silently=False, html_message=msg_html)
     return render(request, 'page/about_us.html', locals())
 
 

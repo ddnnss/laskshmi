@@ -207,7 +207,7 @@ class ItemImage(models.Model):
         return self.upload_to % (self.item.id, filename)
 
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
-    image = models.ImageField('Изображение товара', upload_to='temp/', blank=False)
+    image = models.ImageField('Изображение товара', upload_to=upload_to, blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
     f_id = models.CharField(max_length=5, blank=True, default='')
     is_main = models.BooleanField('Основная картинка ?', default=False)
@@ -239,7 +239,7 @@ class ItemImage(models.Model):
             background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
             background.paste(base_image, base_image.split()[-1])
             base_image = background
-
+        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
         watermark = Image.open('static/images/watermark30.png')
         width, height = base_image.size
         transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
@@ -259,7 +259,7 @@ class ItemImage(models.Model):
         # transparent.save(image_url, 'JPEG', quality=80)
         self.image = '/' + image_url
 
-        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
+
         # if image.mode in ('RGBA', 'LA'):
         #     background = Image.new(image.mode[:-1], image.size, fill_color)
         #     background.paste(image, image.split()[-1])

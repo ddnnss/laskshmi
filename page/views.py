@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from .models import Banner
 from item.models import *
@@ -9,6 +9,7 @@ from cart.models import Cart
 from customuser.models import User, Guest
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from django.http import Http404
 
 
 
@@ -65,9 +66,11 @@ def order(request, order_code):
     if order:
         return render(request, 'page/order_complete.html', locals())
     else:
-        return render(request, '404.html', locals())
+        raise Http404
+        # return render(request, '404.html', locals())
 
 def about_us(request):
+    show_tags = True
     if request.GET.get('sendmail') == '1':
         users = User.objects.all()
         for user in users:
@@ -88,6 +91,7 @@ def sitemap(request):
 
 
 def contacts(request):
+    show_tags = True
     if request.GET.get('photo') == '1':
         all_items = Item.objects.all()
 
@@ -141,6 +145,7 @@ def contacts(request):
 
 
 def dostavka(request):
+    show_tags = True
     return render(request, 'page/dostavka.html', locals())
 
 
@@ -221,13 +226,14 @@ def new(request):
         items = items_paginator.page(1)
     except EmptyPage:
         items = items_paginator.page(items_paginator.num_pages)
+    show_tags = False
     return render(request, 'page/new.html', locals())
 
 
 
 
 def checkout(request):
-
+    show_tags = True
     if request.POST:
         if request.POST.get('form_type') == 'user_info':
             client = request.user
@@ -369,6 +375,7 @@ def checkout(request):
 
 
 def index(request):
+    show_tags = True
     title = 'Лакшми888 - Магазин Фен Шуй'
     description = 'Интернет Магазин фен шуй товаров: у нас вы можете купить фен шуй товары по выгодным ценам. Доставка во все регионы.'
     keywords = ''
@@ -388,7 +395,9 @@ def category(request, cat_slug):
         keywords = cat.page_keywords
         subcats = SubCategory.objects.filter(category=cat)
     except:
-        return render(request, '404.html', locals())
+        raise Http404
+        # return render(request, '404.html', locals())
+    show_tags = True
     collections = Collection.objects.filter(category=cat, show_at_category=True)
     return render(request, 'page/category.html', locals())
 
@@ -397,12 +406,13 @@ def subcategory(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
         all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=True).order_by('-created_at')
-        not_present = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=False)
+        np_all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=False)
         title = subcat.page_title
         description = subcat.page_description
         keywords = subcat.page_keywords
     except:
-        return render(request, '404.html', locals())
+        raise Http404
+        # return render(request, '404.html', locals())
     data = request.GET
     print(request.GET)
     search = data.get('search')
@@ -412,24 +422,32 @@ def subcategory(request, subcat_slug):
     page = request.GET.get('page')
     search_qs = None
     filter_sq = None
+    np_search_qs = None
+    np_filter_sq = None
     if search:
         items = all_items.filter(name_lower__contains=search.lower())
+        not_present = np_all_items.filter(name_lower__contains=search.lower())
 
         if not items:
             items = all_items.filter(article__contains=search)
+            not_present = np_all_items.filter(article__contains=search)
         search_qs = items
-
+        np_search_qs = not_present
         param_search = search
 
     if filter == 'new':
         print('Поиск по фильтру туц')
         if search_qs:
             items = search_qs.filter(is_new=True)
+            not_present = np_search_qs.filter(is_new=True)
             filter_sq = items
+            np_filter_sq = not_present
             param_filter = filter
         else:
             items = all_items.filter(is_new=True)
+            not_present = np_all_items.filter(is_new=True)
             filter_sq = items
+            np_filter_sq = not_present
             param_filter = filter
 
         param_filter = 'new'
@@ -439,11 +457,15 @@ def subcategory(request, subcat_slug):
 
         if search_qs:
             items = search_qs.filter(filter__name_slug=filter)
+            not_present = np_search_qs.filter(filter__name_slug=filter)
             filter_sq = items
+            np_filter_sq = not_present
             param_filter = filter
         else:
             items = all_items.filter(filter__name_slug=filter)
+            not_present = np_all_items.filter(filter__name_slug=filter)
             filter_sq = items
+            np_filter_sq = not_present
             param_filter = filter
 
     if order:
@@ -459,6 +481,7 @@ def subcategory(request, subcat_slug):
 
     if not search and not order and not filter:
         items = all_items
+        not_present = np_all_items
         # subcat.views = subcat.views + 1
         # subcat.save()
         param_order = '-created_at'
@@ -470,14 +493,16 @@ def subcategory(request, subcat_slug):
         items_paginator = Paginator(items, 12)
 
     if page:
-        canonical_link = '/subcategory/' + subcat.name_slug
+        canonical_link = 'http://www.lakshmi888.ru/subcategory/' + subcat.name_slug
 
     try:
         items = items_paginator.get_page(page)
+        show_tags = False
     except PageNotAnInteger:
         items = items_paginator.page(1)
     except EmptyPage:
         items = items_paginator.page(items_paginator.num_pages)
+
     return render(request, 'page/subcategory.html', locals())
 
 
@@ -567,10 +592,12 @@ def collection(request, collection_slug):
         items = items_paginator.page(1)
     except EmptyPage:
         items = items_paginator.page(items_paginator.num_pages)
+    show_tags = False
     return render(request, 'page/collection.html', locals())
 
 
 def search(request):
+    show_tags = False
     search_string = request.GET.get('search')
     page = request.GET.get('page')
     param_search = search_string
@@ -578,6 +605,8 @@ def search(request):
         items = Item.objects.filter(name_lower__contains=search_string.lower(), is_active=True)
     except:
         return render(request, '404.html', locals())
+    if not items:
+        items = Item.objects.filter(name_lower__contains=search_string.lower()[:-1], is_active=True)
     if not items:
         items = Item.objects.filter(article__contains=search_string)
     items_paginator = Paginator(items, 12)
@@ -589,3 +618,9 @@ def search(request):
         items = items_paginator.page(items_paginator.num_pages)
 
     return render(request, 'page/search.html', locals())
+
+
+def customhandler404(request, exception, template_name='404.html'):
+    response = render_to_response("404.html")
+    response.status_code = 404
+    return response

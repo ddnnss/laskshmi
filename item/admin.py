@@ -5,7 +5,7 @@ from .models import *
 
 class ImagesInline (admin.TabularInline):
     model = ItemImage
-    readonly_fields = ('image_tag', 'is_main',)
+    readonly_fields = ('image_tag', )
     extra = 0
 
 

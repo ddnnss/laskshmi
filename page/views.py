@@ -70,6 +70,7 @@ def order(request, order_code):
         # return render(request, '404.html', locals())
 
 def about_us(request):
+    title = 'О НАС'
     show_tags = True
     if request.GET.get('sendmail') == '1':
         users = User.objects.all()
@@ -92,60 +93,13 @@ def sitemap(request):
 
 def contacts(request):
     show_tags = True
-    if request.GET.get('photo') == '1':
-        all_items = Item.objects.all()
-
-        for item in all_items:
-            all_images = item.itemimage_set.all()
-            for image in all_images:
-                fill_color = '#fff'
-                try:
-                    base_image = Image.open(image.image)
-
-                except:
-                    print('error')
-                    base_image = None
-
-                if base_image:
-
-                    if base_image.mode in ('RGBA', 'LA'):
-                        background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
-                        background.paste(base_image, base_image.split()[-1])
-                        base_image = background
-
-                    watermark = Image.open('static/images/watermark30.png')
-                    width, height = base_image.size
-                    transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
-                    transparent.paste(base_image, (0, 0))
-                    transparent.paste(watermark, (291, 386), mask=watermark)
-                    # transparent.show()
-                    image_url = 'media/items/{}/{}'.format(item.id, str(uuid.uuid4()) + '_watermarked.jpg')
-                    if settings.DEBUG:
-                        transparent.save(image_url, 'JPEG', quality=80)
-                    else:
-                        transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
-                    # transparent.save(image_url, 'JPEG', quality=80)
-                    image.image = '/' + image_url
-
-
-                    os.makedirs('media/items/{}'.format(item.id), exist_ok=True)
-                    # if image.mode in ('RGBA', 'LA'):
-                    #     background = Image.new(image.mode[:-1], image.size, fill_color)
-                    #     background.paste(image, image.split()[-1])
-                    #     image = background
-                    transparent.thumbnail((400, 400), Image.ANTIALIAS)
-                    small_name = 'media/items/{}/{}'.format(item.id, str(uuid.uuid4()) + '.jpg')
-                    if settings.DEBUG:
-                        transparent.save(small_name, 'JPEG', quality=75)
-                    else:
-                        transparent.save('laskshmi/' + small_name, 'JPEG', quality=75)
-                    image.image_small = '/' + small_name
-                    image.save()
+    title = 'КОНТАКТНАЯ ИНФОРМАЦИЯ'
     return render(request, 'page/contacts.html', locals())
 
 
 def dostavka(request):
     show_tags = True
+    title = 'ИНФОРМАЦИЯ О ДОСТАВКЕ'
     return render(request, 'page/dostavka.html', locals())
 
 

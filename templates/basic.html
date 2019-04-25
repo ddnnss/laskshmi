@@ -16,17 +16,17 @@
             <meta property="og:description" content="{{ description }}"/>
             <meta name="keywords" content= "{{ keywords }}" />
     {% if items.has_next %}
-            <link rel="next" href="http://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page=2">
+            <link rel="next" href="https://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page=2">
     {% endif %}
     {% else %}
             <title>{{ title }} | Страница - {{ page }}</title>
     {% if items.has_next %}
-            <link rel="next" href="http://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page={{ page|add:'1' }}">
+            <link rel="next" href="https://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page={{ page|add:'1' }}">
     {% endif %}
     {% if page != '2' %}
-            <link rel="prev" href="http://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page={{ page|add:"-1" }}">
+            <link rel="prev" href="https://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/?page={{ page|add:"-1" }}">
     {% else %}
-             <link rel="prev" href="http://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/">
+             <link rel="prev" href="https://www.lakshmi888.ru/subcategory/{{ subcat.name_slug }}/">
     {% endif %}
     {% endif %}
     <meta name="yandex-verification" content="627fbcd85b9f00c2" />
@@ -90,7 +90,7 @@
     <script src="{% static 'js/jquery.matchHeight-min.js'%}"></script>
     <script src="{% static 'js/grids.js'%}"></script>
     <script src="{% static 'js/1owl.carousel.min.js' %}"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
     <script src="{% static 'js/bootstrap.touchspin.js'%}"></script>
     <script src="{% static 'js/home.js'%}"></script>
     <script src="{% static 'js/script.js'%}"></script>

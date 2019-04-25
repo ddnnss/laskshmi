@@ -72,12 +72,12 @@ def order(request, order_code):
 def about_us(request):
     title = 'О НАС'
     show_tags = True
-    if request.GET.get('sendmail') == '1':
-        users = User.objects.all()
-        for user in users:
-            msg_html = render_to_string('email/sendmail.html')
-            send_mail('Новая коллекция от Лиллиан Ту', None, 'info@lakshmi888.ru', [user.email],
-                  fail_silently=False, html_message=msg_html)
+    # if request.GET.get('sendmail') == '1':
+    #     users = User.objects.all()
+    #     for user in users:
+    #         msg_html = render_to_string('email/sendmail.html')
+    #         send_mail('Акция: 10% на фен шуй товары до 30.04', None, 'info@lakshmi888.ru', [user.email],
+    #               fail_silently=False, html_message=msg_html)
     return render(request, 'page/about_us.html', locals())
 
 

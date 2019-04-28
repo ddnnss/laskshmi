@@ -129,3 +129,11 @@
 .pagination > li > span {
     color: #454545 !important;
 }
+
+.pagination li.active a{
+    color: #fff !important;
+}
+
+.info-ul{
+    list-style: disc !important;
+}

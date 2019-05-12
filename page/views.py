@@ -447,7 +447,7 @@ def subcategory(request, subcat_slug):
         items_paginator = Paginator(items, 12)
 
     if page:
-        canonical_link = 'http://www.lakshmi888.ru/subcategory/' + subcat.name_slug
+        canonical_link = 'https://www.lakshmi888.ru/subcategory/' + subcat.name_slug
 
     try:
         items = items_paginator.get_page(page)

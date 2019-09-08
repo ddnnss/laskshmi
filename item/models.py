@@ -80,6 +80,7 @@ class Filter(models.Model):
     subcategory = models.ForeignKey(SubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
     name = models.CharField('Название фильтра', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
+    seoText = RichTextUploadingField('Текст для СЕО', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)

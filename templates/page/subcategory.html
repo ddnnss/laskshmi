@@ -117,7 +117,12 @@
                             </nav>
     </section>
    <div>
+       {% if seoText %}
+           {{ seoText | safe }}
+       {% else %}
+
     {{ subcat.description|safe }}
+       {% endif %}
     </div>
 </div>
 

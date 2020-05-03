@@ -24,6 +24,7 @@ class Category(models.Model):
     name = models.CharField('Название категории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение категории', upload_to='category_img/', blank=False)
+    icon = models.ImageField('Иконка категории', upload_to='category_img/', blank=True, null=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', blank=False, null=True)
@@ -49,6 +50,7 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL)
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
+    icon = models.ImageField('Иконка категории', upload_to='category_img/', blank=True, null=True)
     image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=False)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
@@ -97,6 +99,7 @@ class Collection(models.Model):
     category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL, verbose_name='Категория')
     name = models.CharField('Название коллекции', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
+    icon = models.ImageField('Иконка категории', upload_to='category_img/', blank=True, null=True)
     image = models.ImageField('Изображение коллекции', upload_to='collection_img/', blank=False)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.TextField('Описание страницы', blank=False, null=True)
@@ -180,7 +183,7 @@ class Item(models.Model):
         if self.discount > 0:
             dis_val = self.price - (self.price * self.discount / 100)
         else:
-            dis_val = 0
+            dis_val = self.price
         return (format_number(dis_val))
 
 
@@ -283,7 +286,7 @@ class PromoCode(models.Model):
     use_counts = models.IntegerField('Кол-во использований', blank=True, default=1)
     is_unlimited = models.BooleanField('Неограниченное кол-во использований', default=False)
     is_active = models.BooleanField('Активен?', default=True)
-    expiry = models.DateTimeField('Срок действия безлимитного кода', default=timezone.now())
+    expiry = models.DateTimeField('Срок действия безлимитного кода', blank=True, null=True)
 
     def __str__(self):
         if self.is_unlimited:
